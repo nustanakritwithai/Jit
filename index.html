@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#081424" />
+  <meta name="description" content="JIT — ห้องทดลองวิถีจิตและเจตสิก 52 จำลองการเกิดดับเป็นขณะตามกรอบอภิธัมมัตถสังคหะ พร้อมชวนจิต 7 ขณะ" />
+  <title>JIT · Citta & Cetasika Laboratory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="JIT กลับหน้าแรก"><span class="brand-icon" aria-hidden="true">◈</span><span>JIT<span class="brand-dot">.</span><small>CITTA LABORATORY</small></span></a>
+      <nav class="nav-actions" aria-label="เมนูหลัก"><a href="#simulation">วิถีจิต</a><a href="#atlas">เจตสิก 52</a><a href="#sources">เอกสารอ้างอิง</a><a class="repo-link" href="https://github.com/nustanakritwithai/Jit" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span> EDUCATIONAL SIMULATION ENGINE · V0.1</div>
+          <h1>จิตหนึ่งขณะ<br /><em>ประกอบด้วยอะไร?</em></h1>
+          <p>สำรวจการเกิด–ดับของจิตและเจตสิก ผ่านเครือข่ายตัวแปร 52 ดวง และลำดับวิถีจิตที่ดำเนินไปทีละขณะตามคัมภีร์อภิธัมมัตถสังคหะ</p>
+          <div class="hero-tags"><span>52 เจตสิก</span><span>6 ทวาร</span><span>ชวนจิต 7 ขณะ</span><span>ไม่มีการสุ่มเจตสิก</span></div>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb-center">จิต<br/><span>+ เจตสิก</span></div><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
+      </section>
+
+      <section class="metrics" aria-label="ภาพรวมการจำลอง">
+        <div class="metric"><span class="metric-label">องค์ประกอบที่บัญญัติไว้</span><strong>52</strong><span class="metric-hint">เจตสิกทุกกลุ่ม</span></div>
+        <div class="metric"><span class="metric-label">ลำดับขณะจิต</span><strong id="totalMoments">17</strong><span class="metric-hint">ตามวาระที่เลือก</span></div>
+        <div class="metric"><span class="metric-label">เจตสิกที่ทำงาน</span><strong id="activeCount">—</strong><span class="metric-hint">ในขณะปัจจุบัน</span></div>
+        <div class="metric"><span class="metric-label">ชวนจิตในวาระ</span><strong id="javanaCount">7</strong><span class="metric-hint">ตามตัวอย่างที่เลือก</span></div>
+      </section>
+
+      <section class="simulator-section" id="simulation">
+        <div class="section-heading"><div><div class="section-index">01 / COGNITIVE PROCESS</div><h2>เครื่องจำลองวิถีจิต <span>Vīthi Engine</span></h2><p>เลือกเงื่อนไข แล้วไล่ดูจิตเกิด–ดับทีละขณะ หรือให้เล่นต่อเนื่อง</p></div><span class="simulation-badge">DETERMINISTIC · RULE-BASED</span></div>
+        <div class="sim-layout">
+          <aside class="controls panel" aria-label="ตั้งค่าการจำลอง">
+            <div class="panel-header"><div class="panel-title"><span class="num">01</span> ตั้งค่าวิถีจิต</div><span class="tiny-kicker">SCENARIO</span></div>
+            <label for="door">ทวารที่รับอารมณ์</label><select id="door"></select>
+            <label for="intensity" id="intensityLabel">ระดับการปรากฏของอารมณ์</label><select id="intensity"></select>
+            <label for="mindClarity">ความชัดของมโนทวาร</label><select id="mindClarity"><option value="clear">วิภูตารมณ์ — ชัด</option><option value="obscure">อวิภูตารมณ์ — ไม่ชัด</option></select>
+            <label for="javana">ประเภทชวนจิต (ตัวอย่าง)</label><select id="javana"></select>
+            <p class="field-caption" id="javanaDescription"></p>
+            <label class="switch-row"><input type="checkbox" id="followMind" /><span class="switch-track"></span><span><b>ต่อมโนทวารวิถี</b><small>หลังปัญจทวารและภวังค์คั่น</small></span></label>
+            <div class="play-controls"><button id="playBtn" class="btn btn-primary" type="button">▶ เริ่มเล่น</button><button id="stepBtn" class="btn btn-outline" type="button">ขณะถัดไป →</button></div>
+            <div class="small-controls"><button id="backBtn" type="button">← ย้อน</button><button id="resetBtn" type="button">↺ เริ่มใหม่</button><label class="speed-label">ความเร็วภาพ <select id="speed"><option value="1600">ช้า</option><option value="950" selected>ปกติ</option><option value="350">เร็ว</option></select></label></div>
+            <button class="btn btn-export" id="exportBtn" type="button">↓ ส่งออกข้อมูลวิถีจิต (.json)</button>
+            <p class="sim-warning">ระยะเวลาของภาพเป็นความเร็วแอนิเมชัน <b>ไม่ใช่ความเร็วของขณะจิตจริง</b> และการเลือกชวนจิตเป็นการกำหนดกรณีศึกษา ไม่ใช่การวัดจิตผู้ใช้งาน</p>
+          </aside>
+
+          <div class="workspace">
+            <section class="panel timeline-panel"><div class="panel-header"><div class="panel-title"><span class="num">02</span> ลำดับเกิด–ดับ</div><span class="step-counter" id="stepCounter">01 / 17</span></div>
+              <div id="cycleLabels" class="cycle-labels"></div><div id="timeline" class="timeline" aria-label="เลือกขณะจิต"></div>
+              <div class="timeline-legend"><span><i class="legend-dot bg"></i> ภวังค์</span><span><i class="legend-dot cognitive"></i> วิถีรับอารมณ์</span><span><i class="legend-dot javana"></i> ชวนะ</span><span><i class="legend-dot registration"></i> ตทาลัมพนะ</span></div>
+            </section>
+            <section class="panel moment-panel"><div class="panel-header"><div class="panel-title"><span class="num">03</span> ขณะจิตที่เลือก</div><span class="moment-family" id="cittaFamily">VIPĀKA</span></div>
+              <div class="moment-main"><div class="moment-number" id="momentNumber">01</div><div><div class="moment-phase" id="momentPhase">BHAVAṄGA</div><h3 id="momentName">อตีตภวังค์</h3><p class="pali" id="momentPali">Atīta-bhavaṅga</p></div></div>
+              <p class="moment-desc" id="momentDesc"></p>
+              <div class="moment-facts"><div><span>ประเภทจิต</span><b id="momentCitta"></b></div><div><span>อารมณ์ที่รู้อยู่</span><b id="momentObject"></b></div><div><span>เจตสิกประกอบ</span><b id="momentFactorCount"></b></div></div>
+              <div class="submoment"><span>สามอนุขณะ (แสดงโครงสร้างเชิงหลักการ)</span><div><i>อุปปาทะ · เกิด</i><i>ฐิติ · ตั้งอยู่</i><i>ภังคะ · ดับ</i></div></div>
+              <p class="javana-note" id="javanaNote" hidden></p>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="network-section" id="atlas"><div class="section-heading"><div><div class="section-index">02 / CETASIKA ATLAS</div><h2>เครือข่ายเจตสิก <span>52 Variables</span></h2><p>ทุกโหนดคือเจตสิกหนึ่งดวง — โหนดเรืองแสงคือเจตสิกที่เกิดร่วมในขณะจิตที่เลือก</p></div><span class="simulation-badge">52 / 52 REGISTERED</span></div>
+        <div class="panel graph-panel"><div class="graph-head"><div class="graph-head-left"><span class="live-dot"></span> NEURAL MAP · เปรียบเทียบเชิงภาพ</div><div class="graph-head-right"><span id="graphActivated">— ACTIVE</span><button id="selectActiveBtn" type="button">แสดงเฉพาะที่ทำงาน</button></div></div>
+          <div class="graph-viewport"><svg id="network" viewBox="0 0 1200 840" role="img" aria-label="แผนผังเครือข่ายเจตสิก 52 ดวงแบ่งเป็นสี่กลุ่ม"></svg></div>
+          <div class="graph-footnote">ผังแบบเครือข่ายเป็นการนำเสนอเพื่อการเรียนรู้ <b>ไม่ได้อ้างว่าเจตสิกคือเซลล์ประสาท</b> หรือเชื่อมกันตามตำแหน่งสมองจริง</div>
+        </div>
+        <div class="atlas-layout"><div class="panel factor-panel"><div class="panel-header"><div class="panel-title"><span class="num">04</span> สารบบเจตสิกครบ 52</div><span class="tiny-kicker">LIVE STATE</span></div>
+          <div class="atlas-filters"><input id="factorSearch" aria-label="ค้นหาเจตสิก" placeholder="⌕ ค้นหาเจตสิก / Pāli / หน้าที่..." /><select id="factorGroup" aria-label="กรองกลุ่ม"><option value="all">ทุกกลุ่ม (52)</option></select></div>
+          <div class="factor-list" id="factorList"></div></div>
+          <aside class="panel factor-detail"><div class="panel-header"><div class="panel-title"><span class="num">05</span> ตรวจสอบตัวแปร</div><span class="tiny-kicker">INSPECTOR</span></div>
+            <div class="detail-num" id="detailNumber">29</div><h3 id="detailName">สติ</h3><p class="pali" id="detailPali">Sati</p><p id="detailMeaning"></p><div class="detail-state" id="detailState"></div><div class="detail-group" id="detailGroup"></div>
+            <p class="detail-explainer">สถานะของโหนดหมายถึง “เกิดร่วมกับจิตขณะนี้หรือไม่” ไม่ใช่ความแรงของอารมณ์ และทุกขณะมีค่าครบ 52 ช่องเป็น true/false</p>
+          </aside></div>
+      </section>
+
+      <section class="method" id="sources"><div class="section-index">03 / METHODOLOGY</div><h2>กรอบของแบบจำลอง</h2>
+        <div class="method-grid"><article><span>01</span><h3>จิต ≠ เจตสิก</h3><p>จิตกับเจตสิกเป็นสภาวธรรมที่เกิดร่วมและดับร่วมกัน ไม่ได้เกิดจากการนำเจตสิก 52 ดวงมาบวกจนกลายเป็นจิต</p></article><article><span>02</span><h3>ทุกขณะมีตัวแปร 52 ช่อง</h3><p>สัพพจิตตสาธารณะ 7 ดวงต้องมีเสมอ เจตสิกอื่น ๆ ทำงานตามชนิดจิตและข้อห้ามร่วมเกิด</p></article><article><span>03</span><h3>ชวนะไม่ใช่ทุกวิถี</h3><p>วาระอารมณ์ละเอียดอ่อนอาจไม่ถึงชวนะ และมโนทวารมีลำดับต่างจากปัญจทวาร</p></article></div>
+        <div class="sources-panel"><h3>แหล่งอ้างอิงและข้อจำกัด</h3><ul id="sourceLinks"></ul><p>ต้นแบบนี้จำลองเฉพาะกรณีศึกษา <b>กามาวจรวิถีปกติ</b> ที่ระบุในตัวเลือก ยังไม่ครอบคลุมจิต 89/121 ประเภท ภูมิ บุคคล ฌาน มรรคผล หรือวิถีพิเศษทุกกรณี การเชื่อมสองวิถีเป็นภาพสาธิตความสืบต่อ มิได้ระบุจำนวนภวังค์ระหว่างวิถีเป็นค่าคงที่</p></div>
+      </section>
+    </main>
+    <footer><div class="brand footer-brand"><span class="brand-icon" aria-hidden="true">◈</span><span>JIT<span class="brand-dot">.</span><small>CITTA LABORATORY</small></span></div><p>ศึกษาโครงสร้างจิตด้วยแบบจำลองเชิงเหตุปัจจัย · สร้างขึ้นเพื่อการเรียนรู้ ไม่ใช่เครื่องมือวินิจฉัยจิต</p><a href="https://github.com/nustanakritwithai/Jit" target="_blank" rel="noopener noreferrer">OPEN SOURCE ↗</a></footer>
+  </div>
+</body>
+</html>

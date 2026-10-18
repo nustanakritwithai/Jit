@@ -1,0 +1,10 @@
+{
+  "name": "jit-citta-cetasika-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node --check src/data.js && node --check src/engine.js && node --check src/app.js"
+  }
+}
