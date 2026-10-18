@@ -79,5 +79,9 @@ export const SOURCES = [
  {title:'BPS · A Comprehensive Manual of Abhidhamma (ตาราง 1.1, 2.2, 2.3, 8.2)',url:'https://www.abhidhamma.org/wp-content/uploads/2025/05/bp304s_Bfodhi_Comprehensive_Manual_of_Abhidhamma.pdf'},
  {title:'Abhidhammattha-saṅgaha · Chapter II: Cetasika',url:'https://thaipitaka.gitlab.io/sangaha/chapter_2.htm'},
  {title:'Abhidhammattha-saṅgaha · Chapter IV: Cognitive Process',url:'https://thaipitaka.gitlab.io/sangaha/chapter_4.htm'},
- {title:'Conditionality of Life · นิพนธ์ Nina van Gorkom',url:'https://www.abhidhamma.org/study/conditionality-of-life/index.html'}
+ {title:'Conditionality of Life · นิพนธ์ Nina van Gorkom',url:'https://www.abhidhamma.org/study/conditionality-of-life/index.html'},
+ {title:'พระอภิธรรมปิฎก · ธัมมสังคณี (ฉบับแปลค้นคว้า)',url:'https://www.abhidhamma.org/book/dhammasangani-en/'},
+ {title:'พระอภิธรรมปิฎก · วิภังค์ (ฉบับแปลค้นคว้า)',url:'https://www.abhidhamma.org/book/vibhanga-en/'},
+ {title:'The 24 Conditions · ตารางปัฏฐานพร้อมการแจกแจง',url:'https://abhidhamma.com/tab_patthana_24_en.pdf'},
+ {title:'อภิธัมมัตถสังคหะ · บทที่ 4 วิถีจิตและอัปปนา (คู่มือ)',url:'https://www.ruyimeditation.org/theravada/abhidhamma/vithi-sangaha/'}
 ];

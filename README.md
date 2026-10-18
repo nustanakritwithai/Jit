@@ -1,11 +1,52 @@
-# JIT · Citta & Cetasika Laboratory — V0.2
+# JIT · Citta & Cetasika Laboratory — V0.3 UX + CAUSAL BETA
 
 **ระบบจำลองวิถีจิต–เจตสิก และตารางสัมปโยคแบบตรวจสอบได้** สำหรับการเรียนรู้พระอภิธรรมในเบราว์เซอร์ โดยไม่ต้องมีเซิร์ฟเวอร์
 
 **เว็บไซต์:** https://nustanakritwithai.github.io/Jit/  
 **GitHub:** https://github.com/nustanakritwithai/Jit
 
-## มีอะไรใหม่ใน V0.2
+## มีอะไรใหม่ใน V0.3 — อ่านข้อมูลทีละชั้น
+
+### UX ที่ออกแบบใหม่
+
+- **4 พื้นที่หลักแทนหน้าเดียวที่ยาวมาก:** ทดลองวิถีจิต / สำรวจเจตสิก / ตารางสัมปโยค / เหตุปัจจัย (ส่วนหลักการและแหล่งอ้างอิงแยกเป็นหน้าช่วยอ่าน)
+- **ทางลัดบนมือถือ:** ปุ่ม `▶ เริ่มจำลองกรณีนี้` ที่อยู่ใต้การเลือกตัวอย่าง ช่วยเริ่มการเล่นและเลื่อนไปยังขณะจิตได้ทันที
+- **เริ่มด้วยกรณีศึกษา 4 แบบ:** เห็นรูปแล้วพิจารณา, ได้ยินแล้วขัดเคือง, เห็นแล้วติดข้อง, น้อมใจด้วยกรุณา — แต่ละปุ่มตั้งค่าฉากเพื่อ *การศึกษาเท่านั้น* ไม่ใช่การวินิจฉัยจิตของผู้ใช้
+- **อ่านจิตขณะนี้ก่อน:** แสดงชื่อจิต ปัจจัยประกอบที่เด่นไม่เกิน 8 รายการและลำดับที่กำลังเดิน; ชื่อบาลีและรายละเอียดเชิงเทคนิคยังเปิดได้ด้วย `อ่านข้อมูลขณะจิตแบบละเอียด`
+- **การตั้งค่าขั้นสูงซ่อนได้:** ระดับการปรากฏของอารมณ์ มโนทวารต่อเนื่อง ภวังค์คั่น และส่งออก JSON อยู่ในปุ่ม `ตั้งค่าเพิ่มเติม`; กฎเดิมยังทำงานทั้งหมด
+- **สำรวจเจตสิก:** เริ่มจากรายการที่เกิดร่วมกับขณะนั้น กดดูความหมายด้านข้าง; เครือข่าย 52 โหนดเปิดเพิ่มได้เมื่อต้องการ
+- **ตารางสัมปโยค:** เลือกจิตประเภทเดียวเพื่อดู `required / optional / forbidden` ก่อน แล้วจึงขยายตาราง 89/121 × 52 เพื่อเปรียบเทียบหรือดาวน์โหลด CSV
+- **เหตุปัจจัย:** มีคำอธิบายภาษาธรรมดาว่าขณะก่อนและขณะนี้เชื่อมกันอย่างไร โดยไม่อ้างการคำนวณปัฏฐาน 24 ปัจจัยทั้งหมด
+- **มือถือ:** มีเมนู 4 พื้นที่ด้านล่าง แตะง่าย ตารางใหญ่เลื่อนแนวนอนเอง และแสดงข้อมูลยาวเมื่อผู้ใช้ร้องขอ
+- **ซ่อมปุ่มดาวน์โหลด CSV:** แยกฟังก์ชันสร้างตารางออกมาทดสอบว่ามี 89 หรือ 121 แถวจริงและมีคอลัมน์ครบ 52 เจตสิก
+- **Deep links:** `#simulation`, `#atlas`, `#sampayoga`, `#conditionality`, `#sources` ช่วยเปิดหน้าเฉพาะพื้นที่โดยตรง
+
+**V0.3 ยังคงตารางสัมปโยค 89/121 × 52 และข้อห้ามการเกิดร่วมของ V0.2** แต่เพิ่ม engine เลือกจิตจากเงื่อนไขกรณีศึกษาและบันทึกแหล่งกฎทุกขณะ พร้อม UX ซ่อนข้อมูลเชิงลึก
+
+## V0.3 · Causal Engine ที่รองรับแล้วจริง
+
+**แยก 3 ชั้นเสมอ:** (1) กฎลำดับวิถีจาก *อภิธัมมัตถสังคหะ* ซึ่งเป็นคู่มือ/สายอรรถาธิบาย ไม่ใช่พระไตรปิฎกโดยตรง (2) กฎกลุ่มจิต–เจตสิกตามตารางสัมปโยคที่ตรวจสอบได้ (3) เงื่อนไขสมมติที่ผู้ใช้เลือกเพื่อดูผลในกรณีศึกษา ไม่ใช่พยากรณ์จิตของบุคคลจริง
+
+1. **Transition Planner:** สร้างขณะถัดไปตาม state ปัจจุบันและระดับอารมณ์/ทวาร/ความชัดที่ผู้ใช้ระบุ แทนการ hardcode รายการ 17 ขณะไว้ล่วงหน้า โดยจำกัดเฉพาะกรณีศึกษาที่เครื่องรองรับ และบันทึก rule ID, แหล่งอ้างอิง, ประเภทหลักฐาน
+2. **Resultant Selector:** เลือกหนึ่งตัวอย่างวิบากสำหรับวิญญาณทางปัญจทวาร สัมปฏิจฉนะ และสันตีรณะจาก `objectQuality` ที่ระบุว่าคืออิฏฐารมณ์/อนิฏฐารมณ์/อติอิฏฐารมณ์ โดยคุณลักษณะอารมณ์เป็น *ข้อมูลตั้งต้นของฉาก* ไม่ได้คำนวณจากกรรมจริง และการเลือกตทาลัมพนะถูกติดป้าย `scenario-assumption` เพราะยังขาดข้อจำกัดภูมิ บุคคล ชวนจิต
+3. **Guided Javana (ทดลองสอน):** ผู้ใช้เลือกรูปแบบมนสิการแบบโยนิโส/อโยนิโส และแนวโน้มติดข้อง/ขัดเคือง/สงสัย ระบบเลือกหนึ่งกรณีศึกษาชวนจิตจากชุดตัวอย่างที่ผ่านตารางสัมปโยค และติดป้าย `scenario-assumption` ชัดเจน **ไม่ใช่กฎว่ามนสิการหนึ่งชนิดจะบังคับให้เกิดจิตดวงนี้เสมอ** และไม่มีการสุ่ม
+4. **Two vīthi:** เงื่อนไขวิถีแรกและวิถีที่สองกำหนดแยกกันได้ โดยแสดงภวังค์คั่นที่ผู้ใช้เลือก มิใช่อนันตรปัจจัยกระโดดข้ามภวังค์
+5. **Special workflow เฉพาะหนึ่งตัวอย่าง:** มโนทวารวิถีอัปปนา **ปฐมรูปฌานครั้งแรก** มีชวนะเตรียม 4 (อินทรีย์ปานกลาง) หรือ 3 (อินทรีย์แก่กล้า) ขณะ ตามด้วยรูปาวจรกุศลปฐมฌาน 1 ขณะ แล้วกลับภวังค์ โดยใช้รหัสจิต 31 และ 55 เป็นกรณีสาธิต ไม่มีระบบประเมินสมาธิจริง และยังไม่ครอบคลุมฌานอื่น วิถีมรรค ผล จุติ หรือปฏิสนธิ
+6. **Paṭṭhāna coverage:** มีทะเบียนเหตุปัจจัย 24 ชื่อครบ แต่ **12 รายการมีตัวอย่างความสัมพันธ์เชิงเหตุปัจจัยในโมเดลเท่านั้น** อีก 12 รายการมีชื่อ/คำอธิบายเพื่ออ้างอิง ไม่ใช่ตัวคำนวณ; ไม่มี numerical weights หรือการทำนายกรรม
+7. **Rule Evidence Audit:** แต่ละขณะใน JSON เก็บ `ruleAudit.selection`, `ruleAudit.transition`, `basis` (commentarial-pattern / scenario-assumption), `source`, `inputs` และมีตัวอ่านคำอธิบายใน UI
+
+### ลองอย่างรวดเร็ว
+
+เปิดหน้า “ทดลองวิถีจิต” → กด **“ลองให้เหตุปัจจัยช่วยเลือกชวนจิต”** → ดูแต่ละขณะกับคำอธิบายใต้ชื่อจิต → เข้า “เหตุปัจจัย” เพื่อดู rule ID และแหล่งอ้างอิงของขณะนั้น หรือเปิด **ตั้งค่าเพิ่มเติม** แล้วเลือก **วิถีอัปปนา · ปฐมฌานครั้งแรก (สาธิต)**
+
+### ขอบเขตที่ยังไม่สำเร็จ (ห้ามอ้างว่า PASS)
+
+- ปัฏฐาน 24 ปัจจัยทั้งหมด: **ยังไม่ใช่ solver เต็ม** โดยเฉพาะอุปนิสสย อธิปติ รูป–นาม และกรรมข้ามขณะ
+- วิถีพิเศษ: ได้ **ตัวอย่างอัปปนาปฐมฌานครั้งแรกเพียงหนึ่งแบบ** ยังไม่มีลำดับมรรค–ผลครบ การตาย–ปฏิสนธิ อภิญญา และสมาบัติอื่น
+- เงื่อนไขมนสิการเป็น **ข้อมูลสมมติจากผู้ใช้** และการเลือกตัวอย่างกุศล/อกุศลไม่ได้พิสูจน์เหตุจริงครบ จึงไม่ใช่ causal inference ทางจิตจริง
+- ควรให้ผู้เชี่ยวชาญพระอภิธรรมทวนกฎและรายละเอียดการแจกแจงระดับฌานก่อนใช้เป็นหลักฐานอ้างอิงเชิงวิชาการ
+
+## ความสามารถเชิงหลักธรรมจาก V0.2
 
 1. **ตารางสัมปโยค 89 × 52 และ 121 × 52:** จิต 89 ตามแบบย่อและ 121 ตามแบบแจกแจงโลกุตตรฌาน พร้อมแถวข้อมูลทุกรายการ รหัสจิต กลุ่ม เวทนา ประเภทกุศล/อกุศล/วิบาก/กิริยา
 2. **สถานะแต่ละช่อง:** `required` (ต้องเกิด), `optional` (อาจเกิดเมื่อมีปัจจัย), `forbidden` (เกิดไม่ได้) แยกจากค่าที่ *เกิดจริงในกรณีตัวอย่าง* (true/false)
@@ -38,7 +79,7 @@
 
 **ส่วนที่เป็นสมมติฐาน/การกำหนดฉาก:** ชนิดภวังค์และวิบากที่เลือกเป็นหนึ่งกรณีตัวอย่าง, ชนิดชวนจิตที่ผู้ใช้กำหนดในสองวิถี, ภวังค์คั่น 1–8 ขณะ, อัตลักษณ์อารมณ์ `objectId`, ความเร็วภาพและการลากดูด้วย UI ทั้งหมด **ไม่ใช่ข้อมูลว่าจิตจริงมีค่าตามนี้**
 
-**สิ่งที่ยังไม่ใช่การจำลองครบ:** จิต 121 ทุกประเภทอยู่ใน *ตารางสัมปโยค* แต่ไม่ได้แปลว่าเครื่องจำลองวิถีรองรับวิถีพิเศษทั้งหมด (อัปปนา, มรรค–ผล, การตาย/ปฏิสนธิ ฯลฯ). สารบบ 24 ปัจจัยไม่ได้หมายถึงการคำนวณปัจจัยครบทุกอย่าง เช่น วิปปยุตตะ ปุเรชาตะ อธิปติ–อุปนิสสยะหรือการสืบเนื่องของกรรมเฉพาะบุคคล เครื่องจำลองไม่ทำนายผลกรรมและไม่รับรองคุณภาพจิตจริงของผู้ชม
+**สิ่งที่ยังไม่ใช่การจำลองครบ:** จิต 121 ทุกประเภทอยู่ใน *ตารางสัมปโยค* แต่ไม่ได้แปลว่าเครื่องจำลองวิถีรองรับวิถีพิเศษทั้งหมด (รองรับตัวอย่างปฐมรูปฌานครั้งแรก แต่ยังไม่ครบมรรค–ผล การตาย/ปฏิสนธิ ฯลฯ). สารบบ 24 ปัจจัยไม่ได้หมายถึงการคำนวณปัจจัยครบทุกอย่าง เช่น วิปปยุตตะ ปุเรชาตะ อธิปติ–อุปนิสสยะหรือการสืบเนื่องของกรรมเฉพาะบุคคล เครื่องจำลองไม่ทำนายผลกรรมและไม่รับรองคุณภาพจิตจริงของผู้ชม
 
 ## หลักฐานประกอบกฎ (source map)
 
@@ -50,7 +91,10 @@
   * Table **2.3**, printed p. 101 — combinations by citta category
   * Chapter **IV**, printed pp. 149–184 — five-door, mind-door, javana and registration processes
   * Chapter **VIII**, Table **8.2**, printed p. 304, §§11–14 — 24 conditional relations; āsevana between preceding/subsequent mundane javanas
-* [Abhidhammatthasaṅgaha, chapter II](https://thaipitaka.gitlab.io/sangaha/chapter_2.htm) and [chapter IV](https://thaipitaka.gitlab.io/sangaha/chapter_4.htm) — parallel translation for human auditing
+* [Abhidhammatthasaṅgaha, chapter II](https://thaipitaka.gitlab.io/sangaha/chapter_2.htm) and [chapter IV](https://thaipitaka.gitlab.io/sangaha/chapter_4.htm) — secondary/commentarial manual used to trace the moment-by-moment vīthi sequence
+* [Dhammasaṅgaṇī](https://www.abhidhamma.org/book/dhammasangani-en/) and [Vibhaṅga](https://www.abhidhamma.org/book/vibhanga-en/) — canonical Abhidhamma classification of dhammas; these are not the direct source for all 17-moment sequences
+* [24 Paṭṭhāna conditions, study table](https://abhidhamma.com/tab_patthana_24_en.pdf) — secondary digest of the canonical Paṭṭhāna, not a complete machine-readable primary text
+* [Abhidhammattha Saṅgaha chapter IV, appanā stages and javanā counts](https://www.ruyimeditation.org/theravada/abhidhamma/vithi-sangaha/) — reference for the *one pedagogical first-jhāna case*
 
 > Editorial policy: never use “UNKNOWN” as PASS. When source claims are disputed or not computable from the implemented scenario, show the limitation explicitly instead of pretending numerical precision.
 
@@ -58,7 +102,8 @@
 
 - `src/data.js` — 52 factor lexicon, UI input vocabulary
 - `src/association.js` — 121 concrete citta rows and 89 grouped citta rows, mandatory/optional/forbidden logic
-- `src/engine.js` — selected citta instantiation, six-door vīthi, two-stage continuity, invariants
+- `src/causal.js` — transition planner, source tiers and assumed condition guidance, one first-appanā demo
+- `src/engine.js` — selected citta instantiation, six-door vīthi, two-stage continuity, 52-slot invariants and rule audit
 - `src/conditions.js` — 24-condition reference taxonomy, adjacent citta edges and within-moment relations
 - `src/matrix-ui.js`, `src/conditions-ui.js`, `src/app.js` — data inspector, causal inspector, interactive simulator
 - `tests/` — Node.js tests for full matrix counts, conditional adjunct rules, workflows, paccaya adjacency, no conflation of across-bhavanga and same-moment links
@@ -68,4 +113,4 @@ npm run check
 npm test
 ```
 
-GitHub Actions automatically runs the tests on push and deploys GitHub Pages after the check has completed successfully. V0.2 is an educational implementation, not a canonical machine-readable edition of the entire Paṭṭhāna.
+GitHub Actions automatically runs the tests on push and deploys GitHub Pages after the check has completed successfully. V0.3 is an educational **causal beta**, not a canonical machine-readable edition of the entire Paṭṭhāna. GitHub CI validates structural invariants, not doctrinal completeness.

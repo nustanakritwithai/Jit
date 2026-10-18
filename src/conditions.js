@@ -42,6 +42,7 @@ export function buildConditionality(moments,cycles){
  for(const [i,m] of moments.entries()){
   const rootIds=m.active.filter(id=>ROOT_IDS.includes(id));
   inMoments.push({momentId:m.id,index:i,cittaId:m.cittaId,roots:rootIds,
+   causalAudit:m.ruleAudit,selectionRule:m.ruleAudit?.selection?.rule??null,selectionBasis:m.ruleAudit?.selection?.basis??'not-evaluated',
    objectId:m.objectId,object:m.object,
    factors:[...m.active],
    conditions:[...new Set(['arammana','sahajata','annamanna','sampayutta','kamma',...(rootIds.length?['hetu']:[]),...(m.family==='vipaka'?['vipaka']:[])])],
@@ -49,7 +50,9 @@ export function buildConditionality(moments,cycles){
   if(i===0)continue;
   const previous=moments[i-1];
   const relations=['anantara','samanantara','natthi','vigata'];
-  if(previous.stage==='javana'&&m.stage==='javana'&&previous.cycle===m.cycle&&
+  const priorPreparation=['preparation','access','conformity','change_lineage'].includes(previous.stage);
+  const nextPreparation=['preparation','access','conformity','change_lineage'].includes(m.stage);
+  if(((previous.stage==='javana'&&m.stage==='javana')||(priorPreparation&&nextPreparation))&&previous.cycle===m.cycle&&
      previous.cittaId===m.cittaId&&['akusala','kusala','kiriya'].includes(m.family)&&m.cittaId<82){
    relations.push('asevana');
   }
@@ -72,7 +75,7 @@ export function buildConditionality(moments,cycles){
    // The intervening bhavanga moments are included in the adjacent edges, not skipped.
    edgeIds:edges.filter(e=>e.fromIndex>=prev.end&&e.toIndex<=next.start).map(e=>`${e.from}->${e.to}`)});
  }
- return {version:'0.2.0',registry:PACCAYA_24,edges,inMoments,cycleTransitions,
+ return {version:'0.3.0',registry:PACCAYA_24,edges,inMoments,cycleTransitions,
   counts:{adjacent:edges.length,repetition:edges.filter(e=>e.relations.includes('asevana')).length,transitions:cycleTransitions.length},
   disclaimer:'การแสดงผลครอบคลุมเฉพาะปัจจัยที่แบบจำลองระบุความสัมพันธ์ได้จากข้อมูล ไม่ได้จำลองปัฏฐาน 24 ปัจจัยอย่างครบถ้วน; การเชื่อมวิถีถัดไปเป็นกรณีศึกษา ไม่ใช่สูตรคำนวณกรรม'};
 }
@@ -93,7 +96,10 @@ export function validateConditionality(process){
   if(e.toIndex!==e.fromIndex+1||moments[e.fromIndex].id!==e.from||moments[e.toIndex].id!==e.to)throw Error('Adjacency must not skip a citta');
   for(const name of ['anantara','samanantara','natthi','vigata'])if(!e.relations.includes(name))throw Error('Mandatory temporal condition missing');
   if(e.relations.includes('asevana')&&(!['akusala','kusala','kiriya'].includes(moments[e.fromIndex].family)||
-    moments[e.fromIndex].stage!=='javana'||moments[e.toIndex].stage!=='javana'||e.crossCycle||moments[e.fromIndex].cittaId>=82))throw Error('Invalid āsevana association');
+    !((moments[e.fromIndex].stage==='javana'&&moments[e.toIndex].stage==='javana')||
+      (['preparation','access','conformity','change_lineage'].includes(moments[e.fromIndex].stage)&&
+       ['preparation','access','conformity','change_lineage'].includes(moments[e.toIndex].stage)))||
+    e.crossCycle||moments[e.fromIndex].cittaId>=82))throw Error('Invalid āsevana association');
  }
  for(const [i,m] of moments.entries())if(conditions.inMoments[i].momentId!==m.id||conditions.inMoments[i].factors.length!==m.active.length)throw Error('Within-moment condition invalid');
  if(conditions.cycleTransitions.length!==Math.max(0,cycles.length-1))throw Error('Missing cross-process transitions');

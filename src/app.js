@@ -10,7 +10,7 @@ const dom={
  play:$('playBtn'),step:$('stepBtn'),back:$('backBtn'),reset:$('resetBtn'),speed:$('speed'),export:$('exportBtn'),
  timeline:$('timeline'),network:$('network'),factorList:$('factorList'),factorSearch:$('factorSearch'),factorGroup:$('factorGroup')
 };
-let process=createProcess(),current=0,selectedFactor=29,timer=null,onlyActive=false;
+let process=createProcess(),current=0,selectedFactor=1,timer=null,onlyActive=true;
 let matrixUi=null,conditionsUi=null;
 
 function option(value,label){const el=document.createElement('option');el.value=value;el.textContent=label;return el;}
@@ -25,29 +25,52 @@ dom.intensity.value=DEFAULT_CONFIG.intensity;
 dom.mindClarity.value=DEFAULT_CONFIG.mindClarity;
 dom.javana.value=DEFAULT_CONFIG.javana;
 dom.nextJavana.value=DEFAULT_CONFIG.nextJavana;dom.interludeCount.value=String(DEFAULT_CONFIG.interludeCount);
+for(const id of ['processMode','faculties','objectQuality','selectionMode','attention','reactionCue','nextAttention','nextReactionCue'])$(id).value=String(DEFAULT_CONFIG[id]);
 
-function configFromForm(){return {door:dom.door.value,intensity:dom.intensity.value,mindClarity:dom.mindClarity.value,javana:dom.javana.value,followMind:dom.followMind.checked,nextJavana:dom.nextJavana.value,interludeCount:Number(dom.interludeCount.value)};}
+function configFromForm(){return {door:dom.door.value,intensity:dom.intensity.value,mindClarity:dom.mindClarity.value,javana:dom.javana.value,followMind:dom.followMind.checked,nextJavana:dom.nextJavana.value,interludeCount:Number(dom.interludeCount.value),
+ processMode:$('processMode').value,faculties:$('faculties').value,objectQuality:$('objectQuality').value,selectionMode:$('selectionMode').value,
+ attention:$('attention').value,reactionCue:$('reactionCue').value,nextAttention:$('nextAttention').value,nextReactionCue:$('nextReactionCue').value};}
 function updateInputs(){
+ const special=$('processMode').value==='appana-first';
+ if(special){dom.door.value='mind';dom.followMind.checked=false;}
  const mind=dom.door.value==='mind',tiny=dom.intensity.value==='very-slight';
  dom.intensity.hidden=mind;dom.intensityLabel.hidden=mind;
- dom.mindClarity.previousElementSibling.hidden=!(mind||dom.followMind.checked);
- dom.mindClarity.hidden=!(mind||dom.followMind.checked);
- dom.followMind.disabled=mind||tiny;
+ dom.mindClarity.previousElementSibling.hidden=!(mind||dom.followMind.checked)||special;
+ dom.mindClarity.hidden=!(mind||dom.followMind.checked)||special;
+ dom.followMind.disabled=mind||tiny||special;
  if(dom.followMind.disabled)dom.followMind.checked=false;
  dom.followOptions.hidden=!dom.followMind.checked;
+ $('appanaControls').hidden=!special;
+ $('ordinaryCausalControls').hidden=special;
+ const guided=$('selectionMode').value==='guided'&&!special;
+ $('guidedCausalControls').hidden=!guided;
+ $('guidedFollowControls').hidden=!(guided&&dom.followMind.checked);
+ dom.javana.previousElementSibling.hidden=guided||special;
+ dom.javana.hidden=guided||special;
+ $('javanaDescription').hidden=guided||special;
+ dom.door.disabled=special;
+ dom.followMind.closest('.switch-row').hidden=special;
+ dom.nextJavana.disabled=guided||special;
  $('javanaDescription').textContent=JAVANAS.find(x=>x.id===dom.javana.value).description;
+ $('tryCausalExample').setAttribute('aria-pressed',String(guided));
 }
-function stop(){if(timer!==null){clearInterval(timer);timer=null;}dom.play.textContent='▶ เริ่มเล่น';}
-function rebuild(){stop();updateInputs();process=createProcess(configFromForm());validateProcess(process);current=0;render();}
-for(const id of ['door','intensity','mindClarity','javana','nextJavana','interludeCount'])$(id).addEventListener('change',rebuild);
+
+function stop(){if(timer!==null){clearInterval(timer);timer=null;}dom.play.textContent='▶ เริ่มเล่น';$('quickStartBtn').innerHTML='▶ เริ่มจำลองกรณีนี้ <span aria-hidden="true">→</span>'; }
+function rebuild(){stop();updateInputs();process=createProcess(configFromForm());validateProcess(process);current=0;render();updatePresetButtons();}
+for(const id of ['door','intensity','mindClarity','javana','nextJavana','interludeCount','processMode','faculties','objectQuality','selectionMode','attention','reactionCue','nextAttention','nextReactionCue'])$(id).addEventListener('change',rebuild);
 dom.followMind.addEventListener('change',rebuild);
 dom.speed.addEventListener('change',()=>{if(timer!==null){stop();play();}});
 
-function setCurrent(index){current=Math.min(process.moments.length-1,Math.max(0,index));render();const focus=dom.timeline.querySelector('.timeline-step.active');if(focus)focus.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
+function setCurrent(index){current=Math.min(process.moments.length-1,Math.max(0,index));render();const focus=dom.timeline.querySelector('.timeline-step.active');if(focus)focus.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'nearest',inline:'center'});}
 function next(){if(current<process.moments.length-1)setCurrent(current+1);else stop();}
 function previous(){stop();setCurrent(current-1);}
-function play(){if(current===process.moments.length-1)current=0;stop();dom.play.textContent='Ⅱ หยุด';timer=setInterval(next,Number(dom.speed.value));render();}
+function play(){if(current===process.moments.length-1)current=0;stop();dom.play.textContent='Ⅱ หยุด';$('quickStartBtn').textContent='Ⅱ หยุดการจำลอง';timer=setInterval(next,Number(dom.speed.value));render();}
 dom.play.addEventListener('click',()=>timer===null?play():stop());
+$('quickStartBtn').addEventListener('click',()=>{
+ if(timer!==null){stop();return;}
+ play();
+ document.querySelector('.moment-panel')?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+});
 dom.step.addEventListener('click',()=>{stop();next();});
 dom.back.addEventListener('click',previous);
 dom.reset.addEventListener('click',()=>{stop();setCurrent(0);});
@@ -67,9 +90,15 @@ function render(){
  const m=process.moments[current];
  $('totalMoments').textContent=process.moments.length;
  $('activeCount').textContent=m.activeCount;
- $('javanaCount').textContent=process.moments.filter(m=>m.stage==='javana').length;
+ $('javanaCount').textContent=process.moments.filter(m=>m.phase==='javana').length;
  $('stepCounter').textContent=`${String(current+1).padStart(2,'0')} / ${process.moments.length}`;
- renderTimeline();renderMoment(m);renderGraph(m);renderFactors(m);renderFactorDetail(m);conditionsUi?.render();
+ const progress=$('timelineProgress');
+ progress.setAttribute('aria-valuemax',String(process.moments.length));
+ progress.setAttribute('aria-valuenow',String(current+1));
+ $('progressFill').style.width=`${((current+1)/process.moments.length)*100}%`;
+ renderTimeline();renderMoment(m);
+ if(document.querySelector('.graph-disclosure')?.open)renderGraph(m);
+ renderFactors(m);renderFactorDetail(m);renderConditionPlain();conditionsUi?.render();
 }
 function renderTimeline(){
  dom.timeline.replaceChildren();
@@ -90,13 +119,34 @@ function renderMoment(m){
  $('momentPali').textContent=m.pali;
  $('momentPhase').textContent=m.phase.toUpperCase();
  $('momentDesc').textContent=m.description;
+ renderMomentRule(m);
  $('momentCitta').textContent=`${m.citta} · ${m.cittaId}/121`;
  $('momentObject').textContent=m.object;
  $('momentFactorCount').textContent=`${m.activeCount} / 52 ดวง`;
  $('cittaFamily').textContent=FAMILIES[m.family][0]+' · '+FAMILIES[m.family][1];
- $('javanaNote').hidden=m.stage!=='javana';if(m.stage==='javana')$('javanaNote').textContent=m.note+' · ชวนจิตเจ็ดขณะในวิถีนี้มีประเภทจิตเดียวกัน ไม่ใช่ตัวแปรสะสมเพิ่ม';
+ $('javanaNote').hidden=m.phase!=='javana';if(m.stage==='javana')$('javanaNote').textContent=m.note+' · ชวนจิตเจ็ดขณะในวิถีนี้มีประเภทจิตเดียวกัน ไม่ใช่ตัวแปรสะสมเพิ่ม';
+ if(m.stage!=='javana'&&m.phase==='javana')$('javanaNote').textContent=m.note;
+ const priorities=[21,18,14,52,29,33,32,50,51,22,23,24,19,20,27,28,47,48,49];
+ const selected=[...priorities.filter(id=>m.vector[id]), ...[1,2,3,4,5,6,7].filter(id=>m.vector[id])].slice(0,8);
+ const preview=$('factorPreview');preview.replaceChildren();
+ for(const id of selected){
+  const factor=BY_ID.get(id);const item=document.createElement('button');
+  item.type='button';item.className='factor-pill '+factor.group;
+  item.textContent=factor.name;item.title=factor.meaning;
+  item.addEventListener('click',()=>{selectFactor(id);showView('atlas');});preview.append(item);
+ }
+ $('factorPreviewCount').textContent=`ตัวอย่าง ${selected.length} จาก ${m.activeCount} ดวง`;
 }
 
+const BASIS_LABELS={'commentarial-pattern':'กรอบตามคู่มือ/อรรถาธิบาย','scenario-assumption':'สมมติฐานการจำลอง'};
+function renderMomentRule(m){
+ const selection=m.ruleAudit?.selection,transition=m.ruleAudit?.transition;
+ const assumption=selection?.basis==='scenario-assumption';
+ $('ruleBasis').textContent=BASIS_LABELS[selection?.basis]||'ยังไม่มีข้อมูล';
+ $('ruleBasis').className=assumption?'assumed':'documented';
+ $('ruleExplanation').textContent=selection?.reason||'ยังไม่มีกฎยืนยันสำหรับขณะนี้';
+ $('ruleSource').textContent=`ลำดับก่อนหน้า: ${transition?.reason||'เริ่มต้น'} · แหล่งอ้างอิง: ${selection?.source?.title||'ไม่ระบุ'}`;
+}
 const NS='http://www.w3.org/2000/svg';
 function svg(tag,attrs={},content){const e=document.createElementNS(NS,tag);for(const [name,value] of Object.entries(attrs))e.setAttribute(name,String(value));if(content!==undefined)e.textContent=content;return e;}
 const GROUP_LAYOUT=[
@@ -146,11 +196,13 @@ function renderGraph(m){
 $('selectActiveBtn').addEventListener('click',()=>{onlyActive=!onlyActive;renderGraph(process.moments[current]);});
 function selectFactor(id){selectedFactor=id;renderGraph(process.moments[current]);renderFactors(process.moments[current]);renderFactorDetail(process.moments[current]);}
 function renderFactors(m){
- const text=dom.factorSearch.value.trim().toLocaleLowerCase('th'),filter=dom.factorGroup.value;
+ const text=dom.factorSearch.value.trim().toLocaleLowerCase('th'),filter=dom.factorGroup.value, activeOnly=$('onlyActiveFactors').checked;
+ let visibleCount=0;
  dom.factorList.replaceChildren();
  for(const group of GROUPS){
   if(filter!=='all'&&filter!==group.id)continue;
-  const factors=FACTORS.filter(f=>f.group===group.id&&(!text||`${f.id} ${f.name} ${f.pali} ${f.meaning}`.toLowerCase().includes(text)));
+  const factors=FACTORS.filter(f=>f.group===group.id&&(!activeOnly||m.vector[f.id])&&(!text||`${f.id} ${f.name} ${f.pali} ${f.meaning}`.toLowerCase().includes(text)));
+  visibleCount+=factors.length;
   if(!factors.length)continue;
   const h=document.createElement('div');h.className='factor-group-title';h.style.setProperty('--group-color',group.color);
   h.textContent=`${group.name} · ${factors.length}/${group.count}`;dom.factorList.append(h);
@@ -162,6 +214,7 @@ function renderFactors(m){
   }
   dom.factorList.append(box);
  }
+ $('visibleFactorsCount').textContent=`${visibleCount} ดวง`;
  if(!dom.factorList.children.length){const msg=document.createElement('p');msg.textContent='ไม่พบเจตสิกตามคำค้น';msg.className='field-caption';dom.factorList.append(msg);}
 }
 function renderFactorDetail(m){
@@ -177,7 +230,68 @@ function renderFactorDetail(m){
  $('detailGroup').textContent=`หมวด ${f.subgroup} · ${group.name}`;
 }
 for(const key of ['factorSearch','factorGroup'])dom[key].addEventListener(key==='factorSearch'?'input':'change',()=>renderFactors(process.moments[current]));
+
+function renderConditionPlain(){
+ const currentMoment=process.moments[current], previous=current>0?process.moments[current-1]:null;
+ if(!previous){$('conditionPlain').textContent='นี่คือขณะแรกของกรณีศึกษาที่เลือก เมื่อเดินขณะถัดไป ระบบจะบอกความสัมพันธ์กับขณะก่อน';return;}
+ const edge=process.conditions.edges.find(e=>e.toIndex===current);
+ if(edge?.relations.includes('asevana')){
+  $('conditionPlain').textContent=`“${previous.name}” ดับไป ก่อนที่ “${currentMoment.name}” จะเกิดต่อในชุดชวนจิตเดียวกัน โดยมีอาเสวนปัจจัยเกื้อหนุนตามกรอบตัวอย่างนี้`;
+ }else if(currentMoment.stage==='return'){
+  $('conditionPlain').textContent=`“${previous.name}” ดับไป แล้วเกิดภวังค์คั่นในแบบจำลอง ขณะที่ต่อเนื่องกันมีอนันตรและสมนันตรปัจจัย ไม่ใช่การกระโดดข้ามขณะ`;
+ }else{
+  $('conditionPlain').textContent=`“${previous.name}” ดับไป แล้ว “${currentMoment.name}” เกิดต่อทันทีตามลำดับวิถีด้วยอนันตร–สมนันตรปัจจัย`;
+ }
+}
+
+const VIEWS=['simulation','atlas','sampayoga','conditionality','sources'];
+function showView(id,scroll=true){
+ const page=VIEWS.includes(id)?id:'simulation';
+ for(const view of document.querySelectorAll('.view-section'))view.hidden=view.id!==page;
+ for(const link of document.querySelectorAll('[data-view-target]')){
+  const active=link.dataset.viewTarget===page;
+  link.classList.toggle('is-active',active);
+  if(active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
+ }
+ if(window.location.hash!==`#${page}`)history.replaceState(null,'',`#${page}`);
+ if(page==='atlas'&&document.querySelector('.graph-disclosure')?.open)renderGraph(process.moments[current]);
+ if(scroll){
+  const target=window.matchMedia('(max-width:760px)').matches?document.getElementById(page):document.querySelector('.view-tabs');
+  target?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ }
+}
+document.querySelectorAll('[data-view-target]').forEach(link=>link.addEventListener('click',event=>{
+ event.preventDefault();showView(link.dataset.viewTarget);
+}));
+window.addEventListener('hashchange',()=>showView(window.location.hash.replace('#',''),false));
+
+$('tryCausalExample').addEventListener('click',()=>{ $('processMode').value='normal';$('selectionMode').value='guided';
+ $('attention').value='unwise';$('reactionCue').value='aversion';
+ dom.door.value='ear';$('objectQuality').value='undesirable';
+ dom.followMind.checked=true;$('nextAttention').value='wise';
+ $('advancedScenario').open=true;
+ rebuild();
+ document.querySelector('.moment-panel')?.scrollIntoView({block:'start',behavior:'smooth'});
+});
+document.querySelectorAll('#quickPresets .preset-option').forEach(button=>button.addEventListener('click',()=>{
+ dom.door.value=button.dataset.door;dom.javana.value=button.dataset.javana;
+ dom.intensity.value='very-great';dom.mindClarity.value='clear';dom.followMind.checked=false;
+ $('processMode').value='normal';$('selectionMode').value='manual';
+ rebuild();
+}));
+function updatePresetButtons(){
+ document.querySelectorAll('#quickPresets .preset-option').forEach(button=>{
+  const active=button.dataset.door===dom.door.value&&button.dataset.javana===dom.javana.value&&!dom.followMind.checked&&$('processMode').value==='normal'&&$('selectionMode').value==='manual';
+  button.classList.toggle('is-selected',active);button.setAttribute('aria-pressed',String(active));
+ });
+}
+$('onlyActiveFactors').addEventListener('change',()=>renderFactors(process.moments[current]));
+document.querySelector('.graph-disclosure')?.addEventListener('toggle',e=>{
+ if(e.currentTarget.open)renderGraph(process.moments[current]);
+});
 matrixUi=mountMatrix();
 conditionsUi=mountConditions(()=>process,()=>current,setCurrent);
-$('inspectMomentMatrix').addEventListener('click',()=>matrixUi.selectCitta(process.moments[current].cittaId));
-updateInputs();validateProcess(process);render();
+$('inspectMomentMatrix').addEventListener('click',()=>{
+ showView('sampayoga');matrixUi.selectCitta(process.moments[current].cittaId,false);
+});
+updateInputs();validateProcess(process);render();updatePresetButtons();showView(window.location.hash.replace('#',''),false);

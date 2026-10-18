@@ -15,6 +15,23 @@ export function mountConditions(getProcess,getCurrent,setCurrent){
   $('conditionCount').textContent=process.conditions.counts.adjacent;
   $('repetitionCount').textContent=process.conditions.counts.repetition;
   $('betweenCount').textContent=process.conditions.counts.transitions;
+  const auditBox=$('causalInspector');auditBox.replaceChildren();
+  const selection=m.ruleAudit?.selection,transition=m.ruleAudit?.transition;
+  const assumption=selection?.basis==='scenario-assumption';
+  const status=el('div','causal-audit-row');
+  status.append(el('span','causal-audit-badge '+(assumption?'assumed':'documented'),assumption?'สมมติฐานของระบบ':'กรอบตามคัมภีร์/คู่มือ'),
+    el('strong','',selection?.rule??'ไม่มีกฎเลือก'),
+    el('p','',selection?.reason??'ยังไม่มีคำอธิบายกฎเลือก'));
+  auditBox.append(status);
+  const predecessor=el('div','causal-audit-row');
+  predecessor.append(el('span','causal-audit-badge '+(transition?.basis==='scenario-assumption'?'assumed':'documented'),
+    transition?.basis==='scenario-assumption'?'ลำดับตั้งต้นตามฉาก':'ลำดับจิตตามกรอบตำรา'),
+    el('strong','',transition?.rule??'ไม่ระบุ'),el('p','',transition?.reason??'ยังไม่ระบุเหตุ'));
+  auditBox.append(predecessor);
+  const source=selection?.source;
+  if(source?.url){const link=el('a','causal-source-link','ดูแหล่งอ้างอิง: '+source.title+' ↗');link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';auditBox.append(link);}
+  if(assumption){auditBox.append(el('p','condition-note',
+    'กฎเลือกชวนจิตหรือผลวิบากที่กำหนดเป็นเพียงสถานการณ์ศึกษา ไม่ได้พยากรณ์ว่าขณะถัดไปของบุคคลจริงต้องเกิดแบบนี้'));}
   const within=$('conditionWithin');within.replaceChildren();
   const title=el('h3','',`${m.name} · จิตลำดับ ${m.cittaId}/121`),tip=el('p','condition-muted','ปัจจัยที่อธิบายได้จากชุดจิต–เจตสิกในขณะปัจจุบัน');
   within.append(title,tip);
