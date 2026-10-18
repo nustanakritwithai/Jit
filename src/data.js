@@ -76,7 +76,8 @@ export const JAVANAS = [
  {id:'moha_restless',name:'โมหมูลจิต + อุทธัจจะ',tone:'unwholesome',base:'moha-restless',extra:[],description:'โมหมูลจิตฝ่ายอุทธัจจะ มีอธิโมกข์'}
 ];
 export const SOURCES = [
- {title:'พจนานุกรมพุทธศาสตร์: เจตสิก 52',url:'https://84000.org/tipitaka/dic/d_item.php?i=355'},
- {title:'Abhidhammatthasaṅgaha, Cetasika chapter',url:'https://epitaka.org/en/book/Abhidh-s/sobhanacetasika%E1%B9%83-89'},
- {title:'Abhidhammatthasaṅgaha, Vīthisaṅgaha chapter',url:'https://www.ruyimeditation.org/theravada/abhidhamma/vithi-sangaha/'}
+ {title:'BPS · A Comprehensive Manual of Abhidhamma (ตาราง 1.1, 2.2, 2.3, 8.2)',url:'https://www.abhidhamma.org/wp-content/uploads/2025/05/bp304s_Bfodhi_Comprehensive_Manual_of_Abhidhamma.pdf'},
+ {title:'Abhidhammattha-saṅgaha · Chapter II: Cetasika',url:'https://thaipitaka.gitlab.io/sangaha/chapter_2.htm'},
+ {title:'Abhidhammattha-saṅgaha · Chapter IV: Cognitive Process',url:'https://thaipitaka.gitlab.io/sangaha/chapter_4.htm'},
+ {title:'Conditionality of Life · นิพนธ์ Nina van Gorkom',url:'https://www.abhidhamma.org/study/conditionality-of-life/index.html'}
 ];

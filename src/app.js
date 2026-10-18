@@ -1,18 +1,22 @@
 import {FACTORS, GROUPS, DOORS, INTENSITIES, JAVANAS, SOURCES, BY_ID} from './data.js';
 import {createProcess, validateProcess, DEFAULT_CONFIG} from './engine.js';
+import {associationStatus} from './association.js';
+import {mountMatrix} from './matrix-ui.js';
+import {mountConditions} from './conditions-ui.js';
 
 const $=id=>document.getElementById(id);
 const dom={
- door:$('door'),intensity:$('intensity'),intensityLabel:$('intensityLabel'),mindClarity:$('mindClarity'),javana:$('javana'),followMind:$('followMind'),
+ door:$('door'),intensity:$('intensity'),intensityLabel:$('intensityLabel'),mindClarity:$('mindClarity'),javana:$('javana'),followMind:$('followMind'),nextJavana:$('nextJavana'),interludeCount:$('interludeCount'),followOptions:$('followOptions'),
  play:$('playBtn'),step:$('stepBtn'),back:$('backBtn'),reset:$('resetBtn'),speed:$('speed'),export:$('exportBtn'),
  timeline:$('timeline'),network:$('network'),factorList:$('factorList'),factorSearch:$('factorSearch'),factorGroup:$('factorGroup')
 };
 let process=createProcess(),current=0,selectedFactor=29,timer=null,onlyActive=false;
+let matrixUi=null,conditionsUi=null;
 
 function option(value,label){const el=document.createElement('option');el.value=value;el.textContent=label;return el;}
 for(const d of DOORS)dom.door.add(option(d.id,d.name));
 for(const d of INTENSITIES)dom.intensity.add(option(d.id,d.name));
-for(const d of JAVANAS)dom.javana.add(option(d.id,d.name));
+for(const d of JAVANAS){dom.javana.add(option(d.id,d.name));dom.nextJavana.add(option(d.id,d.name));}
 for(const g of GROUPS)dom.factorGroup.add(option(g.id,`${g.name} (${g.count})`));
 for(const s of SOURCES){const li=document.createElement('li'),a=document.createElement('a');a.href=s.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=s.title+' ↗';li.append(a);$('sourceLinks').append(li);}
 
@@ -20,8 +24,9 @@ dom.door.value=DEFAULT_CONFIG.door;
 dom.intensity.value=DEFAULT_CONFIG.intensity;
 dom.mindClarity.value=DEFAULT_CONFIG.mindClarity;
 dom.javana.value=DEFAULT_CONFIG.javana;
+dom.nextJavana.value=DEFAULT_CONFIG.nextJavana;dom.interludeCount.value=String(DEFAULT_CONFIG.interludeCount);
 
-function configFromForm(){return {door:dom.door.value,intensity:dom.intensity.value,mindClarity:dom.mindClarity.value,javana:dom.javana.value,followMind:dom.followMind.checked};}
+function configFromForm(){return {door:dom.door.value,intensity:dom.intensity.value,mindClarity:dom.mindClarity.value,javana:dom.javana.value,followMind:dom.followMind.checked,nextJavana:dom.nextJavana.value,interludeCount:Number(dom.interludeCount.value)};}
 function updateInputs(){
  const mind=dom.door.value==='mind',tiny=dom.intensity.value==='very-slight';
  dom.intensity.hidden=mind;dom.intensityLabel.hidden=mind;
@@ -29,11 +34,12 @@ function updateInputs(){
  dom.mindClarity.hidden=!(mind||dom.followMind.checked);
  dom.followMind.disabled=mind||tiny;
  if(dom.followMind.disabled)dom.followMind.checked=false;
+ dom.followOptions.hidden=!dom.followMind.checked;
  $('javanaDescription').textContent=JAVANAS.find(x=>x.id===dom.javana.value).description;
 }
 function stop(){if(timer!==null){clearInterval(timer);timer=null;}dom.play.textContent='▶ เริ่มเล่น';}
 function rebuild(){stop();updateInputs();process=createProcess(configFromForm());validateProcess(process);current=0;render();}
-for(const id of ['door','intensity','mindClarity','javana'])$(id).addEventListener('change',rebuild);
+for(const id of ['door','intensity','mindClarity','javana','nextJavana','interludeCount'])$(id).addEventListener('change',rebuild);
 dom.followMind.addEventListener('change',rebuild);
 dom.speed.addEventListener('change',()=>{if(timer!==null){stop();play();}});
 
@@ -63,7 +69,7 @@ function render(){
  $('activeCount').textContent=m.activeCount;
  $('javanaCount').textContent=process.moments.filter(m=>m.stage==='javana').length;
  $('stepCounter').textContent=`${String(current+1).padStart(2,'0')} / ${process.moments.length}`;
- renderTimeline();renderMoment(m);renderGraph(m);renderFactors(m);renderFactorDetail(m);
+ renderTimeline();renderMoment(m);renderGraph(m);renderFactors(m);renderFactorDetail(m);conditionsUi?.render();
 }
 function renderTimeline(){
  dom.timeline.replaceChildren();
@@ -84,7 +90,7 @@ function renderMoment(m){
  $('momentPali').textContent=m.pali;
  $('momentPhase').textContent=m.phase.toUpperCase();
  $('momentDesc').textContent=m.description;
- $('momentCitta').textContent=m.citta;
+ $('momentCitta').textContent=`${m.citta} · ${m.cittaId}/121`;
  $('momentObject').textContent=m.object;
  $('momentFactorCount').textContent=`${m.activeCount} / 52 ดวง`;
  $('cittaFamily').textContent=FAMILIES[m.family][0]+' · '+FAMILIES[m.family][1];
@@ -164,9 +170,14 @@ function renderFactorDetail(m){
  $('detailName').textContent=f.name;
  $('detailPali').textContent=f.pali;
  $('detailMeaning').textContent=f.meaning;
- $('detailState').textContent=active?'● เกิดร่วมกับจิตขณะนี้':'○ ไม่เกิดร่วมกับจิตขณะนี้';
+ const state=associationStatus(m.cittaId,f.id);
+ const labels={required:'ต้องเกิด',optional:'อาจเกิด',forbidden:'เกิดไม่ได้'};
+ $('detailState').textContent=`${active?'● เกิดร่วม':'○ ไม่เกิดร่วม'}ในขณะนี้ · ตามตาราง: ${labels[state]}`;
  $('detailState').classList.toggle('off',!active);
  $('detailGroup').textContent=`หมวด ${f.subgroup} · ${group.name}`;
 }
 for(const key of ['factorSearch','factorGroup'])dom[key].addEventListener(key==='factorSearch'?'input':'change',()=>renderFactors(process.moments[current]));
+matrixUi=mountMatrix();
+conditionsUi=mountConditions(()=>process,()=>current,setCurrent);
+$('inspectMomentMatrix').addEventListener('click',()=>matrixUi.selectCitta(process.moments[current].cittaId));
 updateInputs();validateProcess(process);render();

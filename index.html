@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#081424" />
-  <meta name="description" content="JIT — ห้องทดลองวิถีจิตและเจตสิก 52 จำลองการเกิดดับเป็นขณะตามกรอบอภิธัมมัตถสังคหะ พร้อมชวนจิต 7 ขณะ" />
+  <meta name="description" content="JIT — ห้องทดลองจิต–เจตสิก 52 พร้อมตารางสัมปโยคจิต 89/121 และวิถีจิตเชื่อมด้วยเหตุปัจจัย" />
   <title>JIT · Citta & Cetasika Laboratory</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,15 +16,15 @@
   <div class="shell">
     <header class="topbar">
       <a class="brand" href="#home" aria-label="JIT กลับหน้าแรก"><span class="brand-icon" aria-hidden="true">◈</span><span>JIT<span class="brand-dot">.</span><small>CITTA LABORATORY</small></span></a>
-      <nav class="nav-actions" aria-label="เมนูหลัก"><a href="#simulation">วิถีจิต</a><a href="#atlas">เจตสิก 52</a><a href="#sources">เอกสารอ้างอิง</a><a class="repo-link" href="https://github.com/nustanakritwithai/Jit" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+      <nav class="nav-actions" aria-label="เมนูหลัก"><a href="#simulation">วิถีจิต</a><a href="#sampayoga">ตารางสัมปโยค</a><a href="#conditionality">เหตุปัจจัย</a><a href="#sources">อ้างอิง</a><a class="repo-link" href="https://github.com/nustanakritwithai/Jit" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
     </header>
 
     <main id="home">
       <section class="hero">
-        <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span> EDUCATIONAL SIMULATION ENGINE · V0.1</div>
+        <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span> EDUCATIONAL SIMULATION ENGINE · V0.2</div>
           <h1>จิตหนึ่งขณะ<br /><em>ประกอบด้วยอะไร?</em></h1>
           <p>สำรวจการเกิด–ดับของจิตและเจตสิก ผ่านเครือข่ายตัวแปร 52 ดวง และลำดับวิถีจิตที่ดำเนินไปทีละขณะตามคัมภีร์อภิธัมมัตถสังคหะ</p>
-          <div class="hero-tags"><span>52 เจตสิก</span><span>6 ทวาร</span><span>ชวนจิต 7 ขณะ</span><span>ไม่มีการสุ่มเจตสิก</span></div>
+          <div class="hero-tags"><span>52 เจตสิก</span><span>จิต 89 / 121</span><span>ปัจจัย 24 (อ้างอิง)</span><span>กฎสัมปโยค</span></div>
         </div>
         <div class="hero-orbit" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb-center">จิต<br/><span>+ เจตสิก</span></div><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
       </section>
@@ -47,6 +47,11 @@
             <label for="javana">ประเภทชวนจิต (ตัวอย่าง)</label><select id="javana"></select>
             <p class="field-caption" id="javanaDescription"></p>
             <label class="switch-row"><input type="checkbox" id="followMind" /><span class="switch-track"></span><span><b>ต่อมโนทวารวิถี</b><small>หลังปัญจทวารและภวังค์คั่น</small></span></label>
+            <div class="follow-options" id="followOptions" hidden>
+              <label for="nextJavana">ชวนจิตในมโนทวารวิถีถัดไป</label><select id="nextJavana"><option value="same">ใช้กรณีชวนจิตเดิม</option></select>
+              <label for="interludeCount">ภวังค์คั่นระหว่างวิถี (สาธิต)</label><select id="interludeCount"><option value="1">1 ขณะ</option><option value="2" selected>2 ขณะ</option><option value="3">3 ขณะ</option><option value="4">4 ขณะ</option><option value="5">5 ขณะ</option><option value="6">6 ขณะ</option></select>
+              <p class="field-caption">ความต่างของชวนจิตระหว่างวิถีถูกเลือกเป็นตัวอย่าง ไม่ใช่สูตรพยากรณ์ว่าจิตจะเปลี่ยนเป็นกุศลหรืออกุศลโดยอัตโนมัติ</p>
+            </div>
             <div class="play-controls"><button id="playBtn" class="btn btn-primary" type="button">▶ เริ่มเล่น</button><button id="stepBtn" class="btn btn-outline" type="button">ขณะถัดไป →</button></div>
             <div class="small-controls"><button id="backBtn" type="button">← ย้อน</button><button id="resetBtn" type="button">↺ เริ่มใหม่</button><label class="speed-label">ความเร็วภาพ <select id="speed"><option value="1600">ช้า</option><option value="950" selected>ปกติ</option><option value="350">เร็ว</option></select></label></div>
             <button class="btn btn-export" id="exportBtn" type="button">↓ ส่งออกข้อมูลวิถีจิต (.json)</button>
@@ -61,9 +66,9 @@
             <section class="panel moment-panel"><div class="panel-header"><div class="panel-title"><span class="num">03</span> ขณะจิตที่เลือก</div><span class="moment-family" id="cittaFamily">VIPĀKA</span></div>
               <div class="moment-main"><div class="moment-number" id="momentNumber">01</div><div><div class="moment-phase" id="momentPhase">BHAVAṄGA</div><h3 id="momentName">อตีตภวังค์</h3><p class="pali" id="momentPali">Atīta-bhavaṅga</p></div></div>
               <p class="moment-desc" id="momentDesc"></p>
-              <div class="moment-facts"><div><span>ประเภทจิต</span><b id="momentCitta"></b></div><div><span>อารมณ์ที่รู้อยู่</span><b id="momentObject"></b></div><div><span>เจตสิกประกอบ</span><b id="momentFactorCount"></b></div></div>
+              <div class="moment-facts"><div><span>ประเภทจิต · เลขจิต 121</span><b id="momentCitta"></b></div><div><span>อารมณ์ที่รู้อยู่</span><b id="momentObject"></b></div><div><span>เจตสิกประกอบ</span><b id="momentFactorCount"></b></div></div>
               <div class="submoment"><span>สามอนุขณะ (แสดงโครงสร้างเชิงหลักการ)</span><div><i>อุปปาทะ · เกิด</i><i>ฐิติ · ตั้งอยู่</i><i>ภังคะ · ดับ</i></div></div>
-              <p class="javana-note" id="javanaNote" hidden></p>
+              <p class="javana-note" id="javanaNote" hidden></p><button id="inspectMomentMatrix" type="button" class="btn inspect-link">↗ ดูแถวสัมปโยคของจิตนี้</button>
             </section>
           </div>
         </div>
@@ -83,9 +88,37 @@
           </aside></div>
       </section>
 
-      <section class="method" id="sources"><div class="section-index">03 / METHODOLOGY</div><h2>กรอบของแบบจำลอง</h2>
+      <section class="matrix-section" id="sampayoga">
+        <div class="section-heading"><div><div class="section-index">03 / SAMPAYOGA · MATRIX</div><h2>ตารางสัมปโยค <span>จิต × เจตสิก</span></h2><p>ครบ 89/121 ประเภทจิต × เจตสิก 52 ดวง · แยกต้องเกิด / เกิดได้ / เกิดไม่ได้ ตามตารางในอภิธัมมัตถสังคหะ</p></div><span class="simulation-badge">CANONICAL ASSOCIATION TABLE</span></div>
+        <div class="panel matrix-panel">
+          <div class="matrix-toolbar">
+            <label>จำนวนประเภทจิต <select id="matrixScheme"><option value="121" selected>121 ประเภท (แจกแจงฌาน)</option><option value="89">89 ประเภท (รวมโลกุตตรฌาน)</option></select></label>
+            <label>หมวดจิต <select id="matrixRealm"></select></label>
+            <label>ค้นหาชื่อ / หมายเลข <input id="matrixSearch" placeholder="เช่น 31, โทสะ, ฌาน" /></label>
+            <button class="btn btn-export" id="matrixCSV" type="button">↓ ส่งออกตาราง CSV</button>
+          </div>
+          <div class="matrix-legend"><span><i class="legend-swatch required"></i> ● ต้องเกิด</span><span><i class="legend-swatch optional"></i> ◇ เกิดได้ตามเหตุปัจจัย</span><span><i class="legend-swatch forbidden"></i> · เกิดไม่ได้</span><span id="matrixSize">121 × 52 ช่อง</span></div>
+          <div class="matrix-scroll" role="region" aria-label="ตารางสัมปโยคจิต 52 เจตสิก เลื่อนซ้ายขวาได้" tabindex="0"><table id="matrixTable" class="matrix-grid"></table></div>
+          <div class="matrix-pagination"><button type="button" id="matrixPrev">← ก่อนหน้า</button><span id="matrixPage"></span><button type="button" id="matrixNext">ถัดไป →</button></div>
+          <p class="matrix-caption">ตารางอ้างอิง: A Comprehensive Manual of Abhidhamma, ตาราง 1.1, 2.2–2.3 · ช่อง “เกิดได้” เป็นโอกาสตามเงื่อนไข ไม่ใช่การสุ่ม และในแบบ 89 ช่องของโลกุตตรจิตบางดวงหมายถึงความแตกต่างระหว่างระดับฌาน</p>
+        </div>
+        <div class="panel matrix-inspector"><div class="panel-header"><div class="panel-title"><span class="num">06</span> ตรวจจิตหนึ่งประเภทและเจตสิกที่เลือกได้</div><span class="tiny-kicker">MATRIX INSPECTOR</span></div><div id="matrixDetail"></div></div>
+      </section>
+
+      <section class="condition-section" id="conditionality">
+        <div class="section-heading"><div><div class="section-index">04 / CONDITIONALITY · PACCAYA</div><h2>เหตุปัจจัยและความสืบต่อ <span>ระหว่างวิถีจิต</span></h2><p>ตรวจความสัมพันธ์ภายในขณะจิต ระหว่างสองขณะติดกัน และข้ามวิถีผ่านภวังค์ที่แสดงจริงใน Timeline</p></div><span class="simulation-badge">24 PACCAYA INDEX · PARTIAL ENGINE</span></div>
+        <div class="condition-stats"><div class="metric"><span class="metric-label">ลิงก์ติดกัน</span><strong id="conditionCount">0</strong><span class="metric-hint">อนันตร · สมนันตร ฯลฯ</span></div><div class="metric"><span class="metric-label">อาเสวนปัจจัย</span><strong id="repetitionCount">0</strong><span class="metric-hint">ระหว่างชวนจิตเท่านั้น</span></div><div class="metric"><span class="metric-label">จุดเชื่อมวิถี</span><strong id="betweenCount">0</strong><span class="metric-hint">มีภวังค์คั่น ไม่กระโดดข้าม</span></div></div>
+        <div class="condition-layout">
+          <section class="panel condition-main"><div class="panel-header"><div class="panel-title"><span class="num">07</span> ความสัมพันธ์ขณะปัจจุบัน</div><span class="tiny-kicker">LIVE CAUSAL INSPECTOR</span></div><div id="conditionWithin"></div><div id="conditionIncoming"></div></section>
+          <section class="panel condition-bridge"><div class="panel-header"><div class="panel-title"><span class="num">08</span> การเชื่อมต่อสองวิถี</div><span class="tiny-kicker">CROSS-VĪTHI</span></div><div id="conditionBridges"></div><h3>ปัจจัยที่ต่อกันรอบขณะนี้</h3><div id="conditionEdges"></div></section>
+        </div>
+        <details class="panel condition-catalog"><summary>ดูสารบบปัฏฐาน 24 ปัจจัย และขอบเขตที่จำลองได้ <span>↓</span></summary><p class="matrix-caption">เฉพาะปัจจัยที่เกี่ยวข้องกับตัวแปรที่มีข้อมูลพอจึงแสดงใน Engine; ที่เหลือเป็นข้อมูลอ้างอิง ยังไม่ได้คำนวณครบทั้ง 24</p><div class="paccaya-grid" id="paccayaCatalog"></div></details>
+        <div class="condition-caveat">หลักการ: <b>อนันตรปัจจัย</b> เชื่อมจิตที่ดับกับจิตที่เกิดต่อทันทีเท่านั้น; <b>อาเสวนปัจจัย</b> ใช้ระหว่างชวนจิตที่ติดกันในวิถีเดียวกัน (ไม่ใช้กับชวนะสุดท้ายต่อทะเบียนวิบาก). ภวังค์และความสืบเนื่องของอารมณ์ถูกแสดงเป็นกรณีศึกษาที่เลือก ไม่ใช่สูตรคำนวณกรรมหรือการตรวจวัดจิตจริง</div>
+      </section>
+
+      <section class="method" id="sources"><div class="section-index">05 / METHODOLOGY</div><h2>กรอบของแบบจำลอง</h2>
         <div class="method-grid"><article><span>01</span><h3>จิต ≠ เจตสิก</h3><p>จิตกับเจตสิกเป็นสภาวธรรมที่เกิดร่วมและดับร่วมกัน ไม่ได้เกิดจากการนำเจตสิก 52 ดวงมาบวกจนกลายเป็นจิต</p></article><article><span>02</span><h3>ทุกขณะมีตัวแปร 52 ช่อง</h3><p>สัพพจิตตสาธารณะ 7 ดวงต้องมีเสมอ เจตสิกอื่น ๆ ทำงานตามชนิดจิตและข้อห้ามร่วมเกิด</p></article><article><span>03</span><h3>ชวนะไม่ใช่ทุกวิถี</h3><p>วาระอารมณ์ละเอียดอ่อนอาจไม่ถึงชวนะ และมโนทวารมีลำดับต่างจากปัญจทวาร</p></article></div>
-        <div class="sources-panel"><h3>แหล่งอ้างอิงและข้อจำกัด</h3><ul id="sourceLinks"></ul><p>ต้นแบบนี้จำลองเฉพาะกรณีศึกษา <b>กามาวจรวิถีปกติ</b> ที่ระบุในตัวเลือก ยังไม่ครอบคลุมจิต 89/121 ประเภท ภูมิ บุคคล ฌาน มรรคผล หรือวิถีพิเศษทุกกรณี การเชื่อมสองวิถีเป็นภาพสาธิตความสืบต่อ มิได้ระบุจำนวนภวังค์ระหว่างวิถีเป็นค่าคงที่</p></div>
+        <div class="sources-panel"><h3>แหล่งอ้างอิงและข้อจำกัด</h3><ul id="sourceLinks"></ul><p>ตารางสัมปโยคครอบคลุม <b>จิต 89/121 ประเภท</b> และเจตสิก 52 ดวงตามตารางประกอบในตำรา แต่ <b>เครื่องจำลองวิถี</b> ยังแสดงเฉพาะกรณีศึกษากามาวจรปกติที่เลือกไว้ ไม่ใช่การจำลองจิตทุกประเภทหรือปัฏฐาน 24 ปัจจัยทั้งระบบ ภวังค์คั่นไม่ใช่จำนวนตายตัว กรรม–วิบากไม่มีการพยากรณ์ผล</p></div>
       </section>
     </main>
     <footer><div class="brand footer-brand"><span class="brand-icon" aria-hidden="true">◈</span><span>JIT<span class="brand-dot">.</span><small>CITTA LABORATORY</small></span></div><p>ศึกษาโครงสร้างจิตด้วยแบบจำลองเชิงเหตุปัจจัย · สร้างขึ้นเพื่อการเรียนรู้ ไม่ใช่เครื่องมือวินิจฉัยจิต</p><a href="https://github.com/nustanakritwithai/Jit" target="_blank" rel="noopener noreferrer">OPEN SOURCE ↗</a></footer>
