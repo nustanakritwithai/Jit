@@ -21,7 +21,7 @@ function details(){
  const meta=el('p','matrix-caption',`ต้องเกิด ${row.mandatory.length} · เกิดได้ ${row.optional.length} · เกิดไม่ได้ ${row.prohibited.length} เจตสิก`);host.append(meta);
  const factors=el('div','matrix-detail-groups');
  for(const [key,ids] of [['required',row.mandatory],['optional',row.optional]]){
-  const group=el('div','matrix-factor-group');group.append(el('h4','',`${STATUS[key].symbol} ${STATUS[key].title} (${ids.length})`));
+  const group=el('details','matrix-factor-group');group.append(el('summary','',`${STATUS[key].symbol} ${STATUS[key].title} (${ids.length}) · แตะเพื่อดูรายชื่อ`));
   const chips=el('div','matrix-factor-chips');
   for(const id of ids){const factor=FACTORS[id-1],name=el('span',`matrix-chip ${key}`,`${id}. ${factor.name}`);name.title=factor.pali;chips.append(name);}
   group.append(chips);factors.append(group);
@@ -50,6 +50,15 @@ function details(){
  }
  host.append(optionalBox);
  host.append(el('p','matrix-caption','ตารางบอกความเป็นไปได้ของการประกอบ ไม่ใช่ความน่าจะเป็นเชิงสถิติ หรือการวัดจิตจริงของผู้ชม'));
+}
+function updateQuickPicker(){
+ const picker=byId('matrixFocus');if(!picker)return;
+ picker.replaceChildren();
+ for(const c of sourceRows()){
+  const item=el('option','',`${String(c.id).padStart(3,'0')} · ${c.label}`);
+  item.value=String(c.id);picker.append(item);
+ }
+ picker.value=String(selectedId);
 }
 function renderTable(){
  const rows=filteredRows(),count=Math.max(1,Math.ceil(rows.length/PAGE_SIZE));
@@ -85,35 +94,45 @@ function selectCitta(id,scroll=true){
  if(currentScheme===89&&id>89)currentScheme=121;
  selectedId=id;optionalSelected=[];notification='';
  byId('matrixScheme').value=String(currentScheme);
+ updateQuickPicker();
  const rows=filteredRows();if(!rows.some(c=>c.id===id)){realm='all';search='';byId('matrixRealm').value='all';byId('matrixSearch').value='';}
  page=Math.max(0,Math.floor(filteredRows().findIndex(c=>c.id===id)/PAGE_SIZE));
  renderTable();details();
  if(scroll)byId('sampayoga').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function csvExport(){
- const rows=sourceRows();
+export function buildMatrixCsv(scheme=121){
+ if(![89,121].includes(scheme))throw new RangeError('Unknown citta scheme');
+ const rows=scheme===89?SAMPAYOGA_89:SAMPAYOGA_121;
  const safe=s=>'"'+String(s).replaceAll('"','""')+'"';
- const lines=[['Citta ID','ชื่อจิต','Ethics','Realm',...FACTORS.map(f=>`${f.id}-${f.name}`)].map(row=>row.map(safe).join(','))];
- for(const row of rows){const must=new Set(row.mandatory),optional=new Set(row.optional);
-  lines.push([row.id,row.label,row.quality,row.realm,...FACTORS.map(f=>must.has(f.id)?'ต้องเกิด':optional.has(f.id)?'อาจเกิด':'ไม่ได้')].map(safe).join(','));
+ const header=['Citta ID','ชื่อจิต','Ethics','Realm',...FACTORS.map(f=>`${f.id}-${f.name}`)];
+ const lines=[header.map(safe).join(',')];
+ for(const row of rows){
+  const must=new Set(row.mandatory),optional=new Set(row.optional);
+  const cells=[row.id,row.label,row.quality,row.realm,...FACTORS.map(f=>must.has(f.id)?'ต้องเกิด':optional.has(f.id)?'อาจเกิด':'ไม่ได้')];
+  lines.push(cells.map(safe).join(','));
  }
- const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob);
+ return '\uFEFF'+lines.join('\r\n');
+}
+function csvExport(){
+ const blob=new Blob([buildMatrixCsv(currentScheme)],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob);
  const a=document.createElement('a');a.href=url;a.download=`jit-sampayoga-${currentScheme}x52.csv`;
  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
 }
+
 export function mountMatrix(){
  for(const r of ['all','akusala','rootless','kama-beautiful','rupa','arupa','lokuttara']){
   const names={all:'จิตทุกหมวด',akusala:'อกุศล 12',rootless:'อเหตุกจิต 18','kama-beautiful':'กามาวจรโสภณ 24',rupa:'รูปาวจร 15',arupa:'อรูปาวจร 12',lokuttara:'โลกุตตร 8/40'};
   const node=el('option','',names[r]);node.value=r;byId('matrixRealm').append(node);
  }
  byId('matrixScheme').addEventListener('change',e=>{
-  currentScheme=Number(e.target.value);selectedId=31;optionalSelected=[];page=1;notification='';renderTable();details();
+  currentScheme=Number(e.target.value);selectedId=31;optionalSelected=[];page=1;notification='';updateQuickPicker();renderTable();details();
  });
  byId('matrixSearch').addEventListener('input',e=>{search=e.target.value.trim().toLocaleLowerCase('th');page=0;renderTable();});
  byId('matrixRealm').addEventListener('change',e=>{realm=e.target.value;page=0;renderTable();});
  byId('matrixPrev').addEventListener('click',()=>{page--;renderTable();});
  byId('matrixNext').addEventListener('click',()=>{page++;renderTable();});
  byId('matrixCSV').addEventListener('click',csvExport);
- renderTable();details();
+ byId('matrixFocus').addEventListener('change',e=>selectCitta(Number(e.target.value),false));
+ updateQuickPicker();renderTable();details();
  return {selectCitta,refresh:()=>{renderTable();details();}};
 }
