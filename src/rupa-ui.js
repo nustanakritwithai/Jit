@@ -55,6 +55,7 @@ export function mountRupa(root,getCurrentCittaId){
  }
  function kalapa(){const k=KALAPAS_21.find(x=>x.id===by('rupaKalapa').value);const host=by('rupaKalapaDetail');host.replaceChildren();
   host.append(elt('h4','',`${ORIGIN_LABEL[k.origin]} · ${k.name} (${k.count} รูป)`));const wrap=elt('div','rupa-chips');for(const id of k.members)wrap.append(chip(id));host.append(wrap);
+  host.append(elt('p','rupa-caveat',k.externalPossible?'ตามอภิธัมมัตถสังคหะ บทที่ 6 §21: กลาปนี้พบได้ทั้งภายในและภายนอก':'ตามอภิธัมมัตถสังคหะ บทที่ 6 §21: กลาปนี้จัดเป็นกลาปฝ่ายภายใน'));
  }
  const value=v=>v==='yes'?true:v==='no'?false:null;
  function assess(){const cittaId=Number(by('rupaCitta').value);const info=assessSenseSupport(cittaId,{basePresent:value(by('rupaBase').value),objectPresent:value(by('rupaObject').value)});
