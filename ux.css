@@ -515,3 +515,17 @@ footer>a{color:#237f79}
  .citta-study-source{padding:11px}
 }
 .matrix-detail-groups{grid-template-columns:1fr}
+
+/* JIT v0.5 optional cetasika inspector */
+.cetasika-constraint-panel{margin:14px 0;border:1px solid #c9ded8;background:#f8fbf9;border-radius:13px;padding:12px 14px}
+.cetasika-constraint-panel>summary{cursor:pointer;color:#225960;font-weight:750;font-size:13px;line-height:1.7}
+.cetasika-rule-line{padding:12px 0;border-top:1px solid #dce8e3;line-height:1.55}
+.cetasika-rule-line>strong{font-size:12px;color:#185c57;display:block}
+.cetasika-rule-line>p{font-size:12px;color:#365b5d;margin:5px 0}
+.cetasika-rule-line.optional>strong{color:#8c6427}
+.cetasika-rule-line .cetasika-unanswered{color:#845f33}
+.cetasika-constraint-alert{color:#995222!important;font-size:12px;line-height:1.65;padding:8px 10px;background:#fff4e8;border-left:3px solid #dbaa6d;border-radius:5px}
+.cetasika-example-warning{color:#845d2f;font-size:12px;line-height:1.65;margin-top:8px}
+.cetasika-forbidden{margin-top:8px;padding:10px;border-top:1px solid #dce8e3}
+.cetasika-forbidden>summary{cursor:pointer;color:#728c8b;font-size:12px}
+.cetasika-constraint-panel .matrix-source-link{display:inline-block;margin-top:7px;font-size:11px}

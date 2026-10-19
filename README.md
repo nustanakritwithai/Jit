@@ -1,9 +1,17 @@
-# JIT · Citta & Cetasika Laboratory — V0.4.2 Causal Evidence Guardrails
+# JIT · Citta & Cetasika Laboratory — V0.5 Cetasika Constraint Engine
 
 **ระบบจำลองวิถีจิต–เจตสิก และตารางสัมปโยคแบบตรวจสอบได้** สำหรับการเรียนรู้พระอภิธรรมในเบราว์เซอร์ โดยไม่ต้องมีเซิร์ฟเวอร์
 
 **เว็บไซต์:** https://nustanakritwithai.github.io/Jit/  
 **GitHub:** https://github.com/nustanakritwithai/Jit
+
+## V0.5 — เจตสิกแปรผัน 11 ดวง (Aniyata-yogī)
+
+- ตรวจเจตสิกแปรผัน 11 ดวงกับจิต 121 ประเภท รวม 1,331 ช่อง ด้วยชุดกฎอ้างอิงแยกจากตารางสัมปโยค
+- แยก REQUIRED_IF_CITTA_ARISES, EXCLUDED_BY_CITTA_TYPE และ UNKNOWN: จิตที่ประกอบเจตสิกได้ ไม่ได้ยืนยันว่าเกิดจริง
+- ตารางสัมปโยคเพิ่มส่วนตรวจเงื่อนไขรายจิต (ยุบไว้ก่อน) พร้อมคำอธิบาย แหล่งอ้างอิง และข้อความแยกความเห็นต่าง
+- การเลือก checkbox เป็น ILLUSTRATIVE_ONLY เสมอ ไม่ใช้เพื่อวิเคราะห์จิตจริงหรือพยากรณ์กรรม
+- ชุดทดสอบใหม่อยู่ที่ tests/cetasika-constraints.test.js; เอกสารอยู่ที่ docs/CETASIKA_CONSTRAINT_AUDIT.md
 
 ## V0.4.2 — ขีดจำกัดการอนุมานจิต (แก้ Issue #1)
 

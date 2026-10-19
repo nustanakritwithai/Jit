@@ -1,6 +1,7 @@
 import {FACTORS} from './data.js';
 import {SAMPAYOGA_89,SAMPAYOGA_121,getSampayoga,resolveSampayoga} from './association.js';
 import {sourceForCitta,manualLink,MANUAL_TABLES} from './sampayoga-source.js';
+import {inspectOccasionalCitta,validateOccasionalExample,OCCASIONAL_SOURCE} from './cetasika-constraints.js';
 
 const byId=id=>document.getElementById(id);
 const STATUS={required:{symbol:'●',title:'ต้องเกิด'},optional:{symbol:'◇',title:'เกิดได้ตามเหตุปัจจัย'},forbidden:{symbol:'·',title:'เกิดไม่ได้'}};
@@ -82,6 +83,25 @@ function details(){
   groups.append(group);
  }
  host.append(groups);
+ const audit=inspectOccasionalCitta(row.id,{scheme:currentScheme});
+ const guide=el('details','cetasika-constraint-panel');
+ guide.append(el('summary','',`ตรวจเงื่อนไขเจตสิกแปรผัน 11 ดวง · ต้องเกิด ${audit.mandatory.length} / อาจเกิด ${audit.optional.length} / ไม่เกิด ${audit.forbidden.length}`));
+ guide.append(el('p','matrix-caption',audit.warning));
+ if(audit.aggregate)guide.append(el('p','cetasika-constraint-alert','หมวดจิต 89 นี้ยังไม่ใช่จิตเฉพาะขณะ โปรดใช้แบบ 121'));
+ for(const factor of [...audit.mandatory,...audit.optional]){
+  const n=el('div',`cetasika-rule-line ${factor.placement}`);
+  n.append(el('strong','',`${factor.factorId}. ${factor.name} (${factor.pali}) · ${factor.placement==='required'?'ต้องเกิดเมื่อจิตประเภทนี้เกิด':'อาจเกิด · ยังไม่ยืนยันการเกิดจริง'}`));
+  n.append(el('p','',factor.condition));
+  if(factor.unresolvedQuestion)n.append(el('p','cetasika-unanswered',factor.unresolvedQuestion));
+  if(factor.traditionDispute)n.append(el('p','cetasika-constraint-alert',factor.caveat));
+  const a=el('a','matrix-source-link',`ที่มา ${factor.source.locator} ↗`);a.href=factor.source.url;a.target='_blank';a.rel='noopener noreferrer';n.append(a);
+  guide.append(n);
+ }
+ const unavailable=el('details','cetasika-forbidden');
+ unavailable.append(el('summary','',`เจตสิกแปรผันที่เกิดร่วมไม่ได้ (${audit.forbidden.length})`));
+ unavailable.append(factorChips(audit.forbidden.map(x=>x.factorId),'forbidden'));guide.append(unavailable);
+ const all=el('a','matrix-source-link','อ่านบทที่ 2 ของอภิธัมมัตถสังคหะ ↗');all.href=OCCASIONAL_SOURCE.narada;all.target='_blank';all.rel='noopener noreferrer';guide.append(all);
+ host.append(guide);
  if(ref&&row.optional.some(n=>n===50||n===51)&&row.feeling==='อุเบกขา'&&row.realm==='kama-beautiful'){
   const note=el('p','citta-study-dispute','ข้อพิจารณาจากตำรา: สำหรับกรุณา–มุทิตาในจิตที่ประกอบอุเบกขา มีความเห็นต่างของอาจารย์บางสำนัก; ตารางนี้ใช้แบบที่ผู้เรียบเรียงอภิธัมมัตถสังคหะยอมรับ ไม่ใช่ข้อยุติทุกสำนัก (§15 บทที่ 2)');
   host.append(note);
@@ -117,6 +137,11 @@ function details(){
  if(!row.aggregate){
   const resolved=resolveSampayoga(row.id,optionalSelected);
   optionalBox.append(el('p','matrix-selected',`จำนวนเจตสิกที่เลือกในตัวอย่าง: ${resolved.active.length} / 52 ดวง (${row.mandatory.length} ดวงบังคับ + ${optionalSelected.length} ดวงที่เปิดตามตัวเลือก)`));
+ }
+ if(!row.aggregate){
+  optionalBox.append(el('p','cetasika-example-warning','ILLUSTRATIVE_ONLY · ชุดตัวอย่างที่เลือกไม่ใช่หลักฐานว่าจิตหรือเจตสิกเกิดจริง'));
+  const exampleAudit=validateOccasionalExample(row.id,optionalSelected);
+  if(exampleAudit.furtherReview)optionalBox.append(el('p','cetasika-constraint-alert',exampleAudit.furtherReview));
  }
  host.append(optionalBox);
  host.append(el('p','matrix-caption',`ที่มา: ${MANUAL_TABLES.citta.label}, ${MANUAL_TABLES.association.label}, ${MANUAL_TABLES.combinations.label} — ฉบับคู่มืออธิบายพระอภิธรรม ไม่ได้อ้างว่าเป็นการวัดจิตจริงหรือพยากรณ์กรรม`));
