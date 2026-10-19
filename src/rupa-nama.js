@@ -1,5 +1,5 @@
 /** JIT V0.7 — Rūpa–Nāma: source-constrained cases for five-sense citta only.
- * Canonical source: Paṭṭhāna, Paccayaniddesa §§2,8,10,16,21,24.
+ * Canonical source: Paṭṭhāna, Paccayaniddesa §§2,8,10,16,20,21,24.
  * Presence/timing is USER-DECLARED, not observed. UNKNOWN ≠ false;
  * CONDITIONAL_ON_SCENARIO ≠ proof that a consciousness has occurred.
  */
@@ -9,7 +9,8 @@ export const RUPA_NAMA_SOURCES=Object.freeze({
  pali:'https://dhammatalks.net/suttacentral/sc2016/sc/pi/patthana1.1.html',
  english:'https://dhammatalks.net/suttacentral/sc2016/sc/en/patthana1.1.html',
  vithi:'https://www.ruyimeditation.org/theravada/abhidhamma/vithi-sangaha/',
- explanation:'https://www.abhidhamma.org/study/conditionality-of-life/index.html'
+ explanation:'https://www.abhidhamma.org/study/conditionality-of-life/index.html',
+ vippayuttaCase:'https://dharma.inti.foundation/en/scripture/theravada/abhidhamma-pitaka/patthana1.18'
 });
 export const RUPA_NAMA_STATUSES=Object.freeze({
  UNKNOWN:'UNKNOWN',CONDITIONAL:'CONDITIONAL_ON_SCENARIO',
@@ -20,6 +21,8 @@ export const FIVE_SENSE_RELATIONS=Object.freeze([
  {id:'nissaya',number:8,name:'นิสสยปัจจัย',roles:['base']},
  {id:'purejata',number:10,name:'ปุเรชาตปัจจัย',roles:['base','object']},
  {id:'indriya',number:16,name:'อินทริยปัจจัย',roles:['base']},
+ // §20 prenascent dissociation here is only the appropriate *sense base*.
+ {id:'vippayutta',number:20,name:'วิปปยุตตปัจจัย (ปุเรชาตวิปปยุตต)',roles:['base']},
  {id:'atthi',number:21,name:'อัตถิปัจจัย',roles:['base','object']},
  {id:'avigata',number:24,name:'อวิคตปัจจัย',roles:['base','object']}
 ].map(x=>Object.freeze({...x,roles:Object.freeze(x.roles)})));
@@ -61,8 +64,10 @@ export function assessRupaNama(cittaId,scenario={}){
   evidence.push(Object.freeze({
    conditionId:rel.id,conditionNumber:rel.number,conditionName:rel.name,role,
    rupaId:i.rupaId,status,basis:'canonical-definition+declared-scenario',
+   subtype:rel.id==='vippayutta'?'purejata-vippayutta':null,
    source:Object.freeze({tier:'พระอภิธรรมปิฎก',locator:'Paccayaniddesa §'+rel.number,
-    pali:RUPA_NAMA_SOURCES.pali,english:RUPA_NAMA_SOURCES.english}),
+    pali:RUPA_NAMA_SOURCES.pali,english:RUPA_NAMA_SOURCES.english,
+    appliedCase:rel.id==='vippayutta'?RUPA_NAMA_SOURCES.vippayuttaCase:null}),
    explanation:status===RUPA_NAMA_STATUSES.CONDITIONAL?'รูปเกิดก่อนและยังตั้งอยู่ตามสมมติฐาน ไม่ใช่หลักฐานว่าจิตเกิดจริง':
     status===RUPA_NAMA_STATUSES.BLOCKED?'ขัดกับเงื่อนไขรูปเกิดก่อนและยังตั้งอยู่ของฉากที่ระบุ':
     'UNKNOWN: ยังไม่มีข้อมูลรูปเพียงพอ'
@@ -77,7 +82,7 @@ export function assessRupaNama(cittaId,scenario={}){
  }
  return Object.freeze({cittaId,door:pair.door,status,scope:'five-sense-consciousness-only',
   base,object,evidence:Object.freeze(evidence),missing:Object.freeze(missing),
-  unknownConditions:Object.freeze(['vippayutta','pacchajata','upanissaya']),
+  unknownConditions:Object.freeze(['pacchajata','upanissaya']),
   limitation:'ไม่ตรวจอายุรูป 17 ขณะจิตหรือจิตจริง ไม่คำนวณปัฏฐานทั้งระบบ',
   sources:RUPA_NAMA_SOURCES});
 }

@@ -9,15 +9,15 @@ const cases=[[13,5,10],[14,6,11],[15,7,12],[16,8,13],[17,9,1],
 test('Paccayaniddesa: six conditions indexed separately and 9 base/object roles',()=>{
  assert.deepEqual(FIVE_SENSE_RELATIONS.map(x=>[x.id,x.number,x.roles]),[
   ['arammana',2,['object']],['nissaya',8,['base']],['purejata',10,['base','object']],
-  ['indriya',16,['base']],['atthi',21,['base','object']],['avigata',24,['base','object']]]);
+  ['indriya',16,['base']],['vippayutta',20,['base']],['atthi',21,['base','object']],['avigata',24,['base','object']]]);
  assert.equal(DECLARED_RUPA_TIMING.length,5);
 });
 test('all ten sense cittas: independent base/object witnesses and 9 source-linked roles each',()=>{
  for(const [id,b,o] of cases){
   const r=assessRupaNama(id,{base:prior(b),object:prior(o)});
   assert.equal(r.base.rupaId,b);assert.equal(r.object.rupaId,o);
-  assert.equal(r.status,'CONDITIONAL_ON_SCENARIO');assert.equal(r.evidence.length,9);
-  assert.equal(r.evidence.filter(x=>x.role==='base').length,5);
+  assert.equal(r.status,'CONDITIONAL_ON_SCENARIO');assert.equal(r.evidence.length,10);
+  assert.equal(r.evidence.filter(x=>x.role==='base').length,6);
   assert.equal(r.evidence.filter(x=>x.role==='object').length,4);
   assert.ok(r.evidence.every(x=>x.status==='CONDITIONAL_ON_SCENARIO'));
   assert.ok(r.evidence.every(x=>x.source.locator==='Paccayaniddesa §'+x.conditionNumber));
@@ -64,7 +64,7 @@ test('outside these 10 citta types remains NOT_EVALUATED and conditions incomple
  for(const id of [1,18,29,31,55,82,121])
   assert.equal(assessRupaNama(id).status,'NOT_EVALUATED');
  const r=assessRupaNama(13,{base:prior(5),object:prior(10)});
- for(const id of ['vippayutta','pacchajata','upanissaya'])assert.ok(r.unknownConditions.includes(id));
+ for(const id of ['pacchajata','upanissaya'])assert.ok(r.unknownConditions.includes(id));
 });
 test('tampered certainty, altered canonical source and deleted proof always FAIL',()=>{
  const r=JSON.parse(JSON.stringify(assessRupaNama(13,{base:prior(5),object:prior(10)})));

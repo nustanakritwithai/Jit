@@ -40,7 +40,7 @@ export function mountRupa(root,getCurrentCittaId){
  </select></label></div>
  <div id="rupaNamaStatus" aria-live="polite"></div>
  <div id="rupaNamaEvidence" class="rupa-nama-evidence"></div>
- <p class="rupa-caveat">เฉพาะปัญจวิญญาณ 10 ประเภทและปัจจยนิทเทส §§2,8,10,16,21,24; ยังไม่ตรวจวิปปยุตต/ปัจฉาชาต และไม่ยืนยันว่าจิตเกิดจริง</p>
+ <p class="rupa-caveat">เฉพาะปัญจวิญญาณ 10 ประเภทและปัจจยนิทเทส §§2,8,10,16,20,21,24; วิปปยุตตเฉพาะฐานรูปเกิดก่อน ยังไม่ตรวจปัจฉาชาต และไม่ยืนยันว่าจิตเกิดจริง</p>
  <a href="https://dhammatalks.net/suttacentral/sc2016/sc/pi/patthana1.1.html" target="_blank" rel="noopener noreferrer">ปัฏฐาน Paccayaniddesa บาลี ↗</a>
  </details></section>
  <div class="panel rupa-sources"><h3>แหล่งคัมภีร์และขีดจำกัด</h3><div id="rupaSources"></div><p>บัญชีรูป 28 และกลาป 21 เป็นการแจกแจงตามอภิธัมมัตถสังคหะ บทที่ 6 ซึ่งเป็นคู่มืออธิบาย ไม่ใช่การอ้างว่าพระอภิธรรมปิฎกแจกเลขชุดเดียวกันไว้ทุกส่วน การแสดงรูป–นามในหน้านี้เป็นแบบจำลองเพื่อการเรียนรู้ ไม่มีข้อมูลอายุรูป ไม่มีข้อมูลกรรมบุคคล และยังไม่ได้คำนวณปัจจัยรูป–นามทั้งหมด จึงแสดง UNKNOWN เมื่อไม่ทราบ</p></div>`;
@@ -97,6 +97,7 @@ export function mountRupa(root,getCurrentCittaId){
    if(!items.length)continue;
    const row=elt('div','rupa-nama-rule');
    row.append(elt('strong','',rel.name+' · §'+rel.number));
+   if(rel.id==='vippayutta')row.append(elt('p','rupa-caveat','เฉพาะฐานรูปเกิดก่อน → ปัญจวิญญาณตรงทวาร ไม่ถือว่ารูปารมณ์ทุกชนิดเป็นวิปปยุตตปัจจัย'));
    for(const e of items)row.append(elt('p','',(e.role==='base'?'ฐานรูป':'รูปารมณ์')+
     ' #'+e.rupaId+': '+(e.status==='CONDITIONAL_ON_SCENARIO'?'ตามสมมติฐาน':
       e.status==='BLOCKED_IN_DECLARED_SCENARIO'?'ขัดกับสมมติฐาน':'UNKNOWN')));
@@ -109,7 +110,7 @@ export function mountRupa(root,getCurrentCittaId){
   const host=by('rupaAssessment');host.replaceChildren();
   host.append(elt('strong',`rupa-status ${info.status.toLowerCase()}`,STATUS_LABEL[info.status]),elt('p','',info.reason));
   const needed=elt('div','rupa-chips');needed.append(chip(info.baseId));for(const id of info.objectChoices)needed.append(chip(id));host.append(elt('p','rupa-caveat','ฐานรูปและอารมณ์ที่สัมพันธ์กับจิตชนิดนี้ (กรณีสัมผัสให้เลือกหนึ่งใน 3 มหาภูตรูป)'),needed);
-  host.append(elt('p','rupa-unknown','เปิดตรวจช่วงเกิด–ดับเพื่อดูปุเรชาตตามสมมติฐาน; วิปปยุตตยัง UNKNOWN'));renderRupaNama();
+  host.append(elt('p','rupa-unknown','เปิดตรวจช่วงเกิด–ดับเพื่อดูปุเรชาตตามสมมติฐาน; ปุเรชาตวิปปยุตตตรวจได้เมื่อมีข้อมูลฐานรูปเกิดก่อนตามสมมติฐาน'));renderRupaNama();
  }
  function refresh(){const cittaId=getCurrentCittaId();if(SENSE_RUPA_SUPPORT[cittaId]){by('rupaCitta').value=String(cittaId);assess();}}
  by('rupaGroup').addEventListener('change',()=>{const cur=RUPA_28.find(x=>x.group===by('rupaGroup').value);if(cur)selected=cur.id;cards();detail();});
