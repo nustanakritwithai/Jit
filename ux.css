@@ -529,3 +529,45 @@ footer>a{color:#237f79}
 .cetasika-forbidden{margin-top:8px;padding:10px;border-top:1px solid #dce8e3}
 .cetasika-forbidden>summary{cursor:pointer;color:#728c8b;font-size:12px}
 .cetasika-constraint-panel .matrix-source-link{display:inline-block;margin-top:7px;font-size:11px}
+
+/* JIT Rūpa 28 explorer — integrated into existing progressive view navigation */
+.rupa-section{max-width:100%;min-width:0}
+.rupa-lead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px}
+.rupa-lead strong{font-size:19px;color:#123a40}
+.rupa-lead p,.rupa-evidence-head p,.rupa-sources p{font-size:13px;line-height:1.8;color:#61767d;margin:5px 0}
+.rupa-action{border:1px solid #bdddd6;border-radius:10px;background:#f5fbf9;color:#17645d;padding:10px 14px;cursor:pointer;font-weight:750;flex-shrink:0}
+.rupa-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.rupa-summary span{padding:14px;border:1px solid #e0ece7;border-radius:13px;background:#f7fbfa;color:#41636a;font-size:13px}
+.rupa-summary b{font-size:23px;color:#126b64;margin-right:7px}
+.rupa-columns{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(255px,1fr);gap:14px;align-items:start}
+.rupa-columns .panel,.rupa-disclosure,.rupa-evidence,.rupa-sources{padding:20px;margin-bottom:14px}
+.rupa-select-label,.rupa-form label{display:flex;flex-direction:column;gap:6px;color:#4a6068;font-weight:650;font-size:13px}
+.rupa-select-label select,.rupa-form select{width:100%;min-width:0;border:1px solid #cedfda;background:#fff;color:#254a50;border-radius:10px;padding:10px;font:inherit}
+.rupa-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px;margin-top:14px}
+.rupa-card{border:1px solid #deebe7;background:#fff;color:#315b61;text-align:left;padding:11px 10px;border-radius:10px;cursor:pointer;font-size:12px;line-height:1.6}
+.rupa-card.is-selected{background:#ddf6ee;border-color:#50a995;color:#085e50;font-weight:750}
+.rupa-card:hover,.rupa-action:hover{background:#e5f7f0}
+.rupa-inspector h3{font-size:22px;color:#1e5055;margin:9px 0 2px}
+.rupa-inspector h4,.rupa-kalapa-detail h4{font-size:15px;margin:18px 0 7px}
+.rupa-inspector p{font-size:13px;line-height:1.9;color:#536f72}
+.rupa-eyebrow{font-size:11px!important;letter-spacing:.1em;font-weight:700;color:#087766!important}
+.rupa-pali{font-style:italic;color:#59817e!important}
+.rupa-kind{font-weight:800;color:#146c60!important}
+.rupa-caveat{border-left:3px solid #73bbaa;padding:9px 12px;background:#f1faf7;color:#42665f!important;border-radius:0 8px 8px 0}
+.rupa-source-link{display:block;font-size:12px;line-height:1.7;color:#0c7774;text-decoration:underline;margin:9px 0}
+.rupa-disclosure>summary{font-size:16px;font-weight:800;color:#135f57;cursor:pointer;margin-bottom:12px}
+.rupa-disclosure p{font-size:13px;color:#647b79;line-height:1.8}
+.rupa-chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.rupa-chip{padding:6px 9px;border-radius:8px;background:#e9f3f0;color:#236960;font-size:11px;line-height:1.5}
+.rupa-evidence-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.rupa-evidence h3,.rupa-sources h3{color:#175a54;font-size:18px;margin:0 0 5px}
+.rupa-form{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px}
+.rupa-assessment{margin-top:13px;background:#f5faf8;border:1px solid #d6e7e1;border-radius:12px;padding:15px}
+.rupa-status{font-size:13px;color:#a76529}
+.rupa-status.conditional_on_scenario{color:#18745e}
+.rupa-status.blocked_in_declared_scenario{color:#b54d4d}
+.rupa-assessment p{color:#526d6b;line-height:1.8;font-size:13px;margin:9px 0}
+.rupa-unknown{font-weight:750;color:#795c2b!important}
+@media(max-width:900px){.rupa-columns{grid-template-columns:1fr}.rupa-form{grid-template-columns:1fr 1fr}.rupa-form label:first-child{grid-column:1/-1}}
+@media(max-width:760px){.rupa-lead{align-items:flex-start}.rupa-lead strong{font-size:16px}.rupa-action{font-size:11px;padding:9px}.rupa-summary span{padding:10px;font-size:11px}.rupa-summary b{font-size:20px}.rupa-columns .panel,.rupa-disclosure,.rupa-evidence,.rupa-sources{padding:13px}.rupa-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rupa-evidence-head{flex-wrap:wrap}.mobile-tabs{grid-template-columns:repeat(5,minmax(0,1fr))}.mobile-tabs a{min-width:0}.mobile-tabs small{font-size:9px}}
+@media(max-width:370px){.rupa-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rupa-form{grid-template-columns:1fr}.rupa-form label:first-child{grid-column:auto}.mobile-tabs{gap:2px;padding-left:4px;padding-right:4px}.mobile-tabs small{font-size:9px}}

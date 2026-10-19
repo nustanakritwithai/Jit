@@ -3,6 +3,7 @@ import {createProcess, validateProcess, DEFAULT_CONFIG} from './engine.js';
 import {associationStatus} from './association.js';
 import {mountMatrix} from './matrix-ui.js';
 import {mountConditions} from './conditions-ui.js';
+import {mountRupa} from './rupa-ui.js';
 
 const $=id=>document.getElementById(id);
 const dom={
@@ -11,7 +12,7 @@ const dom={
  timeline:$('timeline'),network:$('network'),factorList:$('factorList'),factorSearch:$('factorSearch'),factorGroup:$('factorGroup')
 };
 let process=createProcess(),current=0,selectedFactor=1,timer=null,onlyActive=true;
-let matrixUi=null,conditionsUi=null;
+let matrixUi=null,conditionsUi=null,rupaUi=null;
 
 function option(value,label){const el=document.createElement('option');el.value=value;el.textContent=label;return el;}
 for(const d of DOORS)dom.door.add(option(d.id,d.name));
@@ -249,7 +250,7 @@ function renderConditionPlain(){
  }
 }
 
-const VIEWS=['simulation','atlas','sampayoga','conditionality','sources'];
+const VIEWS=['simulation','atlas','rupa','sampayoga','conditionality','sources'];
 function showView(id,scroll=true){
  const page=VIEWS.includes(id)?id:'simulation';
  for(const view of document.querySelectorAll('.view-section'))view.hidden=view.id!==page;
@@ -260,6 +261,7 @@ function showView(id,scroll=true){
  }
  if(window.location.hash!==`#${page}`)history.replaceState(null,'',`#${page}`);
  if(page==='atlas'&&document.querySelector('.graph-disclosure')?.open)renderGraph(process.moments[current]);
+  if(page==='rupa')rupaUi?.refresh();
  if(scroll){
   const target=window.matchMedia('(max-width:760px)').matches?document.getElementById(page):document.querySelector('.view-tabs');
   target?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
@@ -294,6 +296,7 @@ $('onlyActiveFactors').addEventListener('change',()=>renderFactors(process.momen
 document.querySelector('.graph-disclosure')?.addEventListener('toggle',e=>{
  if(e.currentTarget.open)renderGraph(process.moments[current]);
 });
+rupaUi=mountRupa($('rupaRoot'),()=>process.moments[current]?.cittaId);
 matrixUi=mountMatrix();
 conditionsUi=mountConditions(()=>process,()=>current,setCurrent);
 $('inspectMomentMatrix').addEventListener('click',()=>{
