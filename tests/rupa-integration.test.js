@@ -25,7 +25,7 @@ test('Rūpa view mounts with existing JIT engine state; all existing workflow mo
 });
 
 test('version, responsive 5 tabs, and provenance labels accompany the learning view',()=>{
- assert.match(file('index.html'),/V0\.6/);
+ assert.match(file('index.html'),/V0\.7/);
  const css=file('ux.css');
  assert.match(css,/\.rupa-columns/);
  assert.match(css,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);

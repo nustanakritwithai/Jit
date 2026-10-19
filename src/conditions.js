@@ -55,7 +55,7 @@ const SUPPORTED=new Set([
 export const PACCAYA_24=Object.freeze(PACCAYA_NAMES.map(([id,name,description],i)=>Object.freeze({
  number:i+1,id,name,description,mode:SUPPORTED.has(id)?'illustrated':'reference-only',
  source:{...PATTHANA_CANONICAL,locator:`Paccayaniddesa §${i+1}`},
- limits:SUPPORTED.has(id)?'เฉพาะกรณีอธิบายจากนามธรรมที่มีในแบบจำลอง':'UNKNOWN: ยังไม่มีข้อมูลพอสำหรับตรวจการเกิดจริงในกรณีจำลอง'
+ limits:SUPPORTED.has(id)?'เฉพาะกรณีอธิบายจากนามธรรมที่มีในแบบจำลอง':id==='purejata'?'UNKNOWN ใน engine ฝ่ายนาม; มีตัวอย่างรูป–นามตามเงื่อนไขในหน้า Rūpa V0.7':'UNKNOWN: ยังไม่มีข้อมูลพอสำหรับตรวจการเกิดจริงในกรณีจำลอง'
 })));
 export const PACCAYA_BY_ID=new Map(PACCAYA_24.map(c=>[c.id,c]));
 export const ROOT_IDS=Object.freeze([14,18,21,32,33,52]);
