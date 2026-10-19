@@ -44,3 +44,7 @@ Not yet implemented: actual material lifetimes, three-submoment synchronisation 
 **How to test**: `node --check src/rupa.js && node --check src/rupa-ui.js && node --test tests/rupa.test.js`, plus repository-wide `npm run check && npm test`.
 
 **Approval rule**: a green engineering CI indicates that the encoded fixtures behave as written. It does not certify a complete or universally uncontested doctrinal interpretation. Any new relationship must include an independently sourced affirmative fixture, a counterexample, and a documented scope.
+
+## V0.6.1 independently transcribed full-membership checks
+
+See [RUPA_INDEPENDENT_FIXTURES.md](RUPA_INDEPENDENT_FIXTURES.md) and [rupa-manual-fixtures.test.js](../tests/rupa-manual-fixtures.test.js). These check every kalāpa member and the 4 full origin sets, add the §21 external/internal eligibility distinction, and document the §18 vs Guide §22 prose inconsistency (body-intimation nonad is 8+1=9). An engineering PASS is not a full Paṭṭhāna verification.

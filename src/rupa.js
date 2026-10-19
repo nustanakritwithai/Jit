@@ -81,7 +81,9 @@ const groups=[];
 function addKalapa(id,name,origin,additions){
  const members=Object.freeze([...AVINIBBHOGA_8,...additions].sort((a,b)=>a-b));
  if(new Set(members).size!==members.length||members.some(x=>![...ORIGIN_IDS[origin]].includes(x)||[19,25,26,27,28].includes(x)))throw Error('Invalid canonical kalāpa fixture');
- groups.push(Object.freeze({id,name,origin,members,count:members.length,sourceSection:'อภิธัมมัตถสังคหะ บทที่ 6 รูปกลาป'}));
+ groups.push(Object.freeze({id,name,origin,members,count:members.length,
+  externalPossible:id==='temperature-octad'||id==='temperature-sound-nonad',
+  sourceSection:'อภิธัมมัตถสังคหะ บทที่ 6 รูปกลาป §§17–21'}));
 }
 for(const [id,name,rid] of [
  ['eye-decad','จักขุทสกกลาป',5],['ear-decad','โสตทสกกลาป',6],['nose-decad','ฆานทสกกลาป',7],
