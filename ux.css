@@ -470,3 +470,47 @@ footer>a{color:#237f79}
 .causal-audit-row p{font-size:12px;color:#526477;line-height:1.65;margin:0}
 .causal-source-link{color:#167c70;font-weight:600;font-size:12px;text-decoration:underline}
 @media(max-width:760px){.causal-shortcut{flex-direction:column;align-items:flex-start}.causal-why-header strong{font-size:12px}.condition-causal-summary{padding:14px}}
+
+/* Source-audited 121-citta inspector: show the precise three-way partition. */
+.citta-study-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 14px}
+.citta-study-step{background:#eff8f5;border:1px solid #baded2;border-radius:9px;padding:9px 12px;color:#166c63;font:700 12px 'Noto Sans Thai',sans-serif;cursor:pointer}
+.citta-study-step:disabled{opacity:.35;cursor:not-allowed}
+.citta-study-position{font:700 12px 'Outfit','Noto Sans Thai',sans-serif;color:#547974;white-space:nowrap}
+.citta-study-counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.citta-study-count{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:10px;background:#f6fbf8;border:1px solid #ddece6;min-width:0}
+.citta-study-count strong{font:800 23px 'Outfit','Noto Sans Thai',sans-serif;color:#1b6b5b}
+.citta-study-count span{font-size:11px;color:#58746f;line-height:1.45}
+.citta-study-count.optional{background:#fff9ed;border-color:#f1e4cb}
+.citta-study-count.optional strong{color:#91682d}
+.citta-study-count.forbidden{background:#f6f8f9;border-color:#e2e8eb}
+.citta-study-count.forbidden strong{color:#688087}
+.citta-study-source{border:1px solid #d3e8df;border-radius:12px;padding:13px 15px;background:#f5fbf7;margin:10px 0}
+.citta-study-source>strong{font-size:13px;color:#28635c}
+.citta-study-source p{font-size:12px;line-height:1.75;color:#486a67;margin:7px 0}
+.citta-study-references{display:flex;gap:9px;flex-wrap:wrap;margin:7px 0}
+.citta-study-references .matrix-source-link,.matrix-source-link{display:inline-flex;color:#167f70;font-size:12px;text-decoration:underline;text-underline-offset:2px}
+.citta-study-source .citta-study-critical,.citta-study-critical{font-size:12px;line-height:1.7;border-left:3px solid #b69e59;padding:6px 10px;background:#fff7e7;color:#775b25;margin:10px 0}
+.citta-study-basics{padding:11px 13px;border:1px solid #cde7d8;border-radius:11px;background:#f1faf5;margin:12px 0}
+.citta-study-basics strong{color:#246a5b;font-size:12px}
+.citta-study-basics .matrix-factor-chips{margin-top:8px}
+.citta-study-by-category{display:grid;gap:13px;margin-top:12px}
+.citta-study-factor-category h4{color:#537672!important;font-size:12px!important;margin:0 0 6px!important}
+.citta-study-factor-category .matrix-factor-chips{margin:0}
+.matrix-factor-group.forbidden{background:#f6f8f8}
+.matrix-factor-group.forbidden summary{color:#6a7d82}
+.matrix-chip.forbidden{background:#edf1f2;border-color:#d8e1e4;color:#6c8084}
+.citta-study-dispute{border:1px solid #ead7ac;border-radius:10px;padding:12px 14px;color:#7f6237;background:#fffaf0;font-size:12px;line-height:1.8}
+.citta-study-chooser{margin:7px 0 9px;border:1px solid #ddede6;border-radius:9px;padding:10px;background:#f8fcfa}
+.citta-study-chooser>summary{cursor:pointer;color:#267768;font-size:12px;font-weight:700}
+.citta-study-checks{display:flex;flex-wrap:wrap;margin-top:12px}
+@media(max-width:760px){
+ .citta-study-counts{gap:5px}
+ .citta-study-count{padding:8px 6px;display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+ .citta-study-count strong{font-size:20px}
+ .citta-study-count span{font-size:10px}
+ .citta-study-nav{gap:4px}
+ .citta-study-step{padding:8px;font-size:10px}
+ .citta-study-position{font-size:11px}
+ .citta-study-source{padding:11px}
+}
+.matrix-detail-groups{grid-template-columns:1fr}
