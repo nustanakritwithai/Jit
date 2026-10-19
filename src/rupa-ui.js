@@ -1,6 +1,7 @@
 /** Progressive Rūpa chapter-VI explorer. Only user-declared examples are evaluated. */
 import {RUPA_28,RUPA_GROUPS,RUPA_BY_ID,RUPA_ORIGINS,RUPA_SOURCES,AVINIBBHOGA_8,PHOTTHABBA_3,KALAPAS_21,SENSE_RUPA_SUPPORT,potentialOrigins,assessSenseSupport} from './rupa.js';
 import {CITTA_BY_121} from './association.js';
+import {assessRupaNama,FIVE_SENSE_RELATIONS} from './rupa-nama.js';
 
 const ORIGIN_LABEL={kamma:'กรรม',citta:'จิต',utu:'อุตุ',ahara:'อาหาร'};
 const STATUS_LABEL={UNKNOWN:'UNKNOWN · ยังไม่ทราบ',CONDITIONAL_ON_SCENARIO:'ตรงตามเงื่อนไขสมมติ',BLOCKED_IN_DECLARED_SCENARIO:'ขัดกับเงื่อนไขสมมติ',NOT_APPLICABLE:'ไม่ใช่ปัญจวิญญาณ'};
@@ -24,7 +25,24 @@ export function mountRupa(root,getCurrentCittaId){
  <details class="panel rupa-disclosure"><summary>เปิดดูรูปกลาป 21 กลุ่มตามสมุฏฐาน</summary><p>รูปกลาปทุกกลุ่มมีรูป 8 ชนิดที่แยกจากกันไม่ได้ อากาสธาตุเป็นเขตกำหนด ไม่ใช่องค์ประกอบที่นับเพิ่มในกลาป</p><label class="rupa-select-label">เลือกกลาป <select id="rupaKalapa"></select></label><div id="rupaKalapaDetail"></div></details>
  <section class="panel rupa-evidence"><div class="rupa-evidence-head"><div><h3>รูปสัมพันธ์กับจิตอย่างไร?</h3><p>ตรวจความจำเป็นของฐานรูปและอารมณ์สำหรับปัญจวิญญาณ 10 ประเภท โดยไม่ทำนายจิตจริง</p></div><button class="rupa-action" id="rupaSync" type="button">ใช้จิตจาก Timeline</button></div>
  <div class="rupa-form"><label>จิตตัวอย่าง <select id="rupaCitta"></select></label><label>สมมติว่ามีปสาทรูป <select id="rupaBase"><option value="unknown">ยังไม่ทราบ</option><option value="yes">มี (สมมติ)</option><option value="no">ไม่มี (สมมติ)</option></select></label><label>สมมติว่ามีอารมณ์ประเภทนี้ <select id="rupaObject"><option value="unknown">ยังไม่ทราบ</option><option value="yes">มี (สมมติ)</option><option value="no">ไม่มี (สมมติ)</option></select></label></div>
- <div class="rupa-assessment" id="rupaAssessment" aria-live="polite"></div></section>
+ <div class="rupa-assessment" id="rupaAssessment" aria-live="polite"></div>
+ <details class="rupa-nama-disclosure" id="rupaNamaDisclosure">
+ <summary>ตรวจปุเรชาตและรูป–นามตามช่วงเกิด–ดับ (ปัฏฐาน)</summary>
+ <p class="rupa-caveat">ต้องระบุว่ารูปเกิดก่อนจิตและยังตั้งอยู่ ตัวเลือกทั้งหมดเป็นสมมติฐาน ไม่ใช่การตรวจวัดจริง</p>
+ <div class="rupa-form">
+ <label>ฐานรูปเมื่อจิตเกิด <select id="rupaBaseTiming">
+ <option value="unknown">ยังไม่ทราบ</option><option value="prior-present">เกิดก่อนและยังตั้งอยู่ (สมมติ)</option>
+ <option value="newly-arisen">เพิ่งเกิด (สมมติ)</option><option value="dissolving">กำลังดับ (สมมติ)</option><option value="ceased">ดับแล้ว (สมมติ)</option>
+ </select></label>
+ <label>รูปารมณ์เมื่อจิตเกิด <select id="rupaObjectTiming">
+ <option value="unknown">ยังไม่ทราบ</option><option value="prior-present">เกิดก่อนและยังตั้งอยู่ (สมมติ)</option>
+ <option value="newly-arisen">เพิ่งเกิด (สมมติ)</option><option value="dissolving">กำลังดับ (สมมติ)</option><option value="ceased">ดับแล้ว (สมมติ)</option>
+ </select></label></div>
+ <div id="rupaNamaStatus" aria-live="polite"></div>
+ <div id="rupaNamaEvidence" class="rupa-nama-evidence"></div>
+ <p class="rupa-caveat">เฉพาะปัญจวิญญาณ 10 ประเภทและปัจจยนิทเทส §§2,8,10,16,21,24; ยังไม่ตรวจวิปปยุตต/ปัจฉาชาต และไม่ยืนยันว่าจิตเกิดจริง</p>
+ <a href="https://dhammatalks.net/suttacentral/sc2016/sc/pi/patthana1.1.html" target="_blank" rel="noopener noreferrer">ปัฏฐาน Paccayaniddesa บาลี ↗</a>
+ </details></section>
  <div class="panel rupa-sources"><h3>แหล่งคัมภีร์และขีดจำกัด</h3><div id="rupaSources"></div><p>บัญชีรูป 28 และกลาป 21 เป็นการแจกแจงตามอภิธัมมัตถสังคหะ บทที่ 6 ซึ่งเป็นคู่มืออธิบาย ไม่ใช่การอ้างว่าพระอภิธรรมปิฎกแจกเลขชุดเดียวกันไว้ทุกส่วน การแสดงรูป–นามในหน้านี้เป็นแบบจำลองเพื่อการเรียนรู้ ไม่มีข้อมูลอายุรูป ไม่มีข้อมูลกรรมบุคคล และยังไม่ได้คำนวณปัจจัยรูป–นามทั้งหมด จึงแสดง UNKNOWN เมื่อไม่ทราบ</p></div>`;
  const by=id=>root.querySelector('#'+id);
  let selected=1;
@@ -58,16 +76,46 @@ export function mountRupa(root,getCurrentCittaId){
   host.append(elt('p','rupa-caveat',k.externalPossible?'ตามอภิธัมมัตถสังคหะ บทที่ 6 §21: กลาปนี้พบได้ทั้งภายในและภายนอก':'ตามอภิธัมมัตถสังคหะ บทที่ 6 §21: กลาปนี้จัดเป็นกลาปฝ่ายภายใน'));
  }
  const value=v=>v==='yes'?true:v==='no'?false:null;
+ function renderRupaNama(){
+  const byId=id=>by(id), cittaId=Number(by('rupaCitta').value);
+  for(const [existsId,timeId] of [['rupaBase','rupaBaseTiming'],['rupaObject','rupaObjectTiming']]){
+   if(byId(existsId).value==='no'&&byId(timeId).value==='prior-present')byId(timeId).value='unknown';
+   if(byId(existsId).value==='yes'&&byId(timeId).value==='ceased')byId(timeId).value='unknown';
+  }
+  const yesNo=id=>byId(id).value==='yes'?true:byId(id).value==='no'?false:null;
+  const r=assessRupaNama(cittaId,{base:{present:yesNo('rupaBase'),timing:by('rupaBaseTiming').value},
+   object:{present:yesNo('rupaObject'),timing:by('rupaObjectTiming').value}});
+  const title=r.status==='CONDITIONAL_ON_SCENARIO'?'ตรงตามสมมติฐานที่ประกาศ (ไม่ยืนยันจิตจริง)':
+   r.status==='BLOCKED_IN_DECLARED_SCENARIO'?'ขัดกับสมมติฐานช่วงเกิด–ดับ':
+   r.status==='NOT_EVALUATED'?'ไม่รองรับจิตประเภทนี้':'UNKNOWN · ยังไม่มีข้อมูลพอ';
+  const status=by('rupaNamaStatus');status.replaceChildren();
+  status.append(elt('strong','rupa-status '+r.status.toLowerCase(),title));
+  if(r.missing?.length)status.append(elt('p','rupa-caveat',r.missing.join(' · ')));
+  const host=by('rupaNamaEvidence');host.replaceChildren();
+  for(const rel of FIVE_SENSE_RELATIONS){
+   const items=r.evidence.filter(e=>e.conditionId===rel.id);
+   if(!items.length)continue;
+   const row=elt('div','rupa-nama-rule');
+   row.append(elt('strong','',rel.name+' · §'+rel.number));
+   for(const e of items)row.append(elt('p','',(e.role==='base'?'ฐานรูป':'รูปารมณ์')+
+    ' #'+e.rupaId+': '+(e.status==='CONDITIONAL_ON_SCENARIO'?'ตามสมมติฐาน':
+      e.status==='BLOCKED_IN_DECLARED_SCENARIO'?'ขัดกับสมมติฐาน':'UNKNOWN')));
+   const source=elt('a','rupa-source-link','Paṭṭhāna · Paccayaniddesa ↗');
+   source.href=items[0].source.pali;source.target='_blank';source.rel='noopener noreferrer';
+   row.append(source);host.append(row);
+  }
+ }
  function assess(){const cittaId=Number(by('rupaCitta').value);const info=assessSenseSupport(cittaId,{basePresent:value(by('rupaBase').value),objectPresent:value(by('rupaObject').value)});
   const host=by('rupaAssessment');host.replaceChildren();
   host.append(elt('strong',`rupa-status ${info.status.toLowerCase()}`,STATUS_LABEL[info.status]),elt('p','',info.reason));
   const needed=elt('div','rupa-chips');needed.append(chip(info.baseId));for(const id of info.objectChoices)needed.append(chip(id));host.append(elt('p','rupa-caveat','ฐานรูปและอารมณ์ที่สัมพันธ์กับจิตชนิดนี้ (กรณีสัมผัสให้เลือกหนึ่งใน 3 มหาภูตรูป)'),needed);
-  host.append(elt('p','rupa-unknown','ปุเรชาต / นิสสย / อินทริย / วิปปยุตต: UNKNOWN — ยังไม่มีการตรวจอายุรูป ภูมิและเงื่อนไขครบ'));
+  host.append(elt('p','rupa-unknown','เปิดตรวจช่วงเกิด–ดับเพื่อดูปุเรชาตตามสมมติฐาน; วิปปยุตตยัง UNKNOWN'));renderRupaNama();
  }
  function refresh(){const cittaId=getCurrentCittaId();if(SENSE_RUPA_SUPPORT[cittaId]){by('rupaCitta').value=String(cittaId);assess();}}
  by('rupaGroup').addEventListener('change',()=>{const cur=RUPA_28.find(x=>x.group===by('rupaGroup').value);if(cur)selected=cur.id;cards();detail();});
  by('rupaKalapa').addEventListener('change',kalapa);
  for(const id of ['rupaCitta','rupaBase','rupaObject'])by(id).addEventListener('change',assess);
+ for(const id of ['rupaBaseTiming','rupaObjectTiming'])by(id).addEventListener('change',renderRupaNama);
  by('rupaSync').addEventListener('click',refresh);
  by('rupaExport').addEventListener('click',()=>{
    const blob=new Blob([buildRupaCsv()],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=elt('a');a.href=url;a.download='jit-rupa-28.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
