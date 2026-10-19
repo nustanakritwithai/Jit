@@ -1,7 +1,7 @@
 /** Vīthi: teaching scenarios instantiated from the 121-class sampayoga matrix. */
 import {FACTORS, IDS, JAVANAS, DOORS} from './data.js';
 import {getSampayoga,resolveSampayoga} from './association.js';
-import {buildConditionality,validateConditionality} from './conditions.js';
+import {buildConditionality,validateConditionality,PACCAYA_24} from './conditions.js';
 import {CAUSAL_DEFAULTS,CAUSAL_SOURCES,validateCausalInputs,chooseResultant,chooseJavana,planVithi,planAppana,summarizeTransition} from './causal.js';
 
 const format=(id,extras=[])=>{
@@ -191,9 +191,9 @@ export function createProcess(user={}){
   }
  }
  const conditions=buildConditionality(moments,cycles);
- const result={version:'0.3.0',educational:true,config,moments,cycles,conditions,transitionRules,
+ const result={version:'0.4.0',educational:true,config,moments,cycles,conditions,transitionRules,
   factorCount:FACTORS.length,associationRows:121,profileCount:JAVANAS.length,
-  coverage:{registry24:24,illustratedConditions:12,unknownConditions:12,specialWorkflows:['first-rupa-jhana-demo'],
+  coverage:{registry24:PACCAYA_24.length,illustratedConditions:conditions.coverage.illustrated,unknownConditions:conditions.coverage.referenceOnly,specialWorkflows:['first-rupa-jhana-demo'],
    unsupported:['full Paṭṭhāna 24-case solver','lokuttara magga-phala','death/relinking','complete meditation attainment sequences']},
   caveat:'การเลือกชวนจิตตามเงื่อนไขเป็นสมมติฐานเพื่อการสอน ไม่ใช่ผลจำเป็นตามเหตุปัจจัย 24 และไม่ใช่เครื่องพยากรณ์กรรมหรือวัดฌาน'};
  validateProcess(result);

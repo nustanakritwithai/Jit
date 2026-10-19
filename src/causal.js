@@ -7,8 +7,8 @@
  */
 export const CAUSAL_SOURCES=Object.freeze({
  vithi:{title:'อภิธัมมัตถสังคหะ บทที่ 4 (กระบวนวิถี)',tier:'คู่มืออรรถาธิบาย',url:'https://thaipitaka.gitlab.io/sangaha/chapter_4.htm'},
- resultants:{title:'A Comprehensive Manual of Abhidhamma IV §17 (วิบากและอารมณ์)',tier:'คู่มืออรรถาธิบาย',url:'https://www.dhammatalks.net/Books16/Bhikkhu_Bodhi-Abhidhamma.pdf'},
- patthana:{title:'ปัฏฐาน พระอภิธรรมปิฎก (ชื่อเหตุปัจจัย 24)',tier:'พระไตรปิฎก · ภูมิหลัง',url:'https://www.abhidhamma.org/study/conditionality-of-life/index.html'},
+ resultants:{title:'A Comprehensive Manual of Abhidhamma IV §17 (วิบากและอารมณ์)',tier:'คู่มืออรรถาธิบาย',url:'https://www.bps.lk/olib/bp/bp304s_Bfodhi_Comprehensive_Manual_of_Abhidhamma.pdf'},
+ patthana:{title:'Paṭṭhāna Paccayaniddesa · คัมภีร์ปัฏฐาน (นิทเทสปัจจัย)',tier:'พระไตรปิฎก · ต้นฉบับบาลี',url:'https://dhammatalks.net/suttacentral/sc2016/sc/pi/patthana1.1.html'},
  scenario:{title:'เงื่อนไขสมมติที่ผู้ใช้เลือก (ไม่ใช่กฎจากพระไตรปิฎก)',tier:'สมมติฐานของแบบจำลอง',url:null}
 });
 

@@ -82,6 +82,7 @@ export const SOURCES = [
  {title:'Conditionality of Life · นิพนธ์ Nina van Gorkom',url:'https://www.abhidhamma.org/study/conditionality-of-life/index.html'},
  {title:'พระอภิธรรมปิฎก · ธัมมสังคณี (ฉบับแปลค้นคว้า)',url:'https://www.abhidhamma.org/book/dhammasangani-en/'},
  {title:'พระอภิธรรมปิฎก · วิภังค์ (ฉบับแปลค้นคว้า)',url:'https://www.abhidhamma.org/book/vibhanga-en/'},
+ {title:'ปัฏฐาน พระอภิธรรมปิฎก · Paccayuddesa / Paccayaniddesa ต้นฉบับบาลี',url:'https://dhammatalks.net/suttacentral/sc2016/sc/pi/patthana1.1.html'},
  {title:'The 24 Conditions · ตารางปัฏฐานพร้อมการแจกแจง',url:'https://abhidhamma.com/tab_patthana_24_en.pdf'},
  {title:'อภิธัมมัตถสังคหะ · บทที่ 4 วิถีจิตและอัปปนา (คู่มือ)',url:'https://www.ruyimeditation.org/theravada/abhidhamma/vithi-sangaha/'}
 ];

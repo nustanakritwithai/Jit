@@ -74,7 +74,7 @@ test('first-appana scenario: exactly one first-rupa-jhana moment after 3 or 4 pr
   const absorption=p.moments.filter(m=>m.stage==='absorption');
   assert.equal(absorption.length,1);assert.equal(absorption[0].cittaId,55);
   assert.equal(absorption[0].ruleAudit.selection.basis,'scenario-assumption');
-  assert.equal(p.conditions.counts.repetition,p.config.faculties==='average'?3:2);
+  assert.equal(p.conditions.counts.repetition,p.config.faculties==='average'?4:3);
   assert.equal(p.moments.filter(m=>m.stage==='register').length,0);
   assert.ok(p.moments.slice(3,-2).every(m=>m.cittaId===31));
   assert.equal(validateProcess(p),true);
@@ -85,9 +85,9 @@ test('first-appana scenario: exactly one first-rupa-jhana moment after 3 or 4 pr
 test('24 paccaya have named coverage but not all are asserted as computable',()=>{
  const p=createProcess();
  assert.equal(PACCAYA_24.length,24);
- assert.equal(PACCAYA_24.filter(c=>c.mode==='illustrated').length,12);
- assert.equal(PACCAYA_24.filter(c=>c.mode==='reference-only').length,12);
- assert.equal(p.coverage.unknownConditions,12);
+ assert.equal(PACCAYA_24.filter(c=>c.mode==='illustrated').length,18);
+ assert.equal(PACCAYA_24.filter(c=>c.mode==='reference-only').length,6);
+ assert.equal(p.coverage.unknownConditions,6);
  assert.ok(p.coverage.unsupported.includes('full Paṭṭhāna 24-case solver'));
  assert.ok(CAUSAL_SOURCES.vithi.url && CAUSAL_SOURCES.scenario.url===null);
  assert.equal(p.conditions.inMoments[4].causalAudit.selection.rule,'resultant-sense');

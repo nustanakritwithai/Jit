@@ -7,8 +7,8 @@ const el=(tag,cls='',value='')=>{const node=document.createElement(tag);if(cls)n
 export function mountConditions(getProcess,getCurrent,setCurrent){
  const catalog=$('paccayaCatalog');
  for(const p of PACCAYA_24){const item=el('div','paccaya-item '+p.mode),head=el('div','paccaya-title');
-  head.append(el('b','',`${String(p.number).padStart(2,'0')} · ${p.name}`),el('span','',p.mode==='illustrated'?'แสดงตามขอบเขตโมเดล':'แสดงชื่ออ้างอิงเท่านั้น'));
-  item.append(head,el('p','',p.description));catalog.append(item);
+  head.append(el('b','',`${String(p.number).padStart(2,'0')} · ${p.name}`),el('span','',p.mode==='illustrated'?'เฉพาะกรณีนามธรรมที่ตรวจได้':'UNKNOWN · ยังไม่ประเมิน')); 
+  item.append(head,el('p','',p.description));const link=el('a','causal-source-link',`ปัฏฐาน ${p.source.locator} ↗`);link.href=p.source.pali;link.target='_blank';link.rel='noopener noreferrer';item.append(link);catalog.append(item);
  }
  function render(){
   const process=getProcess(),current=getCurrent(),m=process.moments[current],info=explainConditions(process.conditions,current);
@@ -41,6 +41,20 @@ export function mountConditions(getProcess,getCurrent,setCurrent){
   const withinTerms=el('div','condition-tags');
   for(const id of info.moment.conditions){const t=PACCAYA_BY_ID.get(id),chip=el('span','condition-tag',t?.name||id);chip.title=t?.description||id;withinTerms.append(chip);}
   within.append(withinTerms);
+  const evidences=el('details','condition-proof-list');
+  const summary=el('summary','','ดูหลักฐานรายปัจจัยที่ประเมินได้ '+info.moment.proofs.length+' รายการ และสิ่งที่ยังไม่รองรับ');
+  evidences.append(summary);
+  for(const proof of info.moment.proofs){
+   const entry=el('div','condition-fact');
+   const sourceFactors=proof.support.cetasikaIds?.map(id=>FACTORS[id-1].name).join(' · ')??'';
+   const supporter=proof.support.includesCitta?'จิต + '+sourceFactors:sourceFactors;
+   entry.append(el('strong','',proof.condition+' — '),el('span','',supporter||proof.support.sourceKind||proof.support.objectId||''));
+   const src=el('a','causal-source-link','ที่มา: '+proof.source.locator+' ↗');
+   src.href=proof.source.pali;src.target='_blank';src.rel='noopener noreferrer';
+   entry.append(src);evidences.append(entry);
+  }
+  evidences.append(el('p','condition-note',`ส่วนที่ยังไม่ประเมินหรืออยู่นอกขอบเขต ${info.unknowns.length} รายการ ไม่ใช่หลักฐานว่าไม่มีปัจจัยนั้นในจิตจริง`));
+  within.append(evidences);
   if(m.family==='vipaka')within.append(el('p','condition-muted','วิบากจิตเป็นผลของกรรมก่อนหน้า แต่เครื่องจำลองไม่อาจระบุว่ากรรมใดเป็นเหตุเฉพาะ หรือคำนวณผลกรรมจากชวนจิตก่อนหน้าได้'));
   const incoming=$('conditionIncoming');incoming.replaceChildren();
   for(const [heading,edge] of [['ปัจจัยจากขณะก่อน',info.incoming],['ปัจจัยไปขณะถัดไป',info.outgoing]]){

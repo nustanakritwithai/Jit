@@ -1,9 +1,20 @@
-# JIT · Citta & Cetasika Laboratory — V0.3 UX + CAUSAL BETA
+# JIT · Citta & Cetasika Laboratory — V0.4 Patthāna Rule Audit Beta
 
 **ระบบจำลองวิถีจิต–เจตสิก และตารางสัมปโยคแบบตรวจสอบได้** สำหรับการเรียนรู้พระอภิธรรมในเบราว์เซอร์ โดยไม่ต้องมีเซิร์ฟเวอร์
 
 **เว็บไซต์:** https://nustanakritwithai.github.io/Jit/  
 **GitHub:** https://github.com/nustanakritwithai/Jit
+
+## V0.4 — ตรวจแหล่งธรรมและแก้กฎอย่างตรวจสอบได้
+
+> **ขอบเขต:** ปัฏฐาน 24 ชื่อมีข้อมูลอ้างอิงครบ; ระบบตรวจความสัมพันธ์ **18 แบบภายในขอบเขตนามธรรมและขณะจิตที่จำลอง** ส่วน **6 แบบเป็น UNKNOWN** ยังไม่ได้ประเมินเพราะขาดข้อมูล ไม่ใช่ประกาศว่าปัจจัยนั้นไม่เกิด
+
+- อ่านคำนิยามตาม **พระอภิธรรมปิฎก ปัฏฐาน Paccayaniddesa §§1–24** โดยตรง แล้วเสริมจากคู่มือ *อภิธัมมัตถสังคหะ* (ไม่ใช่พระไตรปิฎกเอง) และงานอธิบายของ Nina van Gorkom
+- เพิ่มนิสสย อาหาร อินทริย ฌาน อัตถิ และอวิคต ในกรณีที่กำหนดตัวรองรับฝ่ายนามได้อย่างเจาะจง; ฌานปัจจัย **ไม่ใช้กับปัญจวิญญาณสิบดวง**
+- อาเสวนปัจจัย: ในตัวอย่างอัปปนาปฐมฌานครั้งแรก **ชวนะเตรียมดวงสุดท้าย → ปฐมฌาน** เป็นความสัมพันธ์ที่ตำรากล่าวไว้ และห้ามโยงหลังฌานไปภวังค์
+- แต่ละปัจจัยที่ประเมินได้มีหลักฐานว่าองค์ธรรมใดเป็นปัจจัย พร้อมเลขนิทเทสในไฟล์ JSON และหน้ารายละเอียดที่เปิดอ่านได้
+- แยก `applies-in-modeled-scope`, `not-applicable-for-this-citta`, `evaluate-at-incoming-edge`, `unknown-or-out-of-scope` อย่างชัดเจน; การไม่มีข้อมูลไม่ใช่ FALSE
+- อ่านตารางอ้างอิงและกรณีทดสอบทั้งหมดที่ [docs/PATTHANA_RULE_AUDIT.md](docs/PATTHANA_RULE_AUDIT.md); รัน `npm run check && npm test` ก่อน deploy
 
 ## มีอะไรใหม่ใน V0.3 — อ่านข้อมูลทีละชั้น
 
@@ -32,7 +43,7 @@
 3. **Guided Javana (ทดลองสอน):** ผู้ใช้เลือกรูปแบบมนสิการแบบโยนิโส/อโยนิโส และแนวโน้มติดข้อง/ขัดเคือง/สงสัย ระบบเลือกหนึ่งกรณีศึกษาชวนจิตจากชุดตัวอย่างที่ผ่านตารางสัมปโยค และติดป้าย `scenario-assumption` ชัดเจน **ไม่ใช่กฎว่ามนสิการหนึ่งชนิดจะบังคับให้เกิดจิตดวงนี้เสมอ** และไม่มีการสุ่ม
 4. **Two vīthi:** เงื่อนไขวิถีแรกและวิถีที่สองกำหนดแยกกันได้ โดยแสดงภวังค์คั่นที่ผู้ใช้เลือก มิใช่อนันตรปัจจัยกระโดดข้ามภวังค์
 5. **Special workflow เฉพาะหนึ่งตัวอย่าง:** มโนทวารวิถีอัปปนา **ปฐมรูปฌานครั้งแรก** มีชวนะเตรียม 4 (อินทรีย์ปานกลาง) หรือ 3 (อินทรีย์แก่กล้า) ขณะ ตามด้วยรูปาวจรกุศลปฐมฌาน 1 ขณะ แล้วกลับภวังค์ โดยใช้รหัสจิต 31 และ 55 เป็นกรณีสาธิต ไม่มีระบบประเมินสมาธิจริง และยังไม่ครอบคลุมฌานอื่น วิถีมรรค ผล จุติ หรือปฏิสนธิ
-6. **Paṭṭhāna coverage:** มีทะเบียนเหตุปัจจัย 24 ชื่อครบ แต่ **12 รายการมีตัวอย่างความสัมพันธ์เชิงเหตุปัจจัยในโมเดลเท่านั้น** อีก 12 รายการมีชื่อ/คำอธิบายเพื่ออ้างอิง ไม่ใช่ตัวคำนวณ; ไม่มี numerical weights หรือการทำนายกรรม
+6. **Paṭṭhāna coverage:** มีทะเบียนเหตุปัจจัย 24 ชื่อครบ แต่ **18 รายการมีตัวอย่างความสัมพันธ์บางแบบที่ตรวจได้เท่านั้น** อีก 6 รายการแสดง UNKNOWN พร้อมชื่อ/คำอธิบายเพื่ออ้างอิง ไม่ใช่ตัวคำนวณ; ไม่มี numerical weights หรือการทำนายกรรม
 7. **Rule Evidence Audit:** แต่ละขณะใน JSON เก็บ `ruleAudit.selection`, `ruleAudit.transition`, `basis` (commentarial-pattern / scenario-assumption), `source`, `inputs` และมีตัวอ่านคำอธิบายใน UI
 
 ### ลองอย่างรวดเร็ว
@@ -104,9 +115,9 @@
 - `src/association.js` — 121 concrete citta rows and 89 grouped citta rows, mandatory/optional/forbidden logic
 - `src/causal.js` — transition planner, source tiers and assumed condition guidance, one first-appanā demo
 - `src/engine.js` — selected citta instantiation, six-door vīthi, two-stage continuity, 52-slot invariants and rule audit
-- `src/conditions.js` — 24-condition reference taxonomy, adjacent citta edges and within-moment relations
+- `src/conditions.js` — 24 canonical indexed citations, 18 narrowly illustrated conditions, proof details and safe UNKNOWNs
 - `src/matrix-ui.js`, `src/conditions-ui.js`, `src/app.js` — data inspector, causal inspector, interactive simulator
-- `tests/` — Node.js tests for full matrix counts, conditional adjunct rules, workflows, paccaya adjacency, no conflation of across-bhavanga and same-moment links
+- `tests/` — independent canonical fixtures for 24 names and 121 citta classes, same-moment conditions, correct appanā āsevana, unsupported cases fail closed
 
 ```bash
 npm run check
