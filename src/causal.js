@@ -32,10 +32,18 @@ export function validateCausalInputs(config){
  return true;
 }
 
-/** Canonical constraints select among *illustrative* resultant cittas.
- * Affective "desirability" is entered as an assumed characteristic of the
- * hypothetical object, NOT inferred from a real person's experience.
+/**
+ * Epistemic boundary: a conditional pattern is not a prediction.
+ * The user enters a hypothetical object quality. Without a known person's
+ * conditions (plane, rebirth-resultant, applicable object and preceding javana),
+ * these fields DO NOT identify a real resultant or registration citta.
  */
+export const CAUSAL_EPISTEMIC=Object.freeze({
+ CONDITIONAL:'CONDITIONAL_ON_SCENARIO',
+ UNKNOWN:'UNKNOWN',
+ NOT_INFERRED:'NOT_INFERRED'
+});
+
 export function chooseResultant(stage,door,objectQuality){
  if(!QUALITIES.has(objectQuality))throw new RangeError('Unknown object quality');
  const doors=['eye','ear','nose','tongue','body'];
@@ -44,39 +52,63 @@ export function chooseResultant(stage,door,objectQuality){
   if(idx<0)throw new RangeError('Sense consciousness requires a five-door input');
   return {
    cittaId:(objectQuality==='undesirable'?13:20)+idx,
-   rule:'resultant-sense',basis:'commentarial-pattern',
-   reason:'วิญญาณทางทวารนี้เป็นอกุศลวิบากหรือกุศลวิบากตามคุณลักษณะอารมณ์ที่กำหนดในกรณีศึกษา',source:CAUSAL_SOURCES.resultants
+   rule:'resultant-sense',basis:'commentarial-pattern',epistemicStatus:CAUSAL_EPISTEMIC.CONDITIONAL,
+   scenarioPremises:['ชนิดอารมณ์ที่ผู้ใช้ระบุ ไม่ใช่ผลตรวจกรรมจริง'],
+   reason:'กรณีสมมติ: ถ้าลักษณะอารมณ์และทวารตรงตามเงื่อนไขในคู่มือ จึงเลือกตัวอย่างวิญญาณนี้ ไม่ใช่การพยากรณ์วิบากจริง',source:CAUSAL_SOURCES.resultants
   };
  }
  if(stage==='receive')return {
-  cittaId:objectQuality==='undesirable'?18:25,rule:'resultant-receiving',basis:'commentarial-pattern',
-  reason:'สัมปฏิจฉนะเป็นวิบากฝ่ายเดียวกับปัญจวิญญาณในกรณีศึกษานี้',source:CAUSAL_SOURCES.resultants
+  cittaId:objectQuality==='undesirable'?18:25,rule:'resultant-receiving',basis:'commentarial-pattern',epistemicStatus:CAUSAL_EPISTEMIC.CONDITIONAL,
+  scenarioPremises:['อารมณ์และทวารจากฉากศึกษา'],
+  reason:'ตามรูปแบบวิบากของกรณีศึกษา เมื่อสมมติคุณลักษณะอารมณ์ไว้แล้ว ไม่สามารถสรุปวิบากจริงของบุคคลได้',source:CAUSAL_SOURCES.resultants
  };
  if(['investigate','register'].includes(stage))return {
   cittaId:objectQuality==='undesirable'?19:objectQuality==='very-desirable'?26:27,
-  rule:stage==='register'?'resultant-registration':'resultant-investigating',basis:'commentarial-pattern',
-  reason:'เลือกตัวอย่างวิบากตามอิฏฐารมณ์/อนิฏฐารมณ์ และระดับพิเศษที่สัมพันธ์กับโสมนัส; ภูมิและบุคคลยังไม่ถูกจำลอง',source:CAUSAL_SOURCES.resultants
+  rule:stage==='register'?'registration-example-unknown':'resultant-investigating',
+  basis:stage==='register'?'scenario-assumption':'commentarial-pattern',
+  epistemicStatus:stage==='register'?CAUSAL_EPISTEMIC.UNKNOWN:CAUSAL_EPISTEMIC.CONDITIONAL,
+  scenarioPremises:['ชนิดอารมณ์สมมติ','ไม่ได้ตรวจภูมิ บุคคล และวิบากปฏิสนธิ'],
+  reason:stage==='register'?
+   'UNKNOWN: อารมณ์ที่ระบุยังไม่พอกำหนดจิตตทาลัมพนะได้แน่ชัด รหัสจิตนี้เป็นตัวอย่างที่แสดงโครงสร้างเท่านั้น':
+   'แสดงสันตีรณะตามรูปแบบวิบากแบบมีเงื่อนไขจากอารมณ์ที่สมมติ ไม่ใช่ผลวิเคราะห์จิตจริง',source:CAUSAL_SOURCES.resultants
  };
  throw new RangeError(`Stage ${stage} has no resultant-selection rule`);
 }
 
-/** Condition-guided javana = explicit illustrative decision, not deterministic Paṭṭhāna. */
+/**
+ * Given only a hypothetical wise/unwise attention and reaction cue we cannot
+ * derive a single citta (nor optional cetasikas). Person type (including arahant
+ * kiriya), prompting, mental feeling, view, knowledge and preceding conditions
+ * are missing. Never silently map these cues to citta #31, #1, #9 or #11.
+ * Manual source: Comprehensive Manual of Abhidhamma, III §§9-10, IV §§4-5.
+ */
+export function assessJavanaPremises(config,cycle=1){
+ const attention=cycle===2?config.nextAttention:config.attention;
+ const cue=cycle===2?config.nextReactionCue:config.reactionCue;
+ if(!ATTENTION.has(attention)||!CUES.has(cue))throw new RangeError('Unknown hypothetical javana conditions');
+ return Object.freeze({status:CAUSAL_EPISTEMIC.UNKNOWN,exactCittaId:null,
+  exactCetasikaIds:null,attention,cue,
+  missing:['ภูมิและฐานะของบุคคล (รวมกรณีพระอรหันต์ที่เป็นกิริยาจิต)',
+   'เวทนา ญาณ ทิฏฐิ และความเป็นสสังขาริก/อสังขาริก',
+   'เหตุปัจจัยที่ทำให้เจตสิกแปรผันเกิดหรือไม่เกิด'],
+  explanation:'โยนิโส/อโยนิโสมนสิการและแนวโน้มสมมติยังไม่ระบุเลขจิตชนิดเดียวได้ตามตาราง 121 จิต',
+  source:CAUSAL_SOURCES.vithi});
+}
+
+/** No guided automatic prediction. Render ONLY the separately declared preset. */
 export function chooseJavana(config,cycle=1){
  const follow=cycle===2;
- if(config.selectionMode==='manual'){
-  const preset=follow&&config.nextJavana!=='same'?config.nextJavana:config.javana;
-  return {preset,rule:'user-selected-javana',basis:'scenario-assumption',source:CAUSAL_SOURCES.scenario,
-   reason:'ผู้ใช้กำหนดชวนจิตกรณีศึกษา ไม่ได้คำนวณความเป็นกุศล/อกุศลของจิตบุคคลจริง'};
- }
- const attention=follow?config.nextAttention:config.attention;
- const cue=follow?config.nextReactionCue:config.reactionCue;
- if(!ATTENTION.has(attention)||!CUES.has(cue))throw new RangeError('Missing hypothetical conditions for guided javana');
- const preset=attention==='wise'?'kusala_wisdom':({attraction:'lobha_view',aversion:'dosa',doubt:'moha_doubt'})[cue];
- return {preset,rule:'illustrative-attention-javana',basis:'scenario-assumption',source:CAUSAL_SOURCES.scenario,
-  reason:attention==='wise'?
-   'กำหนดสมมติฐานว่ามีโยนิโสมนสิการ จึงเลือกหนึ่งตัวอย่างของมหากุศลประกอบปัญญา; ไม่ใช่ผลที่จำเป็นเสมอ':
-   `กำหนดสมมติฐานว่ามีอโยนิโสมนสิการพร้อมแนวโน้ม “${{attraction:'ติดข้อง',aversion:'ขัดเคือง',doubt:'ลังเลสงสัย'}[cue]}” จึงเลือกหนึ่งตัวอย่างของอกุศล; ไม่ใช่การทำนาย`
- };
+ const preset=follow&&config.nextJavana!=='same'?config.nextJavana:config.javana;
+ if(!preset || preset==='same')throw new RangeError('Explicit example javana is required');
+ const inference=config.selectionMode==='guided'?assessJavanaPremises(config,cycle):
+  {status:CAUSAL_EPISTEMIC.NOT_INFERRED,exactCittaId:null,exactCetasikaIds:null,
+   explanation:'ใช้กรณีศึกษาเลือกเอง โดยไม่ขอให้โปรแกรมอนุมานจิตจากเหตุสมมติ'};
+ return {preset,rule:config.selectionMode==='guided'?'javana-unresolved-example-only':'user-selected-javana',
+  basis:'scenario-assumption',epistemicStatus:inference.status,
+  chosenBy:'user-example-preset',inference,source:CAUSAL_SOURCES.scenario,
+  reason:config.selectionMode==='guided'?
+   'UNKNOWN: เงื่อนไขที่กำหนดยังไม่ระบุชวนจิตได้แน่ชัด ขณะจิตด้านล่างมาจากรายการตัวอย่างที่ผู้ใช้เลือกเอง ไม่ใช่ผลอนุมานของระบบ':
+   'ตัวอย่างชวนจิตที่เลือกจากรายการด้วยตนเอง ไม่ได้ใช้คำนวณจิตจริงของบุคคล'};
 }
 
 const step=(stage,why,rule,basis='commentarial-pattern')=>({stage,why,rule,basis,source:basis==='commentarial-pattern'?CAUSAL_SOURCES.vithi:CAUSAL_SOURCES.scenario});
@@ -126,7 +158,11 @@ export function planVithi(config,kind){
   }
   if(next!==stage)repeats=0;
   events[events.length-1].next=next;
-  events[events.length-1].transition={rule,why,basis:'commentarial-pattern',source:CAUSAL_SOURCES.vithi};
+  events[events.length-1].transition={rule,why,
+   basis:['registration-present','registration-absent','registration-two','object-grade','very-slight','slight-object'].includes(rule)?
+     'scenario-assumption':'commentarial-pattern',
+   epistemicStatus:['registration-present','registration-absent','registration-two'].includes(rule)?CAUSAL_EPISTEMIC.CONDITIONAL:CAUSAL_EPISTEMIC.NOT_INFERRED,
+   source:CAUSAL_SOURCES.vithi};
   stage=next;
  }
  return Object.freeze(events);
@@ -169,8 +205,8 @@ export function summarizeTransition(plan,index){
 export const COVERAGE=Object.freeze({
  canonicalMatrix:'89/121 cittas × 52 cetasikas',
  normalVithi:'Five-door object grades and mind-door clear/obscure instructional cases',
- workedFactors:12,
- otherFactors:'reference-only / require more data',
+ workedFactors:18,
+ otherFactors:'six paccaya names remain UNKNOWN/reference-only; all 18 are partial patterns',
  specialVithi:'one sample: first rūpāvacara jhāna (appanā) with average/keen preparatory route. NOT magga/phala, cuti/paṭisandhi',
  inferredKamma:'not supported'
 });

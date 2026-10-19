@@ -61,3 +61,12 @@ test('causal decision controls and progressive reasoning are available without b
  assert.match(app,/configFromForm\(\)/);
  assert.match(css,/\.causal-why/);
 });
+
+
+test('guided inquiry never hides the explicit example nor claims a unique inferred citta in UI',()=>{
+ assert.match(html,/UNKNOWN:.*ยังไม่พอระบุจิตเฉพาะดวง/);
+ assert.match(html,/ตรวจว่าข้อมูลพอเลือกชวนจิตหรือไม่/);
+ assert.match(app,/dom\.javana\.hidden=special/);
+ assert.match(app,/UNKNOWN · ยังระบุจิตจริงไม่ได้/);
+ assert.match(css,/#ruleBasis\.unknown/);
+});

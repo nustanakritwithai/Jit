@@ -459,6 +459,7 @@ footer>a{color:#237f79}
 #ruleBasis,.causal-audit-badge{border-radius:20px;padding:3px 8px;font-size:11px;font-weight:700}
 #ruleBasis.assumed,.causal-audit-badge.assumed{background:#fff0d5;color:#8c5913}
 #ruleBasis.documented,.causal-audit-badge.documented{background:#dff3ea;color:#23745e}
+#ruleBasis.unknown,.causal-audit-badge.unknown{background:#fff0d5;color:#795016;border:1px solid #e1ba79}
 .causal-why p{margin:8px 0;color:#344b55;font-size:13px;line-height:1.65}
 .causal-why small{color:#60747e;font-size:11px;line-height:1.65}
 .condition-causal-summary{margin:20px 0;padding:20px}

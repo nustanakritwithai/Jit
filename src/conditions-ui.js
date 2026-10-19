@@ -18,8 +18,9 @@ export function mountConditions(getProcess,getCurrent,setCurrent){
   const auditBox=$('causalInspector');auditBox.replaceChildren();
   const selection=m.ruleAudit?.selection,transition=m.ruleAudit?.transition;
   const assumption=selection?.basis==='scenario-assumption';
+  const unknown=selection?.epistemicStatus==='UNKNOWN';
   const status=el('div','causal-audit-row');
-  status.append(el('span','causal-audit-badge '+(assumption?'assumed':'documented'),assumption?'สมมติฐานของระบบ':'กรอบตามคัมภีร์/คู่มือ'),
+  status.append(el('span','causal-audit-badge '+(unknown?'unknown':assumption?'assumed':'documented'),unknown?'UNKNOWN · ยังตัดสินไม่ได้':assumption?'สมมติฐานของระบบ':'กรอบตามคัมภีร์/คู่มือ'),
     el('strong','',selection?.rule??'ไม่มีกฎเลือก'),
     el('p','',selection?.reason??'ยังไม่มีคำอธิบายกฎเลือก'));
   auditBox.append(status);
@@ -31,7 +32,11 @@ export function mountConditions(getProcess,getCurrent,setCurrent){
   const source=selection?.source;
   if(source?.url){const link=el('a','causal-source-link','ดูแหล่งอ้างอิง: '+source.title+' ↗');link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';auditBox.append(link);}
   if(assumption){auditBox.append(el('p','condition-note',
-    'กฎเลือกชวนจิตหรือผลวิบากที่กำหนดเป็นเพียงสถานการณ์ศึกษา ไม่ได้พยากรณ์ว่าขณะถัดไปของบุคคลจริงต้องเกิดแบบนี้'));}
+    'ชนิดจิตที่แสดงเป็นกรณีศึกษาที่ผู้ใช้เลือก/กำหนด ไม่ใช่ผลทำนายว่าจิตจริงต้องเกิดชนิดนี้'));}
+  if(unknown){
+   auditBox.append(el('p','condition-note','UNKNOWN ≠ PASS: หลักฐานยังไม่พอระบุชนิดจิตที่ต้องเกิดโดยเฉพาะ'));
+   for(const premise of selection.inference?.missing??[])auditBox.append(el('p','condition-muted','ข้อมูลที่ยังขาด: '+premise));
+  }
   const within=$('conditionWithin');within.replaceChildren();
   const title=el('h3','',`${m.name} · จิตลำดับ ${m.cittaId}/121`),tip=el('p','condition-muted','ปัจจัยที่อธิบายได้จากชุดจิต–เจตสิกในขณะปัจจุบัน');
   within.append(title,tip);

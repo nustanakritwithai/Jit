@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createProcess,validateProcess} from '../src/engine.js';
-import {planVithi,planAppana,chooseResultant,chooseJavana,validateCausalInputs,CAUSAL_SOURCES} from '../src/causal.js';
+import {planVithi,planAppana,chooseResultant,chooseJavana,assessJavanaPremises,validateCausalInputs,CAUSAL_SOURCES} from '../src/causal.js';
 import {PACCAYA_24} from '../src/conditions.js';
 const config=()=>({...createProcess().config});
 
@@ -39,29 +39,65 @@ test('selected resultant citta changes by entered hypothetical object quality an
  assert.equal(bodyGood.moments.find(m=>m.stage==='sense').ruleAudit.selection.basis,'commentarial-pattern');
 });
 
-test('guided attention selects only one explicitly assumed example, not a karmic prediction',()=>{
- const wise=createProcess({door:'ear',selectionMode:'guided',attention:'wise',reactionCue:'aversion'});
- const unwise=createProcess({door:'ear',selectionMode:'guided',attention:'unwise',reactionCue:'aversion'});
- const j=m=>m.moments.find(x=>x.stage==='javana');
- assert.equal(j(wise).cittaId,31);
- assert.equal(j(unwise).cittaId,9);
- assert.equal(j(unwise).ruleAudit.selection.basis,'scenario-assumption');
- assert.ok(j(unwise).ruleAudit.selection.reason.includes('ไม่ใช่การทำนาย'));
- assert.equal(createProcess({selectionMode:'manual',attention:'unwise',javana:'dosa'}).moments.find(x=>x.stage==='javana').cittaId,9);
- for(const [cue,id] of [['attraction',1],['aversion',9],['doubt',11]])assert.equal(createProcess({selectionMode:'guided',attention:'unwise',reactionCue:cue}).moments.find(x=>x.stage==='javana').cittaId,id);
+test('guided attention cannot select an exact javana: UNKNOWN, explicit preset only',()=>{
+ for(const attention of ['wise','unwise'])for(const cue of ['attraction','aversion','doubt']){
+  const p=createProcess({door:'ear',selectionMode:'guided',attention,reactionCue:cue,javana:'dosa'});
+  const javana=p.moments.filter(m=>m.stage==='javana');
+  assert.equal(javana.length,7);
+  assert.ok(javana.every(m=>m.cittaId===9)); // explicit illustrative preset; NEVER inferred from cue
+  for(const m of javana){
+   const s=m.ruleAudit.selection;
+   assert.equal(s.epistemicStatus,'UNKNOWN');
+   assert.equal(s.inference.exactCittaId,null);
+   assert.equal(s.chosenBy,'user-example-preset');
+   assert.equal(s.basis,'scenario-assumption');
+   assert.equal(s.rule,'javana-unresolved-example-only');
+   assert.ok(s.reason.includes('UNKNOWN'));
+  }
+  assert.equal(assessJavanaPremises(p.config).status,'UNKNOWN');
+ }
+ const manual=createProcess({selectionMode:'manual',attention:'unwise',javana:'lobha_view'});
+ assert.equal(manual.moments.find(x=>x.stage==='javana').cittaId,1);
+ assert.equal(manual.moments.find(x=>x.stage==='javana').ruleAudit.selection.epistemicStatus,'NOT_INFERRED');
 });
 
-test('separate second mind-door cycle may have different conditions and cannot jump bhavanga',()=>{
- const p=createProcess({door:'ear',followMind:true,interludeCount:3,selectionMode:'guided',attention:'unwise',reactionCue:'aversion',nextAttention:'wise',nextReactionCue:'doubt'});
+test('two vithis allow separately declared examples while inference stays UNKNOWN',()=>{
+ const p=createProcess({door:'ear',followMind:true,interludeCount:3,selectionMode:'guided',
+  attention:'unwise',reactionCue:'aversion',nextAttention:'wise',nextReactionCue:'doubt',
+  javana:'dosa',nextJavana:'kusala_wisdom'});
  const js=p.moments.filter(m=>m.stage==='javana');
  assert.equal(js.length,14);
  assert.ok(js.filter(m=>m.cycle===1).every(x=>x.cittaId===9));
  assert.ok(js.filter(m=>m.cycle===2).every(x=>x.cittaId===31));
+ assert.ok(js.every(x=>x.ruleAudit.selection.inference.status==='UNKNOWN'));
  assert.equal(p.moments.filter(m=>m.stage==='return').length,3);
  assert.equal(p.conditions.counts.repetition,12);
  assert.ok(p.conditions.edges.every(e=>e.toIndex===e.fromIndex+1));
  assert.ok(p.conditions.edges.filter(e=>e.crossCycle).every(e=>!e.relations.includes('asevana')));
  assert.equal(p.transitionRules.length,p.moments.length);
+});
+
+test('register is UNKNOWN example, sense/receive/investigate conditional on entered object quality',()=>{
+ const p=createProcess({objectQuality:'very-desirable'});
+ for(const name of ['sense','receive','investigate']){
+  assert.equal(p.moments.find(m=>m.stage===name).ruleAudit.selection.epistemicStatus,'CONDITIONAL_ON_SCENARIO');
+ }
+ const register=p.moments.find(m=>m.stage==='register');
+ assert.equal(register.ruleAudit.selection.epistemicStatus,'UNKNOWN');
+ assert.equal(register.ruleAudit.selection.basis,'scenario-assumption');
+ assert.match(register.ruleAudit.selection.reason,/UNKNOWN/);
+ assert.throws(()=>{register.ruleAudit.selection.basis='commentarial-pattern';validateProcess(p);},/Registration cannot be inferred/);
+});
+
+test('tampered causal audit cannot convert an UNKNOWN guided example into scriptural FACT',()=>{
+ const p=createProcess({selectionMode:'guided',attention:'wise',reactionCue:'attraction',javana:'moha_doubt'});
+ const j=p.moments.find(m=>m.stage==='javana');
+ j.ruleAudit.selection.epistemicStatus='CONFIRMED';
+ assert.throws(()=>validateProcess(p),/Javana inference must remain UNKNOWN|Epistemic status mismatch/);
+ const q=createProcess({selectionMode:'guided',javana:'dosa'});
+ const audit=q.moments.find(m=>m.stage==='javana').ruleAudit.selection;
+ audit.inference={...audit.inference,exactCittaId:9};
+ assert.throws(()=>validateProcess(q),/Javana inference must remain UNKNOWN|Epistemic status mismatch/);
 });
 
 test('first-appana scenario: exactly one first-rupa-jhana moment after 3 or 4 preparation javanas',()=>{

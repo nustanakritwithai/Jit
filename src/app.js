@@ -45,12 +45,15 @@ function updateInputs(){
  const guided=$('selectionMode').value==='guided'&&!special;
  $('guidedCausalControls').hidden=!guided;
  $('guidedFollowControls').hidden=!(guided&&dom.followMind.checked);
- dom.javana.previousElementSibling.hidden=guided||special;
- dom.javana.hidden=guided||special;
- $('javanaDescription').hidden=guided||special;
+ // Guided attention cannot identify a precise citta. The user-selected example
+ // must stay visible: it is not an inferred result.
+ dom.javana.previousElementSibling.hidden=special;
+ dom.javana.previousElementSibling.textContent=guided?'ชวนจิตตัวอย่างที่เลือกเอง (ไม่ใช่ผลอนุมาน)':'ชวนจิตตัวอย่าง';
+ dom.javana.hidden=special;
+ $('javanaDescription').hidden=special;
  dom.door.disabled=special;
  dom.followMind.closest('.switch-row').hidden=special;
- dom.nextJavana.disabled=guided||special;
+ dom.nextJavana.disabled=special;
  $('javanaDescription').textContent=JAVANAS.find(x=>x.id===dom.javana.value).description;
  $('tryCausalExample').setAttribute('aria-pressed',String(guided));
 }
@@ -141,11 +144,13 @@ function renderMoment(m){
 const BASIS_LABELS={'commentarial-pattern':'กรอบตามคู่มือ/อรรถาธิบาย','scenario-assumption':'สมมติฐานการจำลอง'};
 function renderMomentRule(m){
  const selection=m.ruleAudit?.selection,transition=m.ruleAudit?.transition;
+ const unknown=selection?.epistemicStatus==='UNKNOWN';
  const assumption=selection?.basis==='scenario-assumption';
- $('ruleBasis').textContent=BASIS_LABELS[selection?.basis]||'ยังไม่มีข้อมูล';
- $('ruleBasis').className=assumption?'assumed':'documented';
+ $('ruleBasis').textContent=unknown?'UNKNOWN · ยังระบุจิตจริงไม่ได้':BASIS_LABELS[selection?.basis]||'ยังไม่มีข้อมูล';
+ $('ruleBasis').className=unknown?'unknown':assumption?'assumed':'documented';
  $('ruleExplanation').textContent=selection?.reason||'ยังไม่มีกฎยืนยันสำหรับขณะนี้';
- $('ruleSource').textContent=`ลำดับก่อนหน้า: ${transition?.reason||'เริ่มต้น'} · แหล่งอ้างอิง: ${selection?.source?.title||'ไม่ระบุ'}`;
+ const missing=unknown&&selection?.inference?.missing?.length?` · ข้อมูลที่ขาด: ${selection.inference.missing.join('; ')}`:'';
+ $('ruleSource').textContent=`ลำดับก่อนหน้า: ${transition?.reason||'เริ่มต้น'} · แหล่งอ้างอิง: ${selection?.source?.title||'ไม่ระบุ'}${missing}`;
 }
 const NS='http://www.w3.org/2000/svg';
 function svg(tag,attrs={},content){const e=document.createElementNS(NS,tag);for(const [name,value] of Object.entries(attrs))e.setAttribute(name,String(value));if(content!==undefined)e.textContent=content;return e;}

@@ -102,7 +102,7 @@ function newMoment(stage,config,cycle,order,javanaOrdinal=0,planned=null){
   // Tadārammaṇa varies by plane, individual, and preceding javana.
   // This is an explicit pedagogical simplification, not a universal mapping.
   selection={...chooseResultant('register',config.door,config.objectQuality),basis:'scenario-assumption',source:CAUSAL_SOURCES.scenario,
-   reason:'ตทาลัมพนะในแบบจำลองเลือกหนึ่งตัวอย่างตามคุณลักษณะอารมณ์ ผู้เรียนต้องตรวจเงื่อนไขภูมิ บุคคล และชวนจิตเพิ่มเติม'};
+   reason:'UNKNOWN: ตทาลัมพนะที่ปรากฏเป็นหนึ่งตัวอย่าง ไม่สามารถยืนยันจิตดวงนี้จากคุณลักษณะอารมณ์เพียงอย่างเดียวได้'};
   classification=format(selection.cittaId);
  }else{
   classification=TYPE_RULES[type];
@@ -152,7 +152,7 @@ export function createProcess(user={}){
   validateAssociations({cittaId:m.cittaId,family:m.family,ids:m.active});
   moments.push(m);
   transitionRules.push({...m.ruleAudit.transition,toMoment:m.id,selectionRule:m.ruleAudit.selection.rule,
-    selectionBasis:m.ruleAudit.selection.basis});
+    selectionBasis:m.ruleAudit.selection.basis,selectionEpistemicStatus:m.ruleAudit.selection.epistemicStatus??'SCENARIO_EXAMPLE'});
  };
  const pushPlan=plan=>plan.forEach((event,i)=>push(event.stage,{incoming:summarizeTransition(plan,i)}));
  const mindProcess=()=>{
@@ -191,11 +191,11 @@ export function createProcess(user={}){
   }
  }
  const conditions=buildConditionality(moments,cycles);
- const result={version:'0.4.0',educational:true,config,moments,cycles,conditions,transitionRules,
+ const result={version:'0.4.2',educational:true,config,moments,cycles,conditions,transitionRules,
   factorCount:FACTORS.length,associationRows:121,profileCount:JAVANAS.length,
   coverage:{registry24:PACCAYA_24.length,illustratedConditions:conditions.coverage.illustrated,unknownConditions:conditions.coverage.referenceOnly,specialWorkflows:['first-rupa-jhana-demo'],
    unsupported:['full Paṭṭhāna 24-case solver','lokuttara magga-phala','death/relinking','complete meditation attainment sequences']},
-  caveat:'การเลือกชวนจิตตามเงื่อนไขเป็นสมมติฐานเพื่อการสอน ไม่ใช่ผลจำเป็นตามเหตุปัจจัย 24 และไม่ใช่เครื่องพยากรณ์กรรมหรือวัดฌาน'};
+  caveat:'UNKNOWN ≠ PASS: โยนิโส/อโยนิโสมนสิการและแนวโน้มอย่างเดียวไม่ระบุเลขจิต 121 ดวง; ทุกชวนจิตที่แสดงมาจากรายการตัวอย่างที่เลือกด้วยตนเอง ไม่ใช่ผลทำนาย. ตทาลัมพนะเป็นกรณีสมมติเมื่อขาดข้อมูลบุคคล ภูมิ และวิบาก'};
  validateProcess(result);
  return result;
 }
@@ -205,10 +205,25 @@ export function validateProcess(process){
  if(process.transitionRules?.length!==process.moments.length)throw Error('Missing causal audit for each moment');
  for(const [i,m] of process.moments.entries()){
   if(m.order!==i+1)throw Error('Non-sequential moments');
+  if(process.transitionRules[i]?.selectionEpistemicStatus!==(m.ruleAudit.selection.epistemicStatus??'SCENARIO_EXAMPLE'))throw Error('Epistemic status mismatch between transition log and moment');
   if(Object.keys(m.vector).length!==52)throw Error('Each moment requires 52 variables');
   if(m.active.length!==Object.values(m.vector).filter(Boolean).length)throw Error('Activation mismatch');
   if(m.active.some(id=>m.vector[String(id)]!==true))throw Error('Vector mismatch');
-  if(!['commentarial-pattern','scenario-assumption'].includes(m.ruleAudit?.selection?.basis))throw Error('Causal evidence must distinguish source from assumption');
+  const selection=m.ruleAudit?.selection;
+  if(!['commentarial-pattern','scenario-assumption'].includes(selection?.basis))throw Error('Causal evidence must distinguish source from assumption');
+  if(m.stage==='javana'){
+   const expected=m.cycle===2&&process.config.nextJavana!=='same'?process.config.nextJavana:process.config.javana;
+   const predicted=process.config.selectionMode==='guided'?'UNKNOWN':'NOT_INFERRED';
+   if(selection.basis!=='scenario-assumption'||selection.chosenBy!=='user-example-preset'||
+      selection.preset!==expected||selection.epistemicStatus!==predicted||
+      selection.inference?.status!==predicted||selection.inference?.exactCittaId!==null||
+      m.cittaId!==javanaType(expected).cittaId)
+    throw Error('Javana inference must remain UNKNOWN or manually selected; never infer exact citta from cues');
+  }
+  if(m.stage==='register'&& (selection.basis!=='scenario-assumption'||selection.epistemicStatus!=='UNKNOWN'))
+   throw Error('Registration cannot be inferred from object quality alone');
+  if(['sense','receive','investigate'].includes(m.stage)&&selection.epistemicStatus!=='CONDITIONAL_ON_SCENARIO')
+   throw Error('Resultant selection requires declared scenario premise');
   validateAssociations({cittaId:m.cittaId,family:m.family,ids:m.active});
  }
  for(const cycle of process.cycles){
