@@ -1,4 +1,6 @@
 # JIT V0.7 — Source-bound Rūpa–Nāma Conditions
+
+> Historical V0.7 ledger: V0.7.1 now adds a narrowly scoped **§20 prenascence dissociation (sense-base only)**. The older six-condition/nine-role and vippayutta-UNKNOWN lines below describe V0.7, not current V0.7.1. See [V0.7.1 source ledger](RUPA_NAMA_V071_VIPPAYUTTA.md).
 **Scope:** only five-sense consciousness (10 types). The display is **conditional on declared premises**, not an observation of matter or real consciousness. **UNKNOWN ≠ PASS; CONDITIONAL_ON_SCENARIO ≠ CONFIRMED**.
 
 ## Source hierarchy
