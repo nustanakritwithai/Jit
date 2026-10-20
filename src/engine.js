@@ -1,3 +1,4 @@
+import {buildSenseCourse} from './vithi-strength.js';
 /** Vīthi: teaching scenarios instantiated from the 121-class sampayoga matrix. */
 import {FACTORS, IDS, JAVANAS, DOORS} from './data.js';
 import {getSampayoga,resolveSampayoga} from './association.js';
@@ -75,7 +76,7 @@ const STAGES={
  change_lineage:['โคตรภู','Gotrabhū','ชวนะเปลี่ยนโคตรก่อนอัปปนาในกรณีศึกษานี้','appana-preliminary'],
  absorption:['ปฐมฌานจิต (ตัวอย่าง)','Paṭhamajjhāna','ตัวอย่างรูปาวจรกุศลจิตปฐมฌานครั้งแรกหนึ่งขณะ','appana']
 };
-export const DEFAULT_CONFIG=Object.freeze({door:'eye',intensity:'very-great',mindClarity:'clear',javana:'kusala_wisdom',followMind:false,nextJavana:'same',interludeCount:2,...CAUSAL_DEFAULTS});
+export const DEFAULT_CONFIG=Object.freeze({door:'eye',intensity:'very-great',mindClarity:'clear',javana:'kusala_wisdom',objectDelay:'auto',followMind:false,nextJavana:'same',interludeCount:2,...CAUSAL_DEFAULTS});
 
 /** Create one moment from a planned stage and the entered hypothetical conditions. */
 function newMoment(stage,config,cycle,order,javanaOrdinal=0,planned=null){
@@ -166,8 +167,9 @@ export function createProcess(user={}){
  const senseProcess=()=>{
   currentCycle=1;javanaOrdinal=0;
   const start=moments.length;
+  const course=buildSenseCourse(config);
   pushPlan(planVithi(config,'five-door'));
-  cycles.push({id:1,door:config.door,kind:'five-door',start,end:moments.length-1,
+  cycles.push({id:1,door:config.door,kind:'five-door',start,end:moments.length-1,course,
    title:'ปัญจทวารวิถี',grade:config.intensity,
    note:config.intensity==='very-slight'?'ภวังค์ไหวเท่านั้น; ยังไม่เกิดวิถี':config.intensity==='slight'?'หยุดก่อนชวนจิต':config.intensity==='great'?'เกิดชวนจิตแต่ไม่มีตทาลัมพนะ':'วิถีเต็ม 17 ขณะ'});
  };
@@ -228,6 +230,12 @@ export function validateProcess(process){
  }
  for(const cycle of process.cycles){
   const subset=process.moments.slice(cycle.start,cycle.end+1);
+  if(cycle.kind==='five-door'){
+   const reference=buildSenseCourse(process.config);
+   if(subset.map(x=>x.stage).join('|')!==reference.stages.join('|')||
+      cycle.course?.pastCount!==reference.pastCount||cycle.course?.continuationCount!==reference.continuationCount)
+    throw Error('Five-door grade must follow the evidence-bounded object pattern');
+  }
   const javanas=subset.filter(m=>m.stage==='javana');
   if(cycle.kind==='appana-demo'){
    const preliminary=subset.filter(m=>['preparation','access','conformity','change_lineage'].includes(m.stage));
