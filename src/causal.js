@@ -1,3 +1,4 @@
+import {buildSenseCourse} from './vithi-strength.js';
 /**
  * An explicitly scoped condition-to-transition planner for teaching cases.
  * Textual patterns: Abhidhammatthasaṅgaha Ch IV (vīthi) and Bodhi et al. Ch IV.
@@ -121,7 +122,7 @@ export function planVithi(config,kind){
  if(kind!=='mind-door'&&kind!=='five-door')throw new RangeError('Unknown process kind');
  if(kind==='five-door'&&!INTENSITIES.has(config.intensity))throw new RangeError('Unknown object grade');
  if(kind==='mind-door'&&!['clear','obscure'].includes(config.mindClarity))throw new RangeError('Unknown mind clarity');
- const mind=kind==='mind-door',pastCount={'very-great':1,'great':2,'slight':6,'very-slight':15};
+ const mind=kind==='mind-door',course=mind?null:buildSenseCourse(config);
  let stage=mind?'vibrate':'past',repeats=0;
  const events=[];
  while(stage!==null){
@@ -129,7 +130,7 @@ export function planVithi(config,kind){
   events.push(step(stage,events.length===0?'จุดเริ่มกรณีศึกษา':'เกิดตามเงื่อนไขลำดับวิถี', 'sequence'));
   repeats++;
   let next=null,rule='sequence',why='ลำดับกิจในวิถีจิต';
-  if(stage==='past'){if(repeats<pastCount[config.intensity]){next='past';rule='object-grade';why='ภวังค์ที่ล่วงไปในแบบตัวอย่างของระดับอารมณ์ที่เลือก';}else{next='vibrate';rule='object-impact';why='อารมณ์ที่กำหนดเป็นปัจจัยให้ภวังคจิตไหวในแบบตัวอย่าง';}}
+  if(stage==='past'){if(repeats<course.pastCount){next='past';rule='object-grade';why='ภวังค์ที่ล่วงไปในแบบตัวอย่างของระดับอารมณ์ที่เลือก';}else{next='vibrate';rule='object-impact';why='อารมณ์ที่กำหนดเป็นปัจจัยให้ภวังคจิตไหวในแบบตัวอย่าง';}}
   else if(stage==='vibrate'){
    if(!mind&&config.intensity==='very-slight'&&repeats<2){next='vibrate';rule='very-slight';why='อารมณ์อ่อนมาก: ยังไม่เข้าสู่วิถีจิต';}
    else if(!mind&&config.intensity==='very-slight'){next=null;rule='very-slight';why='สิ้นสุดที่ภวังค์ไหว ไม่มีชวนจิต';}
@@ -143,7 +144,7 @@ export function planVithi(config,kind){
   else if(stage==='mind_advert'){next='javana';rule='mind-door-order';}
   else if(stage==='determine'){
    if(config.intensity==='slight'){
-    if(repeats<3){next='determine';rule='slight-object';why='อารมณ์ปริตตารมณ์ ไม่ถึงชวนะ แสดงโวฏฐัพพนะซ้ำในตัวอย่าง';}
+    if(repeats<course.determiningCount){next='determine';rule='slight-object';why='อารมณ์ปริตตารมณ์ ไม่ถึงชวนะ แสดงโวฏฐัพพนะซ้ำในตัวอย่าง';}
     else{next=null;rule='slight-object';why='วาระนี้สิ้นสุดก่อนชวนจิต';}
    }else{next='javana';rule='javana-enter';why='วาระนี้มีอารมณ์ถึงระดับที่ชวนจิตเกิดได้ในแบบตัวอย่าง';}
   }
@@ -165,6 +166,7 @@ export function planVithi(config,kind){
    source:CAUSAL_SOURCES.vithi};
   stage=next;
  }
+ if(!mind&&events.map(e=>e.stage).join('|')!==course.stages.join('|'))throw Error('Sense transition diverged from Chapter IV grade pattern');
  return Object.freeze(events);
 }
 
