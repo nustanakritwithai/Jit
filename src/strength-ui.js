@@ -52,7 +52,7 @@ export function mountStrength(root,{door,intensity,clarity,mode,onRebuild,onMome
   const c=buildSenseCourse(process.config);
   q('strengthOutcome').textContent=c.gradeName+' · '+c.course+' · '+c.endpoint;
   q('strengthWhy').textContent=c.reason;
-  q('strengthNumbers').textContent='อตีตภวังค์ '+c.pastCount+' · โวฏฐัพพนะ '+(c.hasProcess?c.determiningCount:0)+
+  q('strengthNumbers').textContent='อตีตภวังค์ '+c.pastCount+' · '+(c.hasProcess?'ภวังค์ไหว/ขาด 2 ขณะ':'ภวังค์ไหว 2 ขณะ')+' · โวฏฐัพพนะ '+(c.hasProcess?c.determiningCount:0)+
    ' · ชวนะ '+c.javanaCount+' · ตทาลัมพนะ '+c.registrationCount+
    ' · ภวังค์ภายหลังในกรอบรูป '+c.continuationCount+' ขณะ';
   q('strengthStop').textContent=c.hasProcess?'สิ้นสุดวิถีที่ '+c.endpoint+' (ช่อง '+c.activeCount+'/17) แล้วภวังค์ดำเนินต่อ':
