@@ -4,6 +4,7 @@ import {associationStatus} from './association.js';
 import {mountMatrix} from './matrix-ui.js';
 import {mountConditions} from './conditions-ui.js';
 import {mountRupa} from './rupa-ui.js';
+import {mountStrength} from './strength-ui.js';
 
 const $=id=>document.getElementById(id);
 const dom={
@@ -12,7 +13,7 @@ const dom={
  timeline:$('timeline'),network:$('network'),factorList:$('factorList'),factorSearch:$('factorSearch'),factorGroup:$('factorGroup')
 };
 let process=createProcess(),current=0,selectedFactor=1,timer=null,onlyActive=true;
-let matrixUi=null,conditionsUi=null,rupaUi=null;
+let matrixUi=null,conditionsUi=null,rupaUi=null,strengthUi=null;
 
 function option(value,label){const el=document.createElement('option');el.value=value;el.textContent=label;return el;}
 for(const d of DOORS)dom.door.add(option(d.id,d.name));
@@ -27,8 +28,9 @@ dom.mindClarity.value=DEFAULT_CONFIG.mindClarity;
 dom.javana.value=DEFAULT_CONFIG.javana;
 dom.nextJavana.value=DEFAULT_CONFIG.nextJavana;dom.interludeCount.value=String(DEFAULT_CONFIG.interludeCount);
 for(const id of ['processMode','faculties','objectQuality','selectionMode','attention','reactionCue','nextAttention','nextReactionCue'])$(id).value=String(DEFAULT_CONFIG[id]);
+strengthUi=mountStrength($('strengthPanel'),{door:dom.door,intensity:dom.intensity,clarity:dom.mindClarity,mode:$('processMode'),onRebuild:()=>rebuild(),onMoment:i=>{stop();setCurrent(i);}});
 
-function configFromForm(){return {door:dom.door.value,intensity:dom.intensity.value,mindClarity:dom.mindClarity.value,javana:dom.javana.value,followMind:dom.followMind.checked,nextJavana:dom.nextJavana.value,interludeCount:Number(dom.interludeCount.value),
+function configFromForm(){return {door:dom.door.value,intensity:dom.intensity.value,objectDelay:strengthUi.delayValue(),mindClarity:dom.mindClarity.value,javana:dom.javana.value,followMind:dom.followMind.checked,nextJavana:dom.nextJavana.value,interludeCount:Number(dom.interludeCount.value),
  processMode:$('processMode').value,faculties:$('faculties').value,objectQuality:$('objectQuality').value,selectionMode:$('selectionMode').value,
  attention:$('attention').value,reactionCue:$('reactionCue').value,nextAttention:$('nextAttention').value,nextReactionCue:$('nextReactionCue').value};}
 function updateInputs(){
@@ -60,7 +62,7 @@ function updateInputs(){
 }
 
 function stop(){if(timer!==null){clearInterval(timer);timer=null;}dom.play.textContent='▶ เริ่มเล่น';$('quickStartBtn').innerHTML='▶ เริ่มจำลองกรณีนี้ <span aria-hidden="true">→</span>'; }
-function rebuild(){stop();updateInputs();process=createProcess(configFromForm());validateProcess(process);current=0;render();updatePresetButtons();}
+function rebuild(){stop();updateInputs();strengthUi.syncGrade();process=createProcess(configFromForm());validateProcess(process);current=0;render();updatePresetButtons();}
 for(const id of ['door','intensity','mindClarity','javana','nextJavana','interludeCount','processMode','faculties','objectQuality','selectionMode','attention','reactionCue','nextAttention','nextReactionCue'])$(id).addEventListener('change',rebuild);
 dom.followMind.addEventListener('change',rebuild);
 dom.speed.addEventListener('change',()=>{if(timer!==null){stop();play();}});
@@ -100,7 +102,7 @@ function render(){
  progress.setAttribute('aria-valuemax',String(process.moments.length));
  progress.setAttribute('aria-valuenow',String(current+1));
  $('progressFill').style.width=`${((current+1)/process.moments.length)*100}%`;
- renderTimeline();renderMoment(m);
+ renderTimeline();renderMoment(m);strengthUi.render(process,current);
  if(document.querySelector('.graph-disclosure')?.open)renderGraph(m);
  renderFactors(m);renderFactorDetail(m);renderConditionPlain();conditionsUi?.render();
 }
