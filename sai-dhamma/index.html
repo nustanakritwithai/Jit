@@ -1,5 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>สายธรรม</title>
+<!doctype html><html lang="th"><head><meta charset=utf8><meta name="theme-color" content="#315E4A"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>สายธรรม · เกมสืบทอดสายธรรม</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pridi:wght@500;600&family=Sarabun:wght@400;500;600;700&display=swap">
 <style>
@@ -160,7 +160,221 @@ button{font:inherit;color:inherit}
 #banner h2{margin:0;font:600 22px/1.3 var(--font-display)}
 #banner p{margin:0;color:var(--ink-soft);font-size:14px}
 @media (prefers-reduced-motion:reduce){.edge.teach,.node.flash .ring{animation:none}}
+
+/* ===== SAI DHAMMA · VISUAL UX 1.1 ===== */
+:root{--soft-shadow:0 12px 40px rgba(39,49,28,.12);--soft-card:color-mix(in srgb,var(--surface) 88%,white);--active-glow:rgba(182,120,31,.15)}
+.icon-sprite{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.ui-icon{width:19px;height:19px;display:inline-block;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;fill:none;flex-shrink:0;vertical-align:middle}
+button .ui-icon{pointer-events:none}
+body{font-size:15px;line-height:1.55}
+#app{isolation:isolate}
+#top{position:relative;z-index:11;min-height:72px;gap:10px;padding-block:10px;border-bottom:1px solid var(--line);box-shadow:0 3px 15px rgba(15,22,11,.045)}
+.brand{gap:9px;align-items:center}
+.brand-emblem{width:44px;height:44px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#305C47,#6B8F64);color:#FFE3A2;box-shadow:0 4px 12px rgba(41,85,51,.2);flex:none}
+.brand-emblem .ui-icon{width:29px;height:29px;stroke-width:1.55}
+.brand-copy{display:flex;flex-direction:column;min-width:0}
+.brand-copy h1{font:600 23px/1.15 var(--font-display);letter-spacing:.01em}
+.brand-copy span{font-size:11px!important;color:var(--ink-soft);line-height:1.2}
+.year-pill{flex:none;padding:5px 9px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;font-size:12px!important;font-weight:700;color:var(--accent)!important;white-space:nowrap}
+#top .seg{box-shadow:inset 0 1px 2px rgba(0,0,0,.04);border-radius:12px;align-items:stretch}
+#top .seg button{min-width:44px!important;padding:0 12px!important;min-height:42px;display:grid;place-items:center}
+#top .seg button[aria-pressed=true]{box-shadow:0 2px 8px var(--active-glow)}
+.header-btn{display:inline-flex;align-items:center;gap:7px;justify-content:center;background:var(--surface);white-space:nowrap;min-height:42px;border-radius:12px}
+.header-btn .ui-icon{width:18px;height:18px}
+.help-btn{border-color:color-mix(in srgb,var(--teal) 38%,var(--line));color:var(--teal)}
+#stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;background:var(--paper);padding-block:9px;border-bottom:1px solid var(--line)}
+.stat-cell{display:flex;gap:10px;min-width:0;align-items:center;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 3px 8px rgba(0,0,0,.025)}
+.stat-picto{height:38px;width:38px;display:grid;place-items:center;border-radius:12px;flex:none;background:color-mix(in srgb,var(--accent) 15%,var(--surface));color:var(--accent)}
+.stat-picto .ui-icon{height:23px;width:23px}
+.stat-cell.people .stat-picto{background:color-mix(in srgb,var(--teal) 14%,var(--surface));color:var(--teal)}
+.stat-cell.noble .stat-picto{background:color-mix(in srgb,var(--gold) 15%,var(--surface));color:var(--gold)}
+.stat-cell.herb .stat-picto{background:color-mix(in srgb,var(--ok) 13%,var(--surface));color:var(--ok)}
+.stat-text{display:flex;flex-direction:column;gap:0;min-width:0}
+.stat-text>small{color:var(--ink-soft);font-size:11px;font-weight:700;white-space:nowrap}
+.stat-value{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;min-width:0}
+#stats b{color:var(--ink);font-size:17px;font-weight:800;line-height:1.3;white-space:normal}
+#stats #stI{font-size:10px;color:var(--ok);font-weight:600}
+#viewport{background:radial-gradient(130% 130% at 60% 16%,var(--surface-2),var(--paper));}
+.scene-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.95;filter:saturate(.7)}
+#tree{position:relative;z-index:1}
+.ticker-wrap{z-index:3;top:12px;left:75px;right:75px}
+#ticker{background:color-mix(in srgb,var(--surface) 95%,transparent);font-size:12px;max-width:700px;backdrop-filter:blur(6px);border-radius:14px;min-height:36px;box-shadow:0 6px 16px rgba(25,35,26,.09)}
+.zoomctl{z-index:4;top:58px;right:max(12px,env(safe-area-inset-right,0px));box-shadow:0 4px 20px rgba(18,30,20,.12);border-radius:14px}
+.zoomctl button{min-width:44px;min-height:44px}
+.node .nm{font-size:13.5px;font-weight:700}
+.node .ring{stroke-width:4.8}
+.node .stg{font-size:11px}
+.node.sel .selr{stroke-width:3;stroke-dasharray:5 5;animation:ring-dash 4s linear infinite}
+@keyframes ring-dash{to{stroke-dashoffset:-80}}
+.quick-dock{position:absolute;z-index:5;bottom:max(13px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 28px));display:flex;flex-direction:column;align-items:center;gap:9px;pointer-events:none}
+.quick-hint{background:color-mix(in srgb,var(--surface) 90%,transparent);border:1px solid var(--line);border-radius:999px;padding:5px 12px;display:flex;gap:7px;align-items:center;color:var(--ink-soft);font-size:11px;white-space:nowrap;box-shadow:0 4px 15px rgba(0,0,0,.065);backdrop-filter:blur(8px)}
+.quick-hint .ui-icon{width:14px;height:14px;color:var(--teal)}
+.dock-actions{width:100%;display:flex;gap:8px;padding:8px;background:color-mix(in srgb,var(--surface) 96%,transparent);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 40px rgba(22,40,23,.17);backdrop-filter:blur(12px);pointer-events:auto}
+.dock-actions button{border-radius:13px;min-height:50px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 13px;font-size:14px;font-weight:700;cursor:pointer}
+.dock-primary{background:linear-gradient(125deg,#B06B24,#D08E35);color:white;border:1px solid transparent;flex:1.45;box-shadow:0 4px 12px rgba(137,82,15,.2)}
+.dock-primary .arr{width:16px}
+.dock-secondary{background:var(--surface-2);color:var(--ink);border:1px solid var(--line);flex:1;position:relative}
+#eventBadge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;background:var(--bad);color:#fff;border-radius:50%;font-size:11px;font-style:normal}
+#sheet{max-height:74%;border-radius:24px 24px 0 0;padding-top:17px;box-shadow:0 -15px 55px rgba(16,29,18,.23);background:var(--paper);border-top:2px solid var(--line)}
+#sheet .sh{gap:12px}
+#sheet .sh-head{padding:8px 10px 14px;border-bottom:1px solid var(--line);gap:13px}
+#sheet .sh-head .av{width:76px;height:76px;border-width:4px;box-shadow:0 5px 14px rgba(0,0,0,.16)}
+#sheet .sh-id h2{font-size:21px}
+#sheet .sh-id p{line-height:1.5}
+#sheet .x{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:13px}
+#sheet .sec{padding:13px;border-radius:16px;background:var(--surface);border:1px solid var(--line);gap:9px;box-shadow:0 3px 12px rgba(18,30,18,.025)}
+#sheet .sec .lab{font-size:12px;display:flex;align-items:center;gap:8px;color:var(--ink-soft);letter-spacing:0}
+#sheet .sec .lab .ui-icon{width:18px;height:18px;color:var(--teal)}
+#sheet .sec .stg-n{display:inline-block;color:var(--accent)}
+#sheet .sec:has(.stg-n){background:linear-gradient(135deg,color-mix(in srgb,var(--surface) 78%,var(--accent) 5%),var(--surface))}
+#sheet .row{background:var(--paper);border-radius:12px;gap:9px;padding:10px 11px}
+#sheet .row .grow{min-width:125px}
+#sheet .row .grow b{font-size:14px}
+#sheet .row .grow .muted{display:block;line-height:1.4}
+#sheet button[data-act]{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:43px}
+#sheet button[data-act=focus]{flex:1;min-width:0}
+#sheet .seg{display:flex;max-width:100%;border-radius:12px}
+#sheet .seg button{white-space:normal;line-height:1.3;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:5px}
+#sheet .bar{height:10px;background:var(--surface-2)}
+#sheet .bar>i{border-radius:8px}
+#sheet .chip{border-radius:8px;padding:5px 9px;background:var(--paper)}
+#sheet .btn.pri{background:linear-gradient(125deg,#A7641C,#C78532);color:#fff}
+.char-brief{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.char-brief span{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--ink-soft);background:var(--surface);padding:9px 10px;border:1px solid var(--line);border-radius:11px}
+.char-brief .ui-icon{height:16px;width:16px;color:var(--accent)}
+#panel .ph{gap:10px;padding-top:11px;padding-bottom:11px}
+#panel .ph h2{font-size:22px}
+#panel .tabs{background:var(--surface);border-bottom:1px solid var(--line);padding-block:7px}
+#panel .tabs .seg{display:flex;width:max-content;min-width:100%;border:0;gap:5px;background:transparent;overflow:visible}
+#panel .tabs .seg button{min-height:44px;border:1px solid transparent;border-radius:11px;display:flex;align-items:center;gap:6px;padding:8px 13px;font-size:13px;white-space:nowrap}
+#panel .tabs .seg button+button{border-left:1px solid transparent}
+#panel .tabs .seg button[aria-pressed=true]{background:color-mix(in srgb,var(--accent) 12%,var(--surface));color:var(--accent);border-color:color-mix(in srgb,var(--accent) 28%,var(--surface));box-shadow:none}
+#panel .body{padding-top:14px;gap:11px}
+#panel .card{border-radius:15px;padding:14px 15px;gap:9px;box-shadow:0 3px 11px rgba(0,0,0,.025)}
+#panel .card h3{font-size:17px}
+#panel .card .btn{display:inline-flex;align-items:center;gap:6px;justify-content:center}
+#panel .body .btn{min-height:43px}
+#panel .body button:not(.btn){display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.intro-card{display:flex;align-items:center;gap:16px;padding:21px 18px;background:linear-gradient(130deg,#275A48,#447456);border-radius:18px;color:#FFF8DC;box-shadow:0 12px 24px rgba(27,71,50,.16)}
+.intro-symbol{display:grid;place-items:center;width:67px;height:67px;flex:none;border-radius:19px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.26)}
+.intro-symbol .ui-icon{width:44px;height:44px;stroke:#F8D995}
+.intro-card .eyebrow{font-size:11px;color:#DFEFD8;font-weight:700;letter-spacing:.03em}
+.intro-card h3{margin:4px 0 5px;font:600 22px/1.25 var(--font-display)}
+.intro-card p{font-size:13px;line-height:1.5;opacity:.89;margin:0}
+.how-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.how-step{display:flex;flex-direction:column;gap:9px;padding:15px 13px;background:var(--surface);border:1px solid var(--line);border-radius:15px;position:relative;min-height:155px}
+.step-n{position:absolute;top:13px;right:13px;color:var(--ink-soft);font-size:11px;font-weight:800}
+.step-ico{display:grid;place-items:center;width:41px;height:41px;border-radius:13px;color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--surface))}
+.step-ico .ui-icon{height:23px;width:23px}
+.how-step h3{font-size:16px;margin:0 0 4px;font-family:var(--font-display)}
+.how-step p{margin:0;font-size:12px;color:var(--ink-soft);line-height:1.55}
+.how-legend{padding:14px 15px;border-radius:14px;border:1px dashed var(--line);background:var(--surface)}
+.how-legend>b{font-size:13px}
+.how-legend>div{display:flex;flex-wrap:wrap;gap:12px 19px;margin:9px 0}
+.how-legend>div span{display:inline-flex;align-items:center;gap:7px;font-size:13px}
+.how-legend p{font-size:12px;color:var(--ink-soft);margin:0}
+.legend-ring{display:inline-block;width:17px;height:17px;border:3px solid var(--ring0);border-radius:50%}
+.legend-ring.meditation{border-color:var(--ringj)}
+.legend-ring.noble{border-color:var(--ringa)}
+.legend-ring.awakened{border-color:var(--ringx)}
+.how-start{width:100%;display:flex!important;justify-content:center;align-items:center;gap:9px;font-size:16px!important;min-height:52px!important;border-radius:13px!important}
+#sheet .warn{border-radius:13px;background:color-mix(in srgb,var(--bad) 7%,var(--surface))}
+button{transition:filter .14s ease,transform .14s ease,border-color .14s ease}
+@media (hover:hover){button:not(:disabled):hover{filter:brightness(1.04)}.dock-actions button:not(:disabled):hover{transform:translateY(-2px)}}
+button:active:not(:disabled){transform:translateY(1px)}
+@media (max-width:760px){
+ #top{display:grid;grid-template-columns:1fr auto auto;grid-template-areas:'brand menu help' 'speed speed speed';row-gap:9px;min-height:unset;padding-top:7px;padding-bottom:8px}
+ #top .brand{grid-area:brand}
+ #top #speed{grid-area:speed;width:100%}
+ #top #speed button{flex:1}
+ #top #menuBtn{grid-area:menu}
+ #top #helpBtn{grid-area:help}
+ .brand-emblem{width:38px;height:38px;border-radius:12px}
+ .brand-emblem .ui-icon{width:25px;height:25px}
+ .brand-copy h1{font-size:20px}
+ .brand-copy span{font-size:10px!important}
+ .year-pill{font-size:11px!important;padding:4px 7px}
+ #stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding-block:7px}
+ .stat-cell{padding:7px 10px;gap:8px;min-height:52px}
+ .stat-picto{width:31px;height:31px;border-radius:10px}
+ .stat-picto .ui-icon{width:19px;height:19px}
+ .stat-text>small{font-size:10px}
+ #stats b{font-size:14px}
+ #stats #stI{font-size:9px}
+ .ticker-wrap{left:10px;right:69px;justify-content:start;top:10px}
+ #ticker{text-align:left;min-height:33px;padding:5px 10px;font-size:11px}
+ .zoomctl{top:54px;right:10px}
+ #sheet{max-height:79%;padding:11px max(12px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+ #sheet .sh-head{padding:5px 3px 12px}
+ #sheet .sh-id h2{font-size:18px}
+ #sheet .sh-head .av{width:62px;height:62px}
+ #sheet .char-brief span{padding:7px 6px;font-size:11px;flex-wrap:wrap}
+ #panel .tabs .seg button{padding:7px 12px}
+ .how-steps{grid-template-columns:1fr;gap:8px}
+ .how-step{flex-direction:row;align-items:flex-start;min-height:0;padding:12px 12px 13px;gap:11px}
+ .how-step .step-ico{flex:none;width:42px;height:42px}
+ .how-step .step-n{display:none}
+ .intro-card{padding:15px 14px;gap:12px}
+ .intro-symbol{width:52px;height:52px;border-radius:15px}
+ .intro-symbol .ui-icon{width:33px;height:33px}
+ .intro-card h3{font-size:18px}
+}
+@media(max-width:380px){
+ .brand-copy span{display:none}
+ #top{column-gap:5px}
+ #top .header-btn{padding:0 9px}
+ #top .help-btn span{display:none}
+ .quick-hint{font-size:10px;padding:5px 9px}
+ .dock-actions button{font-size:12px;padding:0 8px;gap:5px}
+ .dock-primary .arr{display:none}
+ #sheet .row .grow{min-width:106px}
+}
+@media(max-height:650px) and (min-width:600px){.quick-hint{display:none}.quick-dock{bottom:7px}.dock-actions button{min-height:40px}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .scene-art{opacity:.24;filter:saturate(.4)}}
+:root[data-theme="dark"] .scene-art{opacity:.24;filter:saturate(.4)}
+
+/* Character sheet: actionable navigation to long sections */
+.action-shortcuts{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:7px;position:relative}
+.action-shortcuts button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 7px;border-radius:12px;background:color-mix(in srgb,var(--teal) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 30%,var(--line));color:var(--teal);font:700 12px var(--font-body);cursor:pointer}
+.action-shortcuts button .ui-icon{width:17px;height:17px}
+.action-shortcuts button:last-child{background:color-mix(in srgb,var(--accent) 10%,var(--surface));border-color:color-mix(in srgb,var(--accent) 32%,var(--line));color:var(--accent)}
+#sheet .kidlist button{min-height:40px;display:inline-flex;align-items:center;gap:5px}
+#sheet [id^="sec-"]{scroll-margin-top:10px}
+@media(prefers-reduced-motion:reduce){button,.node.sel .selr{transition:none;animation:none}}
 </style>
+
+
+<!-- โทนภาพและชุดไอคอนเวกเตอร์ ใช้งานได้โดยไม่ต้องเรียกไลบรารีภายนอก -->
+<svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="ic-lotus" viewBox="0 0 24 24"><path d="M12 20c-5.5 0-9-3.2-9-8 3.4 0 6.3 1.2 9 4 2.7-2.8 5.6-4 9-4 0 4.8-3.5 8-9 8Z"/><path d="M12 17c-3.7-3.7-3.7-8.4 0-12 3.7 3.6 3.7 8.3 0 12Z"/><path d="M7.5 16.6C5.6 14.7 5 12.7 5 10M16.5 16.6c1.9-1.9 2.5-3.9 2.5-6.6M5 22h14"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M2.8 20v-2a6.2 6.2 0 0 1 12.4 0v2H2.8Z"/><path d="M16 5.2a3.1 3.1 0 0 1 0 6M17.5 14a5.2 5.2 0 0 1 3.7 5v1h-4"/></symbol>
+  <symbol id="ic-awake" viewBox="0 0 24 24"><path d="m12 2 2.1 6.9L21 11l-6.9 2.1L12 20l-2.1-6.9L3 11l6.9-2.1L12 2Z"/><path d="M20 19v4M18 21h4M3 2v4M1 4h4"/></symbol>
+  <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M20.5 3.5C8 3 3.2 9.3 5.5 16.5c2 5.9 11 4.7 13.3-2.4 1.2-3.4 1.4-7.4 1.7-10.6Z"/><path d="M3 21c4-6.2 8-9.2 14-12"/><path d="m10 13 1.5 4M13 11l4 .2"/></symbol>
+  <symbol id="ic-book" viewBox="0 0 24 24"><path d="M12 6.5C8.8 4.5 5 4 2 5v13c3-1 6.8-.5 10 1.5 3.2-2 7-2.5 10-1.5V5c-3-1-6.8-.5-10 1.5ZM12 6.5V19"/></symbol>
+  <symbol id="ic-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.8 2.8 0 0 1 5.5.7c0 2-3 2-3 4.4M12 17.8h.01"/></symbol>
+  <symbol id="ic-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="ic-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"/></symbol>
+  <symbol id="ic-chevrons" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M13 7l5 5-5 5"/></symbol>
+  <symbol id="ic-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 5-5 2 2-5 5-2Z"/></symbol>
+  <symbol id="ic-teach" viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4V4Z"/><path d="M8 9h8M8 12h5"/></symbol>
+  <symbol id="ic-temple" viewBox="0 0 24 24"><path d="M3 9h18L12 3 3 9ZM5 10v8M10 10v8M14 10v8M19 10v8M3 19h18M2 22h20"/></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="ic-settings" viewBox="0 0 24 24"><path d="M10 2h4l.6 2.6a8 8 0 0 1 2 1.2L19 4.8l2 3.4-2 1.7a8 8 0 0 1 0 2.3l2 1.6-2 3.5-2.4-1a8 8 0 0 1-2 1.2L14 20h-4l-.6-2.5a8 8 0 0 1-2-1.2l-2.4 1-2-3.5 2-1.6a8 8 0 0 1 0-2.3L3 8.2l2-3.4 2.4 1a8 8 0 0 1 2-1.2L10 2Z" transform="translate(0 1) scale(.92) translate(1.1 0)"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="ic-message" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h4l4 3 4-3h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/><path d="M7 10h10M7 14h7"/></symbol>
+  <symbol id="ic-add-user" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20v-2a6 6 0 0 1 10-4.5M18 12v8M14 16h8"/></symbol>
+  <symbol id="ic-walk" viewBox="0 0 24 24"><circle cx="14" cy="4" r="2"/><path d="m10 22 2-6-3-3-3 3-3 1M9 13l3-4 4 2 3 3M12 16l6 6"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M20.8 6.8c-2.3-3-6-2.2-8.8.6-2.8-2.8-6.5-3.6-8.8-.6-3.2 4.1 2 9 8.8 14 6.8-5 12-9.9 8.8-14Z"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2 21 6v6c0 5-3.3 8-9 10-5.7-2-9-5-9-10V6l9-4Z"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="ic-hourglass" viewBox="0 0 24 24"><path d="M6 2h12M6 22h12M7 3v4c0 3 5 5 5 5s5-2 5-5V3M7 21v-4c0-3 5-5 5-5s5 2 5 5v4"/></symbol>
+  <symbol id="ic-spark" viewBox="0 0 24 24"><path d="m12 2 1.7 7.2L21 11l-7.3 1.8L12 20l-1.8-7.2L3 11l7.2-1.8L12 2Z"/></symbol>
+  <symbol id="ic-sunrise" viewBox="0 0 24 24"><path d="M2 18h20M5 21h14M6 18a6 6 0 1 1 12 0M12 2v3M4 8l2 2M20 8l-2 2"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="m4 12 5 5 11-11"/></symbol>
+  <symbol id="ic-save" viewBox="0 0 24 24"><path d="M4 3h13l3 3v15H4V3ZM8 3v6h8V3M8 21v-8h8v8"/></symbol>
+  <symbol id="ic-restore" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.5 6.3M3 4v7h7M12 7v5l4 2"/></symbol>
+  <symbol id="ic-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 3v7h7"/><path d="M12 8v4l3 2"/></symbol>
+</svg>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -173,30 +387,58 @@ button{font:inherit;color:inherit}
 
 <div id="app">
   <header id="top" class="band">
-    <div class="brand"><h1>สายธรรม</h1><span id="yr">ปีที่ 1</span></div>
-    <div class="seg" id="speed" role="group" aria-label="ความเร็วเวลา">
-      <button data-sp="0" aria-label="หยุดเวลา">II</button>
-      <button data-sp="1" aria-pressed="true">×1</button>
-      <button data-sp="3">×3</button>
-      <button data-sp="10">×10</button>
+    <div class="brand">
+      <span class="brand-emblem"><svg class="ui-icon"><use href="#ic-lotus"></use></svg></span>
+      <div class="brand-copy"><h1>สายธรรม</h1><span>ฝึกใจ · สืบทอดคำสอน</span></div>
+      <span id="yr" class="year-pill">ปีที่ 1</span>
     </div>
-    <button class="btn" id="menuBtn">ตำรา</button>
+    <div class="seg" id="speed" role="group" aria-label="ความเร็วเวลา">
+      <button data-sp="0" aria-label="หยุดเวลา"><svg class="ui-icon"><use href="#ic-pause"></use></svg></button>
+      <button data-sp="1" aria-pressed="true" aria-label="เดินเวลา 1 เท่า">×1</button>
+      <button data-sp="3" aria-label="เดินเวลา 3 เท่า">×3</button>
+      <button data-sp="10" aria-label="เดินเวลา 10 เท่า">×10</button>
+    </div>
+    <button class="btn header-btn" id="menuBtn"><svg class="ui-icon"><use href="#ic-book"></use></svg><span id="menuBtnLabel">ตำรา</span></button>
+    <button class="btn header-btn help-btn" id="helpBtn" aria-label="เปิดคู่มือเริ่มเล่น"><svg class="ui-icon"><use href="#ic-help"></use></svg><span>วิธีเล่น</span></button>
   </header>
-  <div id="stats" class="band">
-    <span>ศรัทธา <b id="stF">0</b> <small id="stI"></small></span>
-    <span>สมาชิก <b id="stN">0</b></span>
-    <span>พระอรหันต์ <b id="stA">0</b></span>
-    <span>สมุนไพร <b id="stH">0</b></span>
+  <div id="stats" class="band" aria-label="ภาพรวมสายธรรม">
+    <div class="stat-cell faith"><span class="stat-picto"><svg class="ui-icon"><use href="#ic-lotus"></use></svg></span><div class="stat-text"><small>ศรัทธา</small><div class="stat-value"><b id="stF">0</b><small id="stI"></small></div></div></div>
+    <div class="stat-cell people"><span class="stat-picto"><svg class="ui-icon"><use href="#ic-users"></use></svg></span><div class="stat-text"><small>สมาชิก</small><div class="stat-value"><b id="stN">0</b></div></div></div>
+    <div class="stat-cell noble"><span class="stat-picto"><svg class="ui-icon"><use href="#ic-awake"></use></svg></span><div class="stat-text"><small>พระอรหันต์</small><div class="stat-value"><b id="stA">0</b></div></div></div>
+    <div class="stat-cell herb"><span class="stat-picto"><svg class="ui-icon"><use href="#ic-leaf"></use></svg></span><div class="stat-text"><small>สมุนไพร</small><div class="stat-value"><b id="stH">0</b></div></div></div>
   </div>
   <main id="viewport">
+    <svg class="scene-art" viewBox="0 0 1200 650" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="sceneSky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FFEDD0" stop-opacity=".65"/><stop offset="1" stop-color="#B7D9BB" stop-opacity=".08"/></linearGradient></defs>
+      <rect width="1200" height="650" fill="url(#sceneSky)"/>
+      <circle cx="915" cy="143" r="100" fill="#E9BD68" opacity=".18"/>
+      <circle cx="915" cy="143" r="72" fill="#F7DB98" opacity=".24"/>
+      <path d="M0 460Q95 385 190 440T385 405T570 420T775 390T980 415T1200 388V650H0Z" fill="#99BDAA" opacity=".27"/>
+      <path d="M0 524Q155 455 295 515T585 476T905 504T1200 466V650H0Z" fill="#73998A" opacity=".18"/>
+      <g fill="none" stroke="#446E59" stroke-linecap="round" opacity=".31">
+        <path d="M1030 650V290M1027 387c-40-62-68-75-106-85M1030 432c41-58 72-72 116-77M1040 485c43-30 81-38 128-41" stroke-width="12"/>
+        <path d="M160 650V338M160 407C114 355 76 346 30 341M160 446c58-70 94-73 133-75" stroke-width="9"/>
+      </g>
+      <g fill="#678773" opacity=".18"><ellipse cx="970" cy="302" rx="90" ry="34"/><ellipse cx="1093" cy="341" rx="94" ry="30"/><ellipse cx="45" cy="335" rx="96" ry="37"/><ellipse cx="240" cy="365" rx="82" ry="28"/></g>
+      <g transform="translate(610 486)" fill="#677D66" opacity=".22"><path d="M-108 2 0-74 108 2Z"/><path d="M-78-7v79H78V-7ZM-50 7h100v61H-50Z" fill-rule="evenodd"/><path d="M-55-76 0-137 55-76Z"/><path d="M-24-133 0-177 24-133Z"/><path d="M-3-205h6v30h-6Z"/><rect x="-115" y="70" width="230" height="14" rx="4"/></g>
+      <path d="M0 615Q300 570 600 612T1200 591V650H0Z" fill="#6F9A82" opacity=".12"/>
+      <g stroke="#5D8C75" stroke-width="3" stroke-linecap="round" opacity=".24"><path d="M94 647v-35l-18-16M94 632l21-30M340 650v-43l-11-15M1080 650v-34l22-16"/></g>
+    </svg>
     <svg id="tree" role="group" aria-label="ผังสายอาจารย์และศิษย์"><g id="world"><g id="edges"></g><g id="nodes"></g></g></svg>
     <div class="ticker-wrap"><button id="ticker" type="button"></button></div>
     <div class="zoomctl"><button id="zin" aria-label="ซูมเข้า">+</button><button id="zout" aria-label="ซูมออก">−</button><button id="zfit" aria-label="จัดผังให้พอดีจอ">⌖</button></div>
+    <div class="quick-dock" id="quickDock">
+      <div class="quick-hint"><svg class="ui-icon"><use href="#ic-help"></use></svg><span>แตะรูปตัวละครเพื่อฝึก · ลากผังเพื่อดูรุ่นถัดไป</span></div>
+      <div class="dock-actions">
+        <button type="button" id="goHead" class="dock-primary"><svg class="ui-icon"><use href="#ic-lotus"></use></svg>จัดการสายธรรม<svg class="ui-icon arr"><use href="#ic-arrow"></use></svg></button>
+        <button type="button" id="goEvents" class="dock-secondary"><svg class="ui-icon"><use href="#ic-message"></use></svg><span>เหตุการณ์</span><em id="eventBadge" hidden>0</em></button>
+      </div>
+    </div>
   </main>
   <section id="sheet" hidden aria-live="off"></section>
   <section id="panel" hidden>
     <div class="ph band"><h2>ตำรา</h2><button class="btn" id="pClose">ปิด</button></div>
-    <div class="tabs band"><div class="seg" id="tabs" role="group"><button data-tab="log" aria-pressed="true">บันทึก</button><button data-tab="ev">เหตุการณ์</button><button data-tab="up">วัด</button><button data-tab="tech">วิชา</button><button data-tab="stage">ขั้นภูมิ</button><button data-tab="goal">เป้าหมาย</button><button data-tab="set">ตั้งค่า</button></div></div>
+    <div class="tabs band"><div class="seg" id="tabs" role="group"><button data-tab="how" aria-pressed="true">เริ่มเล่น</button><button data-tab="log">บันทึก</button><button data-tab="ev">เหตุการณ์</button><button data-tab="up">วัด</button><button data-tab="tech">วิชา</button><button data-tab="stage">ขั้นภูมิ</button><button data-tab="goal">เป้าหมาย</button><button data-tab="set">ตั้งค่า</button></div></div>
     <div class="body band" id="pBody"></div>
   </section>
   <div id="banner" hidden role="dialog" aria-modal="true" aria-labelledby="bnTitle"></div>
@@ -209,6 +451,22 @@ var $=function(s){return document.querySelector(s)};
 var YEAR=6,R=34,GX=108,GY=152,KEY='saidhamma.v01',CIRC=2*Math.PI*(R+5);
 var rnd=function(n){return Math.floor(Math.random()*n)},pick=function(a){return a[rnd(a.length)]},clamp=function(x,a,b){return Math.max(a,Math.min(b,x))};
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})};
+function icon(k){return '<svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#ic-'+k+'"></use></svg>'}
+function decorateUI(root){
+ if(!root)return;
+ var acts={focus:'target',teach:'teach',talk:'message',recruit:'add-user',goto:'arrow',found:'temple',pill:'leaf',trek:'walk'};
+ var tabs={how:'help',log:'book',ev:'message',up:'temple',tech:'teach',stage:'lotus',goal:'target',set:'settings'};
+ Array.prototype.forEach.call(root.querySelectorAll('button'),function(b){
+  if(b.hasAttribute('data-iconified') || b.querySelector('svg'))return;
+  var key=b.dataset.act?acts[b.dataset.act]:b.dataset.tab?tabs[b.dataset.tab]:b.dataset.up?'temple':b.dataset.fest?'sunrise':b.dataset.ev?'message':({expBtn:'save',impBtn:'restore',resetBtn:'reset',atBtn:'teach',hdBtn:'users',startFromHelp:'play'}[b.id]);
+  if(key){b.insertAdjacentHTML('afterbegin',icon(key));b.setAttribute('data-iconified','1')}
+ });
+ Array.prototype.forEach.call(root.querySelectorAll('.sec>.lab'),function(e){
+  if(e.hasAttribute('data-iconified'))return;
+  var t=e.textContent,k=t.indexOf('อินทรีย์')===0?'target':t.indexOf('วิชา')===0?'book':t.indexOf('ความสัมพันธ์')===0?'heart':t.indexOf('เรียนวิชา')===0?'teach':t.indexOf('ศิษย์')===0?'users':t.indexOf('สำนัก')===0?'temple':t.indexOf('โอสถ')===0?'leaf':t.indexOf('ธุดงค์')===0?'walk':t.indexOf('เน้น')===0?'compass':null;
+  if(k){e.insertAdjacentHTML('afterbegin',icon(k));e.setAttribute('data-iconified','1')}
+ });
+}
 
 /* ---------- data ---------- */
 var STAGES=[
@@ -744,7 +1002,7 @@ function centerOn(id){
 var ptrs={},nP=0,drag=null,pinch=null,moved=0,downT=0;
 function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
 vp.addEventListener('pointerdown',function(e){
- if(e.target.closest('.zoomctl,.ticker-wrap button'))return;
+ if(e.target.closest('.zoomctl,.ticker-wrap button,.quick-dock button'))return;
  try{vp.setPointerCapture(e.pointerId)}catch(_){}
  if(!ptrs[e.pointerId])nP++;ptrs[e.pointerId]={x:e.clientX,y:e.clientY};cancelAnimationFrame(tw);
  if(nP===1){drag={sx:e.clientX,sy:e.clientY,vx:view.x,vy:view.y};moved=0;downT=performance.now()}
@@ -792,7 +1050,13 @@ function barRow(label,id,cls){return '<div class="prow"><span>'+label+'</span><d
 function sheetHTML(c){
  var tc=teacherOf(c),kids=kidsOf(c),rq=REQ[c.stage],st=STAGES[c.stage];
  var role=c.parent==null?'พระอาจารย์ผู้ก่อตั้งสาย':'ศิษย์รุ่นที่ '+((L[c.id]||{d:1}).d);
- var h='<div class="sh"><div class="sh-head"><svg class="av '+tier(c)+'" viewBox="0 0 100 100" width="64" height="64" aria-hidden="true">'+avatar(c)+'</svg><div class="sh-id"><h2>'+esc(nm(c))+'</h2><p>'+role+' · อายุ <b id="age">'+Math.floor(age(c))+'</b> ปี'+(c.dead?' (ละสังขารแล้ว)':' ('+lifeOf(c)+' · อายุขัยราว '+Math.floor(c.life/5)*5+'-'+(Math.floor(c.life/5)*5+5)+' ปี)')+(tc?' · ครู '+esc(nm(tc)):'')+'</p></div><button class="x" data-act="close" aria-label="ปิด">×</button></div>';
+ var h='<div class="sh"><div class="sh-head"><svg class="av '+tier(c)+'" viewBox="0 0 100 100" width="76" height="76" aria-hidden="true">'+avatar(c)+'</svg><div class="sh-id"><h2>'+esc(nm(c))+'</h2><p>'+role+' · อายุ <b id="age">'+Math.floor(age(c))+'</b> ปี'+(c.dead?' (ละสังขารแล้ว)':' ('+lifeOf(c)+' · อายุขัยราว '+Math.floor(c.life/5)*5+'-'+(Math.floor(c.life/5)*5+5)+' ปี)')+(tc?' · ครู '+esc(nm(tc)):'')+'</p></div><button class="x" data-act="close" aria-label="ปิด">×</button></div>';
+ h+='<div class="char-brief"><span>'+icon('spark')+esc(st.n)+'</span><span>'+icon('hourglass')+Math.floor(age(c))+' ปี</span><span>'+icon('teach')+c.tech.length+' วิชา</span></div>';
+ if(!c.dead)h+='<nav class="action-shortcuts" aria-label="คำสั่งลัดตัวละคร">'
+  +'<button type="button" data-jump="focus">'+icon('target')+' ดูการฝึก</button>'
+  +'<button type="button" data-jump="teach">'+icon('teach')+' เรียนวิชา</button>'
+  +(c.stage>=1?'<button type="button" data-jump="recruit">'+icon('add-user')+' รับศิษย์</button>':'')
+  +'</nav>';
  if(c.dead){
   h+='<div class="warn" style="border-color:var(--ink-soft)"><b style="color:var(--ink-soft)">'+(c.stage>=8?'ปรินิพพาน':'ละสังขาร')+'</b><span>เมื่อปีที่ '+(Math.floor(c.dead.t)+1)+' อายุ '+c.dead.age+' ปี · ถึงขั้น'+st.n+'</span></div>';
   h+='<div class="sec"><span class="lab">วิชาที่ถ่ายทอดไว้</span><div class="chips">'+c.tech.map(function(id){return '<span class="chip '+T(id).k+'">'+T(id).n+'</span>'}).join('')+'</div></div>';
@@ -801,7 +1065,7 @@ function sheetHTML(c){
   if(c.parent!=null)h+='<div class="kidlist"><button data-act="goto" data-id="'+c.parent+'">ไปที่ครู</button></div>';
   return h+'</div>';
  }
- h+='<div class="sec"><div><span class="stg-n">'+st.n+'</span>'+(st.f?' <span class="muted">ละสังโยชน์ '+st.f+'/10 ข้อ</span>':'')+'</div><p class="muted">'+st.d+'</p>'+(c.id===S.head?'<span class="tag">หัวหน้าสาย · ทั้งสายฝึกเร็วขึ้น '+(1*c.stage).toFixed(1)+'%</span>':'');
+ h+='<div id="sec-focus" class="sec"><div><span class="stg-n">'+st.n+'</span>'+(st.f?' <span class="muted">ละสังโยชน์ '+st.f+'/10 ข้อ</span>':'')+'</div><p class="muted">'+st.d+'</p>'+(c.id===S.head?'<span class="tag">หัวหน้าสาย · ทั้งสายฝึกเร็วขึ้น '+(1*c.stage).toFixed(1)+'%</span>':'');
  if(rq){h+=barRow('สมถะ','s','')+barRow('วิปัสสนา','v','v')+'<p class="muted">ขั้นถัดไป '+STAGES[c.stage+1].n+' ต้องเต็มทั้งสองแถบ</p>'}
  else h+='<p class="muted">สิ้นกิจในการปฏิบัติเพื่อตนแล้ว ยังช่วยสอนศิษย์และเพิ่มศรัทธาให้สายธรรม</p>';
  h+='</div>';
@@ -825,7 +1089,7 @@ var sb=sibs(c);
   h+='</div>';
  }
  var any=false;
- h+='<div class="sec"><span class="lab">เรียนวิชาจากผู้อื่นในสาย</span>';
+ h+='<div id="sec-teach" class="sec"><span class="lab">เรียนวิชาจากผู้อื่นในสาย</span>';
  sources(c).forEach(function(s){
   var rl=tc&&s.id===tc.id?'ครู':(s.parent===c.id?'ศิษย์':'พี่น้อง');
   TECH.filter(function(t){return learnable(c,t,s)}).forEach(function(t){
@@ -851,7 +1115,7 @@ var sb=sibs(c);
  if(c.stage<1)h+='<p class="muted">ต้องเข้าถึงปฐมฌานก่อน จึงจะรับศิษย์ได้</p>';
  else{
   var cap=capOf(c),cost=recruitCost();
-  h+='<div class="sec"><span class="lab">รับศิษย์ '+kids.length+'/'+cap+'</span>';
+  h+='<div id="sec-recruit" class="sec"><span class="lab">รับศิษย์ '+kids.length+'/'+cap+'</span>';
   if(kids.length>=cap)h+='<p class="muted">ศิษย์เต็มแล้ว ฝึกต่อเพื่อรับได้มากขึ้น</p>';
   else if(livingCount()>=memberCap())h+='<p class="muted">กุฏิเต็ม ('+livingCount()+'/'+memberCap()+') ปรับปรุงกุฏิในแท็บ วัด เพื่อรับสมาชิกเพิ่ม</p>';
   else S.cands.forEach(function(x,i){
@@ -863,7 +1127,7 @@ var sb=sibs(c);
 }
 function renderSheet(){
  var c=selC();if(!c){sheet.hidden=true;return}
- var st=sheet.scrollTop;sheet.innerHTML=sheetHTML(c);sheet.scrollTop=st;lastSig=sigOf(c);liveSheet(true);
+ var st=sheet.scrollTop;sheet.innerHTML=sheetHTML(c);decorateUI(sheet);sheet.scrollTop=st;lastSig=sigOf(c);liveSheet(true);
 }
 function setBar(id,r,txt){var b=$('#b'+id),t=$('#t'+id);if(b)b.style.width=Math.round(clamp(r,0,1)*100)+'%';if(t)t.textContent=txt}
 function liveSheet(force){
@@ -879,6 +1143,7 @@ function liveSheet(force){
  Array.prototype.forEach.call(sheet.querySelectorAll('[data-rel]'),function(el){var o=byId(+el.dataset.rel);if(o)el.textContent=Math.round(relGet(c,o))});
 }
 sheet.addEventListener('click',function(e){
+ var jump=e.target.closest('[data-jump]');if(jump){var target=sheet.querySelector('#sec-'+jump.dataset.jump);if(target){target.scrollIntoView({behavior:'smooth',block:'start'})}return}
  var b=e.target.closest('[data-act]');if(!b||b.disabled)return;
  var c=selC(),a=b.dataset.act;if(!c)return;
  if(a==='close')deselect();
@@ -893,12 +1158,20 @@ sheet.addEventListener('click',function(e){
 });
 
 /* ---------- panel ---------- */
-var panel=$('#panel'),tab='log',resetArm=false,evSig='';
+var panel=$('#panel'),tab='how',resetArm=false,evSig='';
 function yrs(t){return 'ปี '+(Math.floor(t)+1)}
 function renderPanel(){
  var b=$('#pBody'),h='';
- if(tab==='ev'){
-  h=S.events.length?S.events.map(evCard).join(''):'<p class="muted">ยังไม่มีเรื่องที่ต้องตัดสินใจ เหตุการณ์จะเกิดขึ้นเองตามความสัมพันธ์ในสาย</p>';
+  if(tab==='how'){
+   h='<div class="intro-card"><div class="intro-symbol">'+icon('lotus')+'</div><div><span class="eyebrow">คู่มือฉบับเริ่มเล่น</span><h3>เริ่มจากหนึ่งอาจารย์ สู่สายธรรมหลายรุ่น</h3><p>บริหารการฝึก รับศิษย์ และส่งต่อวิชาก่อนที่ผู้สอนจะละสังขาร</p></div></div>'
+    +'<div class="how-steps">'
+    +'<div class="how-step"><span class="step-n">01</span><span class="step-ico">'+icon('users')+'</span><div><h3>เลือกพระอาจารย์</h3><p>แตะรูปในผัง หรือกด “จัดการสายธรรม” เพื่อดูค่าสถานะและการฝึก</p></div></div>'
+    +'<div class="how-step"><span class="step-n">02</span><span class="step-ico">'+icon('add-user')+'</span><div><h3>รับศิษย์และสอนวิชา</h3><p>เปิดข้อมูลตัวละคร เลื่อนลงไปยัง “รับศิษย์” และ “เรียนวิชาจากผู้อื่นในสาย”</p></div></div>'
+    +'<div class="how-step"><span class="step-n">03</span><span class="step-ico">'+icon('temple')+'</span><div><h3>พัฒนาวัดและสืบทอด</h3><p>สะสมศรัทธา ปรับปรุงสถานที่ และวางแผนถ่ายทอดก่อนเปลี่ยนรุ่น</p></div></div>'
+    +'</div><div class="how-legend"><b>อ่านสัญลักษณ์บนผัง</b><div><span><i class="legend-ring meditation"></i>ฌาน</span><span><i class="legend-ring noble"></i>อริยบุคคล</span><span><i class="legend-ring awakened"></i>อรหันต์</span></div><p>ลากเพื่อเลื่อนผัง · กางสองนิ้วเพื่อซูม · ปุ่ม ×1/×3/×10 ใช้ปรับความเร็วเวลา</p></div>'
+    +'<button class="btn pri how-start" id="startFromHelp">แตะเพื่อเริ่มจัดการสายธรรม '+icon('arrow')+'</button>';
+  }else if(tab==='ev'){
+   h=S.events.length?S.events.map(evCard).join(''):'<p class="muted">ยังไม่มีเรื่องที่ต้องตัดสินใจ เหตุการณ์จะเกิดขึ้นเองตามความสัมพันธ์ในสาย</p>';
  }else if(tab==='log'){
   h=S.log.length?S.log.map(function(l){return '<div class="lg"><time>'+yrs(l.t)+'</time><span>'+esc(l.m)+'</span></div>'}).join(''):'<p class="muted">ยังไม่มีเหตุการณ์ เริ่มจากแตะพระอาจารย์ในผัง แล้วรับศิษย์และถ่ายทอดวิชา</p>';
  }else if(tab==='tech'){
@@ -913,7 +1186,7 @@ function renderPanel(){
    +STAGES.map(function(s,i){var r=REQ[i-1];return '<div class="card"><h3>'+s.n+'</h3><p>'+s.d+'</p>'+(i>0?'<p>ต้องฝึก สมถะ '+r[0]+' · วิปัสสนา '+r[1]+'</p>':'')+(s.f?'<p>ละสังโยชน์ '+s.f+'/10 ข้อ</p>':'')+'</div>'}).join('');
  }else{
   h='<div class="card"><h3>บันทึกเกม</h3><p>บันทึกอัตโนมัติด้วย IndexedDB ในเบราว์เซอร์นี้ และฝึกต่อให้ตอนปิดแอป (ครึ่งอัตรา สูงสุด 60 ปีในเกม) ถ้าล้างข้อมูลเว็บความคืบหน้าจะหาย ควรส่งออกรหัสเซฟเก็บไว้</p></div>'
-   +'<div class="card"><h3>เวอร์ชัน 1.0</h3><p>ครบทุกระบบตามแผน ได้แก่ ผังสาย การถ่ายทอดวิชา ความสัมพันธ์ เหตุการณ์ อายุขัยและการสืบทอดสาย สำนักและวิชาลับ โอสถ ธุดงค์ การบันทึก และเป้าหมายระยะยาว</p></div>'
+   +'<div class="card"><h3>เวอร์ชัน 1.1 · ภาพและการใช้งาน</h3><p>เพิ่มไอคอน ภูมิทัศน์วัด แถบคำสั่งด่วน คู่มือเริ่มเล่น และทางลัดจัดการตัวละคร โดยยังคงระบบเกมและเซฟเดิม ทั้งการถ่ายทอดวิชา ความสัมพันธ์ เหตุการณ์ การสืบทอดสาย และเป้าหมายระยะยาว</p></div>'
    +'<div class="card"><h3>สำรองและกู้เซฟ</h3><p>ส่งออกเป็นรหัสข้อความ เก็บไว้หรือย้ายไปเครื่องอื่นได้</p><textarea id="saveBox" rows="3" style="width:100%;margin-top:6px;font:16px monospace;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px"></textarea><div class="chips" style="margin-top:6px"><button class="btn" id="expBtn">ส่งออกรหัสเซฟ</button><button class="btn" id="impBtn">นำเข้า</button></div><p id="saveMsg"></p></div>'+'<button class="btn" id="atBtn" style="align-self:flex-start">สอนวิชาอัตโนมัติ: '+(S.auto?'เปิด':'ปิด')+'</button>'+'<button class="btn" id="hdBtn" style="align-self:flex-start">ผู้ละสังขารในผัง: '+(S.hideDead?'ซ่อนสายที่ไม่มีผู้สืบ':'แสดงทั้งหมด')+'</button>'+'<button class="btn" id="resetBtn" style="align-self:flex-start">'+(resetArm?'แตะอีกครั้งเพื่อเริ่มใหม่ทั้งหมด':'เริ่มเกมใหม่')+'</button>';
  }
  b.innerHTML=h;
@@ -934,11 +1207,17 @@ function renderPanel(){
   if(!resetArm){resetArm=true;renderPanel();return}
   resetArm=false;newGame();selId=null;sheet.hidden=true;treeDirty=true;touched=false;panel.hidden=true;syncUI();save();
  };
- Array.prototype.forEach.call(document.querySelectorAll('#tabs button'),function(x){x.setAttribute('aria-pressed',String(x.dataset.tab===tab))});
+  decorateUI(panel);
+  var sh=$('#startFromHelp');if(sh)sh.onclick=function(){panel.hidden=true;openHead()};
+  Array.prototype.forEach.call(document.querySelectorAll('#tabs button'),function(x){x.setAttribute('aria-pressed',String(x.dataset.tab===tab))});
 }
 function openPanel(t){tab=t||tab;resetArm=false;panel.hidden=false;renderPanel()}
 $('#menuBtn').onclick=function(){openPanel(S.events.length?'ev':'log')};
 $('#ticker').onclick=function(){openPanel(S.events.length?'ev':'log')};
+function openHead(){var c=S.head!=null?byId(S.head):null;if(!c||c.dead)c=S.chars.filter(function(x){return !x.dead})[0];if(c){panel.hidden=true;select(c.id)}else openPanel('goal')}
+$('#goHead').onclick=openHead;
+$('#goEvents').onclick=function(){openPanel(S.events.length?'ev':'how')};
+$('#helpBtn').onclick=function(){openPanel('how')};
 $('#pBody').addEventListener('click',function(e){var u=e.target.closest('[data-up]');if(u&&!u.disabled){buyUp(u.dataset.up);renderPanel();return}var fz=e.target.closest('[data-fest]');if(fz&&!fz.disabled){holdFest();renderPanel();return}var b=e.target.closest('[data-ev]');if(b&&!b.disabled){evResolve(+b.dataset.ev,b.dataset.o);renderPanel()}});
 $('#pClose').onclick=function(){panel.hidden=true};
 $('#tabs').onclick=function(e){var b=e.target.closest('button');if(b){tab=b.dataset.tab;resetArm=false;renderPanel()}};
@@ -1013,7 +1292,8 @@ function hud(){
  var lv=S.chars.filter(function(c){return !c.dead}).length,dd=S.chars.length-lv;setT('#stN',lv+'/'+memberCap()+' องค์'+(dd?' · ละสังขาร '+dd:''));
  setT('#stA',String(S.arahants));
  setT('#stH',String(Math.floor(S.herb)));
- var en=S.events.length;setT('#menuBtn','ตำรา'+(en?' ('+en+')':''));
+ var en=S.events.length;setT('#menuBtnLabel','ตำรา'+(en?' ('+en+')':''));
+  var eb=$('#eventBadge');eb.hidden=!en;if(en)eb.textContent=en;
  var es=S.events.map(function(e){return e.id}).join(',')+(S.faith>=10?'f':'');
  if(!panel.hidden&&tab==='ev'&&es!==evSig){renderPanel()}evSig=es;
  if(!panel.hidden&&tab==='up'){var uf=$('#upF');if(uf)uf.textContent=Math.floor(S.faith);Array.prototype.forEach.call(document.querySelectorAll('#pBody [data-up]'),function(b){var u=UPS.filter(function(x){return x.k===b.dataset.up})[0],l=S.up[u.k];b.disabled=l>=u.max||S.faith<u.cost(l)});var fb=document.querySelector('#pBody [data-fest]');if(fb)fb.disabled=S.faith<festCost()}
