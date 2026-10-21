@@ -1,0 +1,1048 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>สายธรรม</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pridi:wght@500;600&family=Sarabun:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: full-screen lineage tree (pan/zoom) under a slim header; tapping a monk opens a bottom sheet.
+   Mood: forest-monastery paper, olive ink, saffron accent. Portraits sit in dark umber discs like the reference. */
+:root{
+  --paper:#E6E5D2; --paper-edge:#D6D4BB; --surface:#F3F1E2; --surface-2:#E9E6D0;
+  --ink:#252A1D; --ink-soft:#5B5F49; --line:#B4B193;
+  --accent:#A25A0A; --on-accent:#FFFFFF;
+  --teal:#1F7A74; --gold:#B9811A; --bad:#B3402A; --ok:#3E7D3A;
+  --pbg1:#6A5636; --pbg2:#3A2F1F;
+  --ring0:#8B8870; --ringj:#2F8F86; --ringa:#C98E1C; --ringx:#F0BD3F;
+  --aura:#F6D16B;
+  --sch1:#3F8A4A; --sch2:#3C5FA8; --sch3:#B04A7A;
+  --font-display:'Pridi','Noto Serif Thai',serif;
+  --font-body:'Sarabun','Noto Sans Thai',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#161A12; --paper-edge:#0F120C; --surface:#20261A; --surface-2:#2A3122;
+    --ink:#EDEAD6; --ink-soft:#A9AD94; --line:#464E39;
+    --accent:#E9A640; --on-accent:#1A1408;
+    --teal:#5CBDB5; --gold:#E3AD45; --bad:#E98A72; --ok:#8FCB82;
+    --pbg1:#4C3C27; --pbg2:#272014;
+    --ring0:#6C6E5A; --ringj:#4DB3AA; --ringa:#E2A92F; --ringx:#F7CB57; --sch1:#6FCB7F; --sch2:#7FA3EA; --sch3:#E27FB0;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#161A12; --paper-edge:#0F120C; --surface:#20261A; --surface-2:#2A3122;
+  --ink:#EDEAD6; --ink-soft:#A9AD94; --line:#464E39;
+  --accent:#E9A640; --on-accent:#1A1408;
+  --teal:#5CBDB5; --gold:#E3AD45; --bad:#E98A72; --ok:#8FCB82;
+  --pbg1:#4C3C27; --pbg2:#272014;
+  --ring0:#6C6E5A; --ringj:#4DB3AA; --ringa:#E2A92F; --ringx:#F7CB57; --sch1:#6FCB7F; --sch2:#7FA3EA; --sch3:#E27FB0;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--font-body);overflow:hidden;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#app{position:relative;height:100%;display:flex;flex-direction:column}
+
+/* header + stats bands */
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#top{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;padding-block:8px;background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:8px;margin-right:auto;min-width:0}
+.brand h1{margin:0;font:600 18px/1.2 var(--font-display);white-space:nowrap}
+.brand span{white-space:nowrap;font-size:12px}
+#menuBtn{padding:0 9px;white-space:nowrap;flex:none}
+.seg{flex:none}
+.seg button{padding:0 7px!important;min-width:34px!important}
+.brand span{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.seg button{border:0;background:transparent;padding:0 9px;min-height:40px;min-width:38px;cursor:pointer;font-weight:600;font-variant-numeric:tabular-nums}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.btn{min-height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);font-weight:600;cursor:pointer}
+.btn.pri{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.btn:disabled{opacity:.45;cursor:default}
+#stats{display:flex;flex-wrap:wrap;gap:2px 18px;padding-block:7px;font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line);background:var(--surface)}
+#stats b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* tree viewport */
+#viewport{position:relative;flex:1;min-height:0;overflow:hidden;touch-action:none;cursor:grab;
+  background:radial-gradient(120% 90% at 50% 15%,var(--paper),var(--paper-edge))}
+#viewport:active{cursor:grabbing}
+#tree{display:block;width:100%;height:100%}
+.edge{fill:none;stroke:var(--line);stroke-width:3;stroke-linecap:round}
+.edge.teach{stroke:var(--ok);stroke-width:4;stroke-dasharray:8 8;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-16}}
+.node{cursor:pointer;outline:none}
+.node .nm,.node .stg{text-anchor:middle;paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+.node .nm{font:600 12.5px var(--font-body);fill:var(--ink)}
+.node .stg{font:600 10.5px var(--font-body);fill:var(--ink-soft)}
+.node .ring{fill:none;stroke-width:4;stroke:var(--ring0)}
+.node.sj .ring{stroke:var(--ringj)}
+.node.sa .ring{stroke:var(--ringa)}
+.node.sx .ring{stroke:var(--ringx);stroke-width:5}
+.node .prog{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round}
+.node .selr{display:none;fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:3 5}
+.node.sel .selr{display:block}
+.node:focus-visible .selr{display:block}
+.node .hdot{fill:var(--bad);stroke:var(--paper);stroke-width:2}
+.node .fb circle.bg{fill:var(--surface);stroke:var(--ring0);stroke-width:1.5}
+.node .fb .ic{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-linecap:round}
+.node .fb .fl{fill:var(--ink);stroke:none}
+.node.away{opacity:.45}
+.node.dead{opacity:.5}
+.node.dead .ring{stroke-dasharray:5 4}
+.node.dead .fb{display:none}
+.node .headmk{fill:var(--ringx);stroke:var(--paper);stroke-width:2}
+.node .schdot{stroke:var(--paper);stroke-width:2}
+.sc-forest{fill:var(--sch1)}.sc-study{fill:var(--sch2)}.sc-community{fill:var(--sch3)}
+.node.flash .ring{animation:ringpulse .9s ease-in-out 2}
+@keyframes ringpulse{50%{stroke-width:11}}
+.node.busy .ring{stroke-dasharray:none}
+.ticker-wrap{position:absolute;top:10px;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));display:flex;justify-content:center;pointer-events:none}
+#ticker{pointer-events:auto;max-width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer}
+.zoomctl{position:absolute;right:max(12px,env(safe-area-inset-right,0px));top:56px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.zoomctl button{width:42px;height:42px;border:0;background:transparent;font-size:20px;font-weight:600;cursor:pointer}
+.zoomctl button+button{border-top:1px solid var(--line)}
+
+/* bottom sheet */
+#sheet{position:absolute;left:0;right:0;bottom:0;max-height:66%;overflow:auto;z-index:20;background:var(--surface);
+  border-top:1px solid var(--line);border-radius:18px 18px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.2);
+  padding:14px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px));overscroll-behavior:contain}
+.sh{display:flex;flex-direction:column;gap:16px}
+.sh-head{display:flex;align-items:center;gap:12px}
+.sh-id{min-width:0;flex:1}
+.sh-id h2{margin:0;font:600 19px/1.3 var(--font-display)}
+.sh-id p{margin:0;font-size:13px;color:var(--ink-soft)}
+.x{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);font-size:24px;line-height:1;cursor:pointer}
+.av{flex:none;border-radius:50%;border:3px solid var(--ring0);background:var(--pbg2)}
+.av.sj{border-color:var(--ringj)}.av.sa{border-color:var(--ringa)}.av.sx{border-color:var(--ringx)}
+.sec{display:flex;flex-direction:column;gap:8px;min-width:0}
+.lab{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--ink-soft)}
+.muted{color:var(--ink-soft);font-size:13px;margin:0}
+.stg-n{font:600 20px var(--font-display)}
+.prow{display:grid;grid-template-columns:74px 1fr 76px;align-items:center;gap:10px;font-size:13px}
+.prow em{font-style:normal;text-align:right;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.bar{height:9px;border-radius:6px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.bar>i{display:block;height:100%;background:var(--teal);width:0}
+.bar.v>i{background:var(--gold)}
+.bar.f>i{background:var(--ink-soft)}
+.warn{border:1px solid var(--bad);border-radius:12px;padding:10px 12px;font-size:13px;display:flex;flex-direction:column;gap:2px}
+.warn b{color:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);font-size:13px}
+.chip.s{border-color:var(--teal)}.chip.v{border-color:var(--gold)}.chip.b{border-color:var(--ink-soft)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.row .grow{flex:1;min-width:140px}
+.row .grow b{display:block}
+.tag{font-size:12px;color:var(--ok);font-weight:700}
+.cgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;text-align:center;width:100%}
+.cgrid small{display:block;font-size:11px;color:var(--ink-soft)}
+.cgrid b{font-variant-numeric:tabular-nums}
+.kidlist{display:flex;flex-wrap:wrap;gap:6px}
+.kidlist button{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:4px 12px;cursor:pointer;font-size:13px}
+
+/* panel (ตำรา) */
+#panel{position:absolute;inset:0;z-index:40;background:var(--paper);display:flex;flex-direction:column}
+#panel .ph{display:flex;align-items:center;gap:10px;padding-block:8px;background:var(--surface);border-bottom:1px solid var(--line)}
+#panel .ph h2{margin:0;font:600 19px var(--font-display);margin-right:auto}
+#panel .tabs{padding-block:8px;overflow-x:auto}
+#panel .body{flex:1;min-height:0;overflow:auto;padding-block:14px 24px;display:flex;flex-direction:column;gap:10px}
+.card{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.card h3{margin:0;font:600 16px var(--font-display)}
+.card p{margin:0;font-size:13px;color:var(--ink-soft)}
+.lg{display:grid;grid-template-columns:64px 1fr;gap:10px;font-size:13px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.lg time{color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+/* banner */
+#banner{position:absolute;inset:0;z-index:50;display:grid;place-items:center;background:rgba(10,12,8,.62);padding:16px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px))}
+#banner .bx{width:min(380px,100%);background:var(--surface);border:2px solid var(--ringx);border-radius:18px;padding:22px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+#banner h2{margin:0;font:600 22px/1.3 var(--font-display)}
+#banner p{margin:0;color:var(--ink-soft);font-size:14px}
+@media (prefers-reduced-motion:reduce){.edge.teach,.node.flash .ring{animation:none}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="pbg" cx="50%" cy="38%" r="75%"><stop offset="0" style="stop-color:var(--pbg1)"/><stop offset="1" style="stop-color:var(--pbg2)"/></radialGradient>
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0" style="stop-color:var(--aura);stop-opacity:.95"/><stop offset=".6" style="stop-color:var(--aura);stop-opacity:.35"/><stop offset="1" style="stop-color:var(--aura);stop-opacity:0"/></radialGradient>
+    <radialGradient id="haloG" cx="50%" cy="50%" r="50%"><stop offset=".65" style="stop-color:var(--ringx);stop-opacity:.55"/><stop offset="1" style="stop-color:var(--ringx);stop-opacity:0"/></radialGradient>
+    <clipPath id="clipAv"><circle cx="50" cy="50" r="50"/></clipPath>
+  </defs>
+</svg>
+
+<div id="app">
+  <header id="top" class="band">
+    <div class="brand"><h1>สายธรรม</h1><span id="yr">ปีที่ 1</span></div>
+    <div class="seg" id="speed" role="group" aria-label="ความเร็วเวลา">
+      <button data-sp="0" aria-label="หยุดเวลา">II</button>
+      <button data-sp="1" aria-pressed="true">×1</button>
+      <button data-sp="3">×3</button>
+      <button data-sp="10">×10</button>
+    </div>
+    <button class="btn" id="menuBtn">ตำรา</button>
+  </header>
+  <div id="stats" class="band">
+    <span>ศรัทธา <b id="stF">0</b> <small id="stI"></small></span>
+    <span>สมาชิก <b id="stN">0</b></span>
+    <span>พระอรหันต์ <b id="stA">0</b></span>
+    <span>สมุนไพร <b id="stH">0</b></span>
+  </div>
+  <main id="viewport">
+    <svg id="tree" role="group" aria-label="ผังสายอาจารย์และศิษย์"><g id="world"><g id="edges"></g><g id="nodes"></g></g></svg>
+    <div class="ticker-wrap"><button id="ticker" type="button"></button></div>
+    <div class="zoomctl"><button id="zin" aria-label="ซูมเข้า">+</button><button id="zout" aria-label="ซูมออก">−</button><button id="zfit" aria-label="จัดผังให้พอดีจอ">⌖</button></div>
+  </main>
+  <section id="sheet" hidden aria-live="off"></section>
+  <section id="panel" hidden>
+    <div class="ph band"><h2>ตำรา</h2><button class="btn" id="pClose">ปิด</button></div>
+    <div class="tabs band"><div class="seg" id="tabs" role="group"><button data-tab="log" aria-pressed="true">บันทึก</button><button data-tab="ev">เหตุการณ์</button><button data-tab="up">วัด</button><button data-tab="tech">วิชา</button><button data-tab="stage">ขั้นภูมิ</button><button data-tab="goal">เป้าหมาย</button><button data-tab="set">ตั้งค่า</button></div></div>
+    <div class="body band" id="pBody"></div>
+  </section>
+  <div id="banner" hidden role="dialog" aria-modal="true" aria-labelledby="bnTitle"></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+var YEAR=6,R=34,GX=108,GY=152,KEY='saidhamma.v01',CIRC=2*Math.PI*(R+5);
+var rnd=function(n){return Math.floor(Math.random()*n)},pick=function(a){return a[rnd(a.length)]},clamp=function(x,a,b){return Math.max(a,Math.min(b,x))};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})};
+
+/* ---------- data ---------- */
+var STAGES=[
+ {n:'ผู้เริ่มฝึก',d:'ยังเป็นปุถุชน ฝึกควบคุมจิตด้วยสมถะเบื้องต้น',f:0},
+ {n:'ปฐมฌาน',d:'จิตสงบจากนิวรณ์ ประกอบด้วยวิตก วิจาร ปีติ และสุข',f:0},
+ {n:'ทุติยฌาน',d:'วิตกวิจารสงบลง เหลือปีติและสุขที่เกิดจากสมาธิ',f:0},
+ {n:'ตติยฌาน',d:'ปีติจางไป เหลือสุขและความตั้งมั่นของจิต',f:0},
+ {n:'จตุตถฌาน',d:'ละสุขและทุกข์ เหลืออุเบกขาและเอกัคคตา',f:0},
+ {n:'โสดาบัน',d:'ละสักกายทิฏฐิ วิจิกิจฉา และสีลัพพตปรามาส',f:3},
+ {n:'สกทาคามี',d:'กามราคะและปฏิฆะเบาบางลง',f:3},
+ {n:'อนาคามี',d:'ละกามราคะและปฏิฆะได้สิ้นเชิง',f:5},
+ {n:'อรหันต์',d:'ละสังโยชน์ครบ ๑๐ ข้อ สิ้นอาสวะ พ้นจากทุกข์',f:10}
+];
+/* [สมถะ, วิปัสสนา] needed to leave stage i */
+var REQ=[[35,0],[66,8],[100,17],[144,25],[108,240],[144,336],[204,480],[288,672]];
+var H={
+ kama:{n:'กามฉันทะ',d:'ใจฝักใฝ่ในรูป เสียง กลิ่น รส สัมผัส'},
+ byapada:{n:'พยาปาท',d:'ความขุ่นเคืองใจ'},
+ thina:{n:'ถีนมิทธะ',d:'ง่วงซึม ใจหดหู่'},
+ uddhacca:{n:'อุทธัจจกุกกุจจะ',d:'ฟุ้งซ่าน รำคาญใจ'},
+ vicikiccha:{n:'วิจิกิจฉา',d:'ลังเลสงสัย'}
+};
+var TECH=[
+ {id:'anapana',fit:['moha','vitak'],n:'อานาปานสติ',k:'s',req:0,b:.20,anti:'uddhacca',d:'กำหนดลมหายใจเข้าออก'},
+ {id:'metta',fit:['tosa'],n:'เมตตาภาวนา',k:'s',req:0,b:.10,anti:'byapada',d:'แผ่เมตตาให้ตนเองและสรรพสัตว์'},
+ {id:'buddha',fit:['saddha'],n:'พุทธานุสติ',k:'s',req:0,b:.10,anti:'vicikiccha',d:'ระลึกถึงพระพุทธคุณ'},
+ {id:'asubha',fit:['raga'],n:'อสุภกรรมฐาน',k:'s',req:1,b:.15,anti:'kama',d:'พิจารณาความไม่งามของกาย'},
+ {id:'jongkrom',n:'เดินจงกรม',k:'s',req:1,b:.10,anti:'thina',d:'เดินกำหนดสติ ขับความง่วง'},
+ {id:'kasina',n:'กสิณ',k:'s',req:1,b:.35,d:'เพ่งวัตถุจนจิตแน่วแน่'},
+ {id:'kaya',fit:['raga'],n:'กายคตาสติ',k:'b',req:2,b:.15,d:'ตั้งสติรู้กายในอิริยาบถทั้งปวง'},
+ {id:'sati4',fit:['buddhi'],n:'สติปัฏฐาน ๔',k:'v',req:3,b:.40,d:'ตั้งสติเห็นกาย เวทนา จิต ธรรมตามจริง'},
+ {id:'dhatu',fit:['buddhi'],n:'ธาตุมนสิการ',k:'v',req:3,b:.25,d:'พิจารณากายเป็นธาตุ ๔'},
+ {id:'dhutanga',sch:'forest',n:'ธุดงควัตร',k:'s',req:3,b:.5,d:'ถือธุดงควัตร อยู่ป่าฝึกความสันโดษ'},
+ {id:'nana16',sch:'study',n:'วิปัสสนาญาณ ๑๖',k:'v',req:4,b:.6,d:'ไล่ลำดับญาณตามแนววิสุทธิมรรค'},
+ {id:'brahma',sch:'community',n:'พรหมวิหาร ๔',k:'b',req:2,b:.35,d:'เมตตา กรุณา มุทิตา อุเบกขา'},
+ {id:'trilak',fit:['buddhi'],n:'พิจารณาไตรลักษณ์',k:'v',req:4,b:.60,d:'เห็นอนิจจัง ทุกขัง อนัตตา'}
+];
+var CARITA={
+ raga:{n:'ราคจริต',d:'ใจหนักไปทางความพอใจในรูป เสียง กลิ่น รส สัมผัส'},
+ tosa:{n:'โทสจริต',d:'หงุดหงิดโกรธง่าย'},
+ moha:{n:'โมหจริต',d:'ลังเลสับสน ง่วงซึมง่าย'},
+ vitak:{n:'วิตกจริต',d:'คิดฟุ้งซ่านง่าย'},
+ saddha:{n:'สัทธาจริต',d:'เชื่อมั่นและน้อมใจศรัทธาง่าย'},
+ buddhi:{n:'พุทธิจริต',d:'ใคร่ครวญด้วยเหตุผล'}
+};
+var UPS=[
+ {k:'kuti',n:'กุฏิและศาลาพัก',d:'ทุกองค์ฝึกเร็วขึ้น 4% และรับสมาชิกได้เพิ่ม 2 องค์ต่อระดับ',max:10,cost:function(l){return 60+60*l}},
+ {k:'sala',n:'ศาลาปฏิบัติธรรม',d:'นิวรณ์เกิดน้อยลง 6% ต่อระดับ',max:6,cost:function(l){return 80+80*l}},
+ {k:'garden',n:'สวนสมุนไพร',d:'ได้สมุนไพร 0.2 ต่อปีต่อระดับ ใช้ทำโอสถ',max:5,cost:function(l){return 70+60*l}},
+ {k:'library',n:'ห้องสมุดพระธรรม',d:'ทุกองค์ฝึกวิปัสสนาเร็วขึ้น 3% ต่อระดับ',max:10,cost:function(l){return 150+110*l}},
+ {k:'infirm',n:'สถานพยาบาลสงฆ์',d:'อายุขัยของทุกองค์เพิ่ม 2 ปีต่อระดับ (รวมผู้เข้าใหม่)',max:8,cost:function(l){return 120+100*l}}
+];
+var SCHOOLS={
+ forest:{n:'สายวิเวก (ป่า)',d:'เน้นความสงัด สมถะเร็วขึ้น 12% และธุดงค์ได้ผลดีขึ้น'},
+ study:{n:'สายปริยัติ-วิปัสสนา',d:'เน้นเรียนรู้และพิจารณา วิปัสสนาเร็วขึ้น 12% ถ่ายทอดวิชาเร็วขึ้น'},
+ community:{n:'สายเมตตา-ชุมชน',d:'เน้นเกื้อกูลชุมชน ศรัทธาเพิ่ม 20% นิวรณ์น้อยลง 15%'}
+};
+var TREKS={
+ forest:{n:'ป่าลึก',d:'ได้สมถะและสมุนไพร เสี่ยงป่วย',yrs:3},
+ town:{n:'เมืองและชุมชน',d:'ได้ศรัทธา เสี่ยงนิวรณ์',yrs:2},
+ cave:{n:'ถ้ำและภูเขา',d:'ได้วิปัสสนา อาจพบผู้ให้วิชา',yrs:3}
+};
+var KIND={s:'สมถะ',v:'วิปัสสนา',b:'สมถะ+วิปัสสนา'};
+var FAC=[['sa','ศรัทธา'],['vir','วิริยะ'],['sati','สติ'],['sam','สมาธิ'],['pa','ปัญญา']];
+var NM={
+ m:['ธัมมรักขิโต','สีลวโร','กัลยาโณ','สุจิณโณ','ปัญญาทีโป','สันติธัมโม','วิริยะโก','ขันติโก','จิตตสุโข','อัตตทีโป','โอภาโส','สุมังคโล','ฐิตธัมโม','เขมะโก','ธีรปัญโญ','ปสันโน','สุภัททโก','อนาลโย','อภิชาโต','เตชะธัมโม','รตนปัญโญ','มุนินโท','สังวโร','โชติธัมโม','คุณวโร','อุตตโม','ญาณธีโร','สัจจะโก'],
+ f:['สุจิตตา','มุทิตา','ศีลวดี','สันติยา','ปัญญาวดี','กัลยาณี','เมตตาวดี','ธัมมจารินี','วิมลา','สุขุมา','ขันตินี','โสภิตา','อุเบกขา','สติมา','จิตรลดา','ภาวิตา']
+};
+var T=function(id){for(var i=0;i<TECH.length;i++)if(TECH[i].id===id)return TECH[i]};
+
+/* ---------- state ---------- */
+var offline=false,lastGoal=0,flash={},S,selId=null,L={},els={},edgeEls={},treeDirty=true,lastSig='',last=performance.now(),saveAt=0,view={x:0,y:0,k:1},touched=false;
+
+function title(c){return c.parent==null?'พระอาจารย์':(c.g==='f'?'แม่ชี':'พระ')}
+function nm(c){return title(c)+c.name}
+function age(c){return c.dead?c.dead.age:c.age0+(S.t-c.joined)}
+function byId(id){for(var i=0;i<S.chars.length;i++)if(S.chars[i].id===id)return S.chars[i];return null}
+function kidsOf(c){return S.chars.filter(function(x){return x.parent===c.id&&!x.dead})}
+function teacherOf(c){var p=c.parent==null?null:byId(c.parent);while(p&&p.dead)p=p.parent==null?null:byId(p.parent);return p}
+function capOf(c){return c.dead||c.stage<1?0:Math.min(4,2+c.stage)}
+function livingCount(){var n=0;S.chars.forEach(function(c){if(!c.dead)n++});return n}
+function memberCap(){return 6+2*S.up.kuti}
+function recruitCost(){var l=livingCount(),d=S.chars.length-l;return Math.min(300,30+10*Math.max(0,l-3)+2*d)}
+function tier(c){return c.stage>=8?'sx':c.stage>=5?'sa':c.stage>=1?'sj':''}
+function income(){var s=0,a=0,n=0,cm=0;S.chars.forEach(function(c){if(c.dead)return;n++;s+=c.stage;if(c.stage>=8)a++;if(c.sch==='community')cm=1});return (1.5+.2*n+.1*s+1.5*a)*(cm?1.2:1)}
+function rk(a,b){return a<b?a+'-'+b:b+'-'+a}
+function sibs(c){return c.parent==null?[]:S.chars.filter(function(x){return x.parent===c.parent&&x.id!==c.id&&!x.dead})}
+function relGet(a,b){var v=S.rel[rk(a.id,b.id)];if(v!=null)return v;return (a.parent===b.id||b.parent===a.id)?15:(a.parent!=null&&a.parent===b.parent?8:0)}
+function relAdd(a,b,d){S.rel[rk(a.id,b.id)]=clamp(relGet(a,b)+d,0,100)}
+function visChars(){
+ if(!S.hideDead)return S.chars;
+ var ok={};
+ S.chars.forEach(function(c){if(!c.dead){var p=c;while(p&&!ok[p.id]){ok[p.id]=1;p=p.parent==null?null:byId(p.parent)}}});
+ return S.chars.filter(function(c){return ok[c.id]});
+}
+function lifeOf(c){var a=age(c);return a<25?'วัยหนุ่มสาว':a<60?'วัยกลางคน':'วัยชรา'}
+function sources(c){
+ var tc=teacherOf(c),a=[];if(tc)a.push(tc);
+ kidsOf(c).forEach(function(k){a.push(k)});
+ sibs(c).forEach(function(k){a.push(k)});
+ return a.filter(function(x){return !x.away});
+}
+function addV(c,n){if(c.stage<8)c.v=Math.min(REQ[c.stage][1],c.v+n)}
+
+function uniqueName(g){
+ var used={};S.chars.concat(S.cands||[]).forEach(function(c){used[c.name]=1});
+ var pool=NM[g].filter(function(n){return !used[n]});
+ if(pool.length)return pick(pool);
+ var base=pick(NM[g]),i=2;while(used[base+' '+i])i++;return base+' '+i;
+}
+function genCand(){
+ var g=Math.random()<.45?'f':'m',fac={sa:3,vir:3,sati:3,sam:3,pa:3},pts=8+rnd(9),ks=Object.keys(fac);
+ while(pts>0){var k=pick(ks);if(fac[k]<9){fac[k]++;pts--}}
+ return {g:g,name:uniqueName(g),age:16+rnd(15),fac:fac,carita:pick(Object.keys(CARITA))};
+}
+function mk(o){
+ return {id:S.nid++,name:o.name,g:o.g,parent:o.parent==null?null:o.parent,age0:o.age,joined:S.t,stage:o.stage||0,s:0,v:0,fac:o.fac,focus:'a',tech:(o.tech||['anapana']).slice(),hind:null,job:null,away:null,resisted:0,life:o.life||(72+rnd(17)+Math.floor((o.fac.sam+o.fac.sati)/5)+2*(S.up.infirm||0)),dead:null,sch:o.sch||'',pills:0,calm:0,carita:o.carita||pick(Object.keys(CARITA)),look:{skin:rnd(5),robe:rnd(5),face:rnd(3),brow:rnd(3),smile:rnd(3)}};
+}
+function newGame(){
+ S={v:1,t:0,faith:25,nid:1,chars:[],cands:[],candT:0,log:[],speed:1,arahants:0,first:null,rel:{},cd:{},events:[],eid:1,evT:3,up:{kuti:0,sala:0,garden:0,library:0,infirm:0},fest:{until:0,n:0},auto:true,autoT:0,head:null,hideDead:false,herb:0,founded:{},stats:{heads:1,treks:0,pills:0},goals:{},finished:0,savedAt:0};
+ var root=mk({name:'อรุณธัมโม',g:'m',parent:null,age:40,life:85,stage:1,fac:{sa:7,vir:6,sati:7,sam:7,pa:6},tech:['anapana','metta','buddha','asubha','jongkrom','kasina'],carita:'saddha'});
+ S.chars.push(root);S.head=root.id;
+ S.cands=[genCand(),genCand(),genCand()];
+ var a=genCand(),b=genCand();b.g='f';b.name=uniqueName('f');
+ S.chars.push(mk({name:a.name,g:a.g,parent:root.id,age:a.age,fac:a.fac,carita:a.carita}));
+ S.chars.push(mk({name:b.name,g:b.g,parent:root.id,age:b.age,fac:b.fac,carita:b.carita}));
+}
+function lsGet(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null}catch(e){return null}}
+function adopt(o){
+ try{
+  if(o&&o.v===1&&o.chars&&o.chars.length&&o.cands){
+   var keep=S;S=o;S.rel=S.rel||{};S.cd=S.cd||{};S.events=S.events||[];S.eid=S.eid||1;if(S.evT==null)S.evT=3;S.chars.forEach(function(c){if(c.life==null)c.life=Math.max(72+rnd(17),Math.floor(c.age0+(S.t-c.joined))+10+rnd(10));if(c.dead===undefined)c.dead=null});if(S.head===undefined){var r0=S.chars.filter(function(c){return c.parent==null})[0];S.head=r0?r0.id:null}if(S.hideDead==null)S.hideDead=false;S.up=S.up||{kuti:0,sala:0};var ck=Object.keys(CARITA);S.chars.forEach(function(c){if(!c.carita)c.carita=pick(ck);if(c.look.face==null){c.look.face=rnd(3);c.look.brow=rnd(3);c.look.smile=rnd(3)}});S.cands.forEach(function(c){if(!c.carita)c.carita=pick(ck)});S.herb=S.herb||0;S.up.garden=S.up.garden||0;S.up.library=S.up.library||0;S.up.infirm=S.up.infirm||0;S.fest=S.fest||{until:0,n:0};if(S.auto===undefined)S.auto=true;S.autoT=S.autoT||0;S.founded=S.founded||{};S.stats=S.stats||{heads:1,treks:0,pills:0};S.goals=S.goals||{};S.finished=S.finished||0;
+   S.chars.forEach(function(c){if(c.sch==null)c.sch='';if(c.pills==null)c.pills=0;if(c.calm==null)c.calm=0});
+   if(!S.chars.some(function(c){return !c.dead})){S=keep;return false}
+   return true;
+  }
+ }catch(e){}
+ return false;
+}
+var DB=null;
+function idbOpen(cb){
+ if(DB)return cb(DB);
+ try{
+  var r=indexedDB.open('saidhamma',1);
+  r.onupgradeneeded=function(){r.result.createObjectStore('kv')};
+  r.onsuccess=function(){DB=r.result;cb(DB)};
+  r.onerror=function(){cb(null)};
+ }catch(e){cb(null)}
+}
+function idbGet(cb){
+ idbOpen(function(db){
+  if(!db)return cb(null);
+  try{var q=db.transaction('kv').objectStore('kv').get('save');q.onsuccess=function(){cb(q.result||null)};q.onerror=function(){cb(null)}}catch(e){cb(null)}
+ });
+}
+function idbPut(o){idbOpen(function(db){if(!db)return;try{db.transaction('kv','readwrite').objectStore('kv').put(o,'save')}catch(e){}})}
+function save(){if(!S)return;S.savedAt=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{idbPut(JSON.parse(JSON.stringify(S)))}catch(e){}}
+
+/* ---------- log ---------- */
+function logm(m){S.log.unshift({t:S.t,m:m});if(S.log.length>80)S.log.length=80;setTicker(m)}
+function setTicker(m){$('#ticker').textContent=m}
+
+/* ---------- simulation ---------- */
+function immune(c,k){return c.stage>=8||(c.stage>=7&&(k==='kama'||k==='byapada'))||(c.stage>=5&&k==='vicikiccha')}
+function learnable(c,t,tc){return tc&&!c.tech.includes(t.id)&&c.stage>=t.req-1&&tc.tech.includes(t.id)&&(!t.sch||c.sch===t.sch)}
+function advance(c){
+ c.stage++;c.s=0;c.v=0;flash[c.id]=performance.now()+1900;try{if(!offline&&c.stage>=5&&navigator.vibrate&&navigator.userActivation&&navigator.userActivation.hasBeenActive)navigator.vibrate(40)}catch(_){}
+ var k=c.stage<=4?'sam':'pa';c.fac[k]=Math.min(10,c.fac[k]+1);
+ TECH.forEach(function(t){if(t.req>=2&&!t.sch&&t.req===c.stage&&!c.tech.includes(t.id)){c.tech.push(t.id);logm(nm(c)+' เห็นแจ้ง “'+t.n+'” จากการปฏิบัติของตนเอง')}});
+ S.faith+=8*c.stage;
+ logm(nm(c)+(c.stage<=4?' เข้าถึง':' บรรลุ')+STAGES[c.stage].n);
+ if(c.stage===8){S.arahants++;if(!S.first){S.first={name:nm(c),t:S.t,id:c.id};showBanner(c)}}
+ treeDirty=true;
+}
+function step(dt){
+ S.t+=dt;S.autoT=(S.autoT||0)+dt;if(S.auto&&S.autoT>=.25){S.autoT=0;autoTeach()}
+ S.faith+=income()*dt;S.herb+=.2*(S.up.garden||0)*dt;
+ for(var i=0;i<S.chars.length;i++){
+  var c=S.chars[i],tc=teacherOf(c);
+  if(c.dead)continue;
+  if(age(c)>=c.life){if(offline){c.joined+=dt}else{die(c);continue}}
+  if(c.away){
+   if(S.t>=c.away.until){var tr=c.away;c.away=null;if(tr.trek){c.away=tr;resolveTrek(c);c.away=null;logm(nm(c)+' กลับจากธุดงค์')}else{addV(c,25);c.fac.sati=Math.min(10,c.fac.sati+1);S.faith+=10;logm(nm(c)+' กลับจากธุดงค์ สติมั่นคงขึ้น')}treeDirty=true}
+   continue;
+  }
+  if(c.job&&S.t>=c.job.until){
+   var d=byId(c.job.to);
+   if(d&&!d.dead&&!d.tech.includes(c.job.tech)){d.tech.push(c.job.tech);relAdd(c,d,6);flash[d.id]=performance.now()+1500;logm(nm(d)+' ได้เรียน “'+T(c.job.tech).n+'” จาก'+nm(c))}
+   addV(c,3);c.job=null;
+  }
+  var yrs=age(c);
+  if(c.hind&&S.t>=c.hind.until){logm(nm(c)+' พ้นจาก'+H[c.hind.k].n+'แล้ว');c.hind=null}
+  else if(!c.hind&&c.stage<8&&S.t>=(c.calm||0)){
+   var p=Math.max(.03,.25*(1-(c.fac.sati+c.fac.sa)/26))*(yrs<25?1.4:yrs>=60?.7:1)*(tc&&relGet(c,tc)>=60?.7:1)*(1-.06*S.up.sala)*(c.sch==='community'?.85:1);
+   if(Math.random()<p*dt){
+    var k=pick(Object.keys(H));
+    if(!immune(c,k)){
+     if(c.tech.some(function(id){return T(id).anti===k}))c.resisted++;
+     else{c.hind={k:k,until:S.t+2.5};logm(nm(c)+' ถูก'+H[k].n+'รบกวน: '+H[k].d)}
+    }
+   }
+  }
+  if(c.stage<8){
+   var rq=REQ[c.stage],f=c.fac;
+   var sr=3+(f.sam+f.sati)*.5,vr=2+(f.pa+f.vir)*.45,sb=1,vb=1;
+   if(c.sch==='forest')sr*=1.12;if(c.sch==='study')vr*=1.12;
+   vr*=1+.03*(S.up.library||0);
+   c.tech.forEach(function(id){var t=T(id),bb=t.b*(t.fit&&t.fit.indexOf(c.carita)>=0?1.5:1);if(t.k==='s'||t.k==='b')sb+=bb;if(t.k==='v'||t.k==='b')vb+=bb});
+   var tm=1;
+   if(tc&&!tc.away)tm=(1+.06*tc.stage)*(.9+relGet(c,tc)/250);
+   var sn=0;sibs(c).forEach(function(x){if(!x.away&&relGet(c,x)>=30)sn++});
+   tm*=1+.03*Math.min(3,sn);
+   tm*=yrs<25?1.1:yrs>=60?.9:1;
+   tm*=1+.04*S.up.kuti;
+   if(S.t<S.fest.until)tm*=1.25;
+   var hd=S.head!=null?byId(S.head):null;if(hd&&!hd.dead)tm*=1+.01*hd.stage;
+   var fs=1,fv=1,rs=rq[0]?c.s/rq[0]:1,rv=rq[1]?c.v/rq[1]:1;
+   if(c.focus==='s'){fs=1.5;fv=.5}else if(c.focus==='v'){fs=.5;fv=1.5}
+   else if(rs<rv){fs=1.25;fv=.75}else if(rv<rs){fs=.75;fv=1.25}
+   var m=tm*(c.hind?.4:1)*(c.job?.75:1);
+   c.s=Math.min(rq[0],c.s+sr*sb*fs*m*dt);
+   c.v=Math.min(rq[1],c.v+vr*vb*fv*m*dt);
+   if(c.s>=rq[0]&&c.v>=rq[1])advance(c);
+  }
+  if(tc&&!tc.away&&tc.stage>=1)relAdd(c,tc,1.2*dt);
+ }
+ S.candT+=dt;
+ if(S.candT>=6&&$('#sheet').hidden){S.candT=0;S.cands[rnd(3)]=genCand()}
+ S.events=S.events.filter(function(e){if(e.type!=='succ'&&(byId(e.a).dead||(e.b&&byId(e.b).dead)))return false;if(S.t>=e.until){evAuto(e);return false}return true});
+ S.evT-=dt;
+ if(!offline&&S.evT<=0&&S.events.length<4){S.evT=2.5+Math.random()*2;genEvent()}
+}
+
+/* ---------- death and succession ---------- */
+function die(c){
+ var par=c.stage>=8;
+ c.dead={t:S.t,age:Math.floor(age(c))};
+ c.job=null;c.hind=null;c.away=null;
+ S.chars.forEach(function(x){if(x.job&&x.job.to===c.id)x.job=null});
+ logm(nm(c)+(par?' ปรินิพพาน':' ละสังขาร')+' อายุ '+c.dead.age+' ปี');
+ kidsOf(c).forEach(function(k){
+  var best=null;
+  TECH.forEach(function(t){if(c.tech.includes(t.id)&&!k.tech.includes(t.id)&&k.stage>=t.req-1&&(!t.sch||k.sch===t.sch)&&(!best||t.req>best.req))best=t});
+  if(best){k.tech.push(best.id);flash[k.id]=performance.now()+1500;logm(nm(k)+' รับคำสอนสุดท้ายของ'+nm(c)+': “'+best.n+'”')}
+ });
+ S.faith+=10*(c.stage+1);
+ if(par){
+  S.chars.forEach(function(x){if(!x.dead)addV(x,10)});
+  kidsOf(c).forEach(function(k){k.fac.sa=Math.min(10,k.fac.sa+1)});
+  logm('การปรินิพพานของ'+nm(c)+'เป็นแรงบันดาลใจแก่ทั้งสาย');
+ }
+ treeDirty=true;lastSig='';
+ if(!S.chars.some(function(x){return !x.dead})){showEnd();return}
+ if(S.head===c.id)startSuccession(c);
+}
+function startSuccession(c){
+ var cs=kidsOf(c);
+ if(!cs.length)cs=S.chars.filter(function(x){return !x.dead});
+ cs=cs.slice().sort(function(a,b){return b.stage-a.stage}).slice(0,4);
+ S.head=null;
+ if(cs.length===1){S.head=cs[0].id;S.stats.heads++;logm(nm(cs[0])+' สืบทอดเป็นหัวหน้าสาย');return}
+ var e={id:S.eid++,type:'succ',a:c.id,cands:cs.map(function(x){return x.id}),t:S.t,until:S.t+4};
+ S.events.push(e);logm('เหตุการณ์: '+evTitle(e));
+}
+
+/* ---------- events ---------- */
+function evTitle(e){
+ var a=byId(e.a),b=e.b?byId(e.b):null;
+ if(e.type==='succ')return 'เลือกผู้สืบทอดสายแทน'+nm(a)+'ที่ละสังขาร';
+ if(e.type==='dis')return nm(a)+' ท้อแท้ ความสนิทกับครูยังน้อย';
+ if(e.type==='dsp')return nm(a)+' กับ'+nm(b)+' เห็นต่างกันเรื่องแนวปฏิบัติ';
+ return 'โยมมาถวายปัจจัย ให้'+nm(a)+'เป็นผู้รับ';
+}
+function genEvent(){
+ var cs=S.chars.filter(function(c){return !c.away&&!c.dead}),opts=[];
+ var dis=cs.filter(function(c){var tc=teacherOf(c);return tc&&c.stage<=2&&relGet(c,tc)<35&&!S.events.some(function(e){return e.a===c.id})});
+ if(dis.length)opts.push(function(){return {type:'dis',a:pick(dis).id}});
+ var pairs=[];
+ cs.forEach(function(a){sibs(a).forEach(function(b){if(a.id<b.id&&!b.away&&a.stage<8&&b.stage<8&&!S.events.some(function(e){return e.type==='dsp'&&e.a===a.id&&e.b===b.id}))pairs.push([a,b])})});
+ if(pairs.length)opts.push(function(){var p=pick(pairs);return {type:'dsp',a:p[0].id,b:p[1].id}});
+ if(cs.length)opts.push(function(){return {type:'don',a:pick(cs).id}});
+ if(!opts.length)return;
+ var e=pick(opts)();e.id=S.eid++;e.t=S.t;e.until=S.t+4;S.events.push(e);
+ logm('เหตุการณ์: '+evTitle(e));
+}
+function evAuto(e){
+ var a=byId(e.a),b=e.b?byId(e.b):null;
+ if(e.type==='dis'){a.away={until:S.t+4};a.job=null;a.hind=null;logm(nm(a)+' ท้อแท้และไม่มีใครดูแล ขอออกธุดงค์ 4 ปี');treeDirty=true}
+ else if(e.type==='dsp'){relAdd(a,b,-8);logm('ข้อโต้แย้งของ'+nm(a)+'กับ'+nm(b)+'ค้างคา ความสนิทลดลง')}
+ else if(e.type==='succ'){
+  var lv=e.cands.map(byId).filter(function(x){return x&&!x.dead});
+  if(!lv.length)lv=S.chars.filter(function(x){return !x.dead});
+  lv.sort(function(p,q){return q.stage-p.stage});
+  if(lv.length){S.head=lv[0].id;S.stats.heads++;logm('ไม่มีการเลือก '+nm(lv[0])+' ที่ก้าวหน้าที่สุดสืบทอดเป็นหัวหน้าสาย');treeDirty=true}
+ }
+ else{S.faith+=15;logm('รับปัจจัยที่โยมถวายไว้ ศรัทธา +15')}
+}
+function evResolve(id,opt){
+ var i=-1;S.events.forEach(function(e,j){if(e.id===id)i=j});if(i<0)return;
+ var e=S.events[i],a=byId(e.a),b=e.b?byId(e.b):null,tc=teacherOf(a);
+ if(e.type==='dis'){
+  if(opt==='guide'){if(S.faith<10)return;S.faith-=10;if(tc)relAdd(a,tc,15);a.fac.sa=Math.min(10,a.fac.sa+1);logm(nm(tc||a)+' แนะนำ'+nm(a)+'อย่างใกล้ชิด ใจกลับมามั่นคง')}
+  else if(Math.random()<.5){logm(nm(a)+' ใคร่ครวญแล้วตัดสินใจฝึกต่อ')}
+  else{a.away={until:S.t+3};a.job=null;a.hind=null;logm(nm(a)+' ขอออกธุดงค์ 3 ปี');treeDirty=true}
+ }else if(e.type==='dsp'){
+  if(opt==='talk'){relAdd(a,b,12);addV(a,5);addV(b,5);logm(nm(a)+' กับ'+nm(b)+' สนทนาธรรมกันจนเข้าใจ')}
+  else{relAdd(a,b,-8);logm('ปล่อยข้อโต้แย้งของ'+nm(a)+'กับ'+nm(b)+'ไว้ ความสนิทลดลง')}
+ }else if(e.type==='succ'){
+  var h0=byId(+opt.slice(1));
+  if(h0&&!h0.dead){S.head=h0.id;S.stats.heads++;treeDirty=true;logm(nm(h0)+' ได้รับเลือกเป็นหัวหน้าสาย แทน'+nm(a))}
+  else return;
+ }else{
+  if(opt==='take'){S.faith+=30;logm('รับปัจจัยที่โยมถวาย ศรัทธา +30')}
+  else{S.faith+=8;var x=pick(S.chars);x.fac.sa=Math.min(10,x.fac.sa+1);logm('แบ่งปัจจัยให้ชุมชน ศรัทธาของ'+nm(x)+'เพิ่มขึ้น')}
+ }
+ S.events.splice(i,1);lastSig='';
+}
+function evCard(e){
+ var left=Math.max(0,e.until-S.t).toFixed(1),o;
+ if(e.type==='succ')o=e.cands.filter(function(id){return !byId(id).dead}).map(function(id){var x=byId(id);return ['c'+id,nm(x)+' · '+STAGES[x.stage].n,false]});
+ else if(e.type==='dis')o=[['guide','ให้ครูแนะนำใกล้ชิด · ศรัทธา 10',S.faith<10],['let','ให้ตัดสินใจเอง',false]];
+ else if(e.type==='dsp')o=[['talk','ให้สนทนาธรรมกัน',false],['quiet','ปล่อยไว้',false]];
+ else o=[['take','รับไว้ใช้ในสาย · ศรัทธา +30',false],['share','แบ่งให้ชุมชน · ศรัทธา +8 และเพิ่มศรัทธาให้ศิษย์ 1 องค์',false]];
+ return '<div class="card"><h3>'+esc(evTitle(e))+'</h3><p>เหลือเวลา '+left+' ปี ถ้าไม่ตัดสินใจจะเกิดผลเอง</p><div class="chips" style="margin-top:8px">'+o.map(function(x){return '<button class="btn" data-ev="'+e.id+'" data-o="'+x[0]+'"'+(x[2]?' disabled':'')+'>'+x[1]+'</button>'}).join('')+'</div></div>';
+}
+
+/* ---------- actions ---------- */
+function startTeach(d,tid,sid){
+ var s=byId(sid),t=T(tid);
+ if(!s||s.job||s.away||d.away||!learnable(d,t,s))return;
+ s.job={to:d.id,tech:tid,until:S.t+(s.sch==='study'?.75:1)};
+ logm(nm(s)+' เริ่มถ่ายทอด “'+t.n+'” ให้'+nm(d));
+ lastSig='';
+}
+function autoTeach(){
+ S.chars.forEach(function(c){
+  if(c.dead||c.away)return;
+  sources(c).forEach(function(sr){
+   if(sr.job||c.away)return;
+   var best=null,bs=-1;
+   TECH.forEach(function(t){
+    if(!learnable(c,t,sr))return;
+    var v=t.b*(t.fit&&t.fit.indexOf(c.carita)>=0?1.5:1);
+    if(c.hind&&t.anti===c.hind.k)v+=1;
+    if(v>bs){bs=v;best=t}
+   });
+   if(best)startTeach(c,best.id,sr.id);
+  });
+ });
+}
+function foundSchool(c,k){
+ if(c.dead||c.stage<4||S.founded[k]||S.faith<250)return;
+ S.faith-=250;S.founded[k]=c.id;var old=c.sch||'';c.sch=k;
+ var sec=TECH.filter(function(t){return t.sch===k})[0];
+ if(sec&&!c.tech.includes(sec.id))c.tech.push(sec.id);
+ (function pass(p){S.chars.forEach(function(x){if(x.parent===p.id&&(x.sch||'')===old){x.sch=k;pass(x)}})})(c);
+ logm(nm(c)+' ก่อตั้ง'+SCHOOLS[k].n+' ได้วิชาลับ “'+sec.n+'”');
+ treeDirty=true;lastSig='';
+}
+function usePill(c,k){
+ if(c.dead)return;
+ if(k==='tonic'){
+  if(S.herb<3||(c.pills||0)>=3)return;
+  S.herb-=3;c.pills=(c.pills||0)+1;c.life+=5;S.stats.pills++;
+  logm(nm(c)+' ฉันยาบำรุงธาตุ อายุขัยยืดออกไป 5 ปี');
+ }else{
+  if(S.herb<1||!c.hind)return;
+  S.herb-=1;c.hind=null;c.calm=S.t+2;S.stats.pills++;
+  logm(nm(c)+' ฉันน้ำปานะสมุนไพร ใจสงบจากนิวรณ์');
+ }
+}
+function startTrek(c,k){
+ if(c.dead||c.away||c.job||c.stage<1)return;
+ var t=TREKS[k];c.away={until:S.t+t.yrs,trek:k};c.hind=null;
+ logm(nm(c)+' ออกธุดงค์ไป'+t.n);treeDirty=true;lastSig='';
+}
+function resolveTrek(c){
+ var k=c.away.trek,r=Math.random(),rq=c.stage<8?REQ[c.stage]:null,fb=c.sch==='forest'?1.3:1;
+ S.stats.treks++;flash[c.id]=performance.now()+1500;
+ if(k==='forest'){
+  var h=2+rnd(3);S.herb+=h;if(rq)c.s=Math.min(rq[0],c.s+rq[0]*.25*fb);
+  if(r<.15){c.life-=2;logm(nm(c)+' ล้มป่วยกลางป่า อายุขัยลดลง 2 ปี แต่ได้สมุนไพร '+h)}
+  else logm(nm(c)+' ได้สมถะจากความสงัดในป่า และเก็บสมุนไพร '+h);
+ }else if(k==='town'){
+  var fa=Math.round((30+rnd(31))*(c.sch==='community'?1.3:1));S.faith+=fa;
+  if(r<.2){c.hind={k:pick(Object.keys(H)),until:S.t+2.5};logm(nm(c)+' ได้ศรัทธา '+fa+' แต่ถูก'+H[c.hind.k].n+'รบกวนระหว่างทาง')}
+  else logm(nm(c)+' โปรดชุมชน ได้ศรัทธา '+fa);
+ }else{
+  if(rq)c.v=Math.min(rq[1],c.v+rq[1]*.25*fb);
+  var cd=TECH.filter(function(t){return !t.sch&&!c.tech.includes(t.id)&&c.stage>=t.req-1});
+  if(r<.35&&cd.length){var t=pick(cd);c.tech.push(t.id);logm(nm(c)+' พบครูบาอาจารย์ในถ้ำ ได้รับ “'+t.n+'”')}
+  else logm(nm(c)+' พิจารณาธรรมในถ้ำ ได้วิปัสสนา');
+ }
+}
+function festCost(){return 300+100*S.fest.n}
+function holdFest(){
+ var c=festCost();if(S.faith<c)return;
+ S.faith-=c;S.fest.until=Math.max(S.t,S.fest.until)+10;S.fest.n++;
+ logm('จัดงานบุญใหญ่ ทั้งสายฝึกเร็วขึ้น 25% เป็นเวลา 10 ปี');
+}
+function festCard(){
+ var left=Math.max(0,S.fest.until-S.t);
+ return '<div class="card"><h3>งานบุญใหญ่ · จัดแล้ว '+S.fest.n+' ครั้ง</h3><p>ทั้งสายฝึกเร็วขึ้น 25% เป็นเวลา 10 ปี จัดซ้อนเพื่อต่อเวลาได้'+(left>0?' · เหลืออีก '+Math.ceil(left)+' ปี':'')+'</p><div class="chips" style="margin-top:8px"><button class="btn pri" data-fest="1"'+(S.faith<festCost()?' disabled':'')+'>จัดงานบุญ · ศรัทธา '+festCost()+'</button></div></div>';
+}
+function buyUp(k){
+ var u=UPS.filter(function(x){return x.k===k})[0],l=S.up[k],c=u.cost(l);
+ if(l>=u.max||S.faith<c)return;
+ S.faith-=c;S.up[k]++;logm('ปรับปรุง'+u.n+' เป็นระดับ '+S.up[k]);
+ if(k==='infirm')S.chars.forEach(function(x){if(!x.dead)x.life+=2});
+}
+function recruit(c,i){
+ var cand=S.cands[i],cost=recruitCost();
+ if(!cand||livingCount()>=memberCap()||c.away||c.dead||S.faith<cost||kidsOf(c).length>=capOf(c))return;
+ S.faith-=cost;
+ var n=mk({name:cand.name,g:cand.g,parent:c.id,age:cand.age,fac:cand.fac,carita:cand.carita,sch:c.sch});
+ S.chars.push(n);S.cands[i]=genCand();
+ logm(nm(c)+' รับ'+nm(n)+'เป็นศิษย์');
+ treeDirty=true;lastSig='';
+}
+
+/* ---------- portraits ---------- */
+var SKIN=['#E8C39E','#D9A877','#C68E5E','#B07A4F','#EFCFAF'],ROBES=['#E08A1E','#D2761A','#E39A2D','#C96A16','#D88424'];
+function avatar(c){
+ var lk=c.look,skin=SKIN[lk.skin],f=c.g==='f',robe=f?'#EFEDE2':ROBES[lk.robe],a=age(c),old=a>=60;
+ var fw=[14.5,15.5,16.8][lk.face|0],bw=[-1.5,0,1.5][lk.brow|0],sm=[2.5,3.4,4.2][lk.smile|0];
+ var h='<g clip-path="url(#clipAv)"><rect width="100" height="100" fill="url(#pbg)"/>';
+ if(c.stage>=8)h+='<circle cx="50" cy="46" r="46" fill="url(#aura)"/>';
+ else if(c.stage>=1)h+='<circle cx="50" cy="46" r="'+(22+c.stage*2.5)+'" fill="url(#aura)" opacity="'+(.3+c.stage*.1).toFixed(2)+'"/>';
+ h+='<path d="M4 100 Q9 70 50 66 Q91 70 96 100Z" fill="'+robe+'"/>';
+ if(!f)h+='<path d="M50 66 L66 100 L96 100 Q91 70 50 66Z" fill="rgba(0,0,0,.14)"/><path d="M50 66 Q63 78 67 100" stroke="rgba(0,0,0,.28)" fill="none" stroke-width="1.3"/>';
+ else h+='<path d="M50 68 L41 100 M50 68 L59 100" stroke="rgba(0,0,0,.16)" stroke-width="1.5" fill="none"/>';
+ h+='<rect x="44" y="55" width="12" height="15" rx="4" fill="'+skin+'"/><path d="M44 64 Q50 70 56 64 L56 60 L44 60Z" fill="rgba(0,0,0,.15)"/>';
+ h+='<ellipse cx="'+(50-fw)+'" cy="46" rx="3.2" ry="5" fill="'+skin+'"/><ellipse cx="'+(50+fw)+'" cy="46" rx="3.2" ry="5" fill="'+skin+'"/>';
+ h+='<ellipse cx="50" cy="44" rx="'+fw+'" ry="18" fill="'+skin+'"/>';
+ h+='<path d="M'+(50-fw)+' 41 Q'+(50.5-fw)+' 26 50 26 Q'+(49.5+fw)+' 26 '+(50+fw)+' 41 Q58 33 50 33 Q42 33 '+(50-fw)+' 41Z" fill="rgba(40,30,20,'+(old?.12:.28)+')"/>';
+ h+='<path d="M39 '+(40.5+bw*.3)+' Q43.5 '+(38.5+bw)+' 47.5 40.5 M52.5 40.5 Q56.5 '+(38.5+bw)+' 61 '+(40.5+bw*.3)+'" stroke="'+(old?'#EDEBE4':'#3A2E22')+'" stroke-width="1.7" fill="none" stroke-linecap="round"/>';
+ h+='<path d="M40.5 45.5 Q44 48.5 47.5 45.5 M52.5 45.5 Q56 48.5 59.5 45.5" stroke="#3A2E22" stroke-width="1.5" fill="none" stroke-linecap="round"/>';
+ h+='<path d="M50 46 L48.8 51.5 Q50 52.4 51.2 51.5" stroke="rgba(60,30,20,.35)" fill="none" stroke-width="1.1"/>';
+ h+='<path d="M45.5 54.5 Q50 '+(54.5+sm)+' 54.5 54.5" stroke="#8A4B3A" stroke-width="1.5" fill="none" stroke-linecap="round"/>';
+ if(a>=45)h+='<path d="M42 35.2 H58" stroke="rgba(60,30,20,.2)" stroke-width="1" fill="none"/>';
+ if(old)h+='<path d="M40.5 51 Q41.5 54.5 44 56 M59.5 51 Q58.5 54.5 56 56" stroke="rgba(60,30,20,.22)" stroke-width="1" fill="none"/>';
+ return h+'</g>';
+}
+function focusIcon(f){
+ if(f==='s')return '<circle class="ic" r="2"/><circle class="ic" r="5.5"/>';
+ if(f==='v')return '<path class="ic" d="M-6 0 Q0 -5.5 6 0 Q0 5.5 -6 0Z"/><circle class="fl" r="1.8"/>';
+ return '<circle class="fl" r="1.8"/><path class="ic" d="M-6.5 0H-3M3 0H6.5"/>';
+}
+
+/* ---------- tree ---------- */
+function layout(){
+ var kids={},pos={},slot=0;
+ visChars().forEach(function(c){var k=c.parent==null?'r':c.parent;(kids[k]=kids[k]||[]).push(c)});
+ var root=S.chars.filter(function(c){return c.parent==null})[0];
+ (function go(c,d){
+  var ch=kids[c.id]||[];
+  if(!ch.length){pos[c.id]={x:slot++*GX,y:d*GY}}
+  else{ch.forEach(function(k){go(k,d+1)});var xs=ch.map(function(k){return pos[k.id].x});pos[c.id]={x:(Math.min.apply(null,xs)+Math.max.apply(null,xs))/2,y:d*GY}}
+  pos[c.id].d=d;
+ })(root,0);
+ return pos;
+}
+function renderTree(){
+ L=layout();els={};edgeEls={};var VC=visChars();
+ var e='',n='';
+ VC.forEach(function(c){
+  if(c.parent==null)return;
+  var p=L[c.parent],q=L[c.id],y1=p.y+R+2,y2=q.y-R-3,my=(y1+y2)/2;
+  e+='<path class="edge" data-e="'+c.id+'" d="M'+p.x+' '+y1+' C'+p.x+' '+my+' '+q.x+' '+my+' '+q.x+' '+y2+'"/>';
+ });
+ VC.forEach(function(c){
+  var q=L[c.id],cl='node '+tier(c)+(c.dead?' dead':'');
+  n+='<g class="'+cl+'" data-id="'+c.id+'" transform="translate('+q.x+' '+q.y+')" tabindex="0" role="button" aria-label="'+esc(nm(c)+' '+STAGES[c.stage].n)+'">'
+   +(c.stage>=8?'<circle r="'+(R+16)+'" fill="url(#haloG)"/>':'')
+   +'<circle class="selr" r="'+(R+10)+'"/>'
+   +'<g transform="translate('+(-R)+' '+(-R)+') scale('+(2*R/100)+')">'+avatar(c)+'</g>'
+   +'<circle class="ring" r="'+R+'"/>'
+   +'<circle class="prog" r="'+(R+5)+'" transform="rotate(-90)" stroke-dasharray="'+CIRC.toFixed(1)+'" stroke-dashoffset="'+CIRC.toFixed(1)+'"/>'
+   +'<text class="nm" y="'+(-R-12)+'">'+esc(nm(c))+'</text>'
+   +(c.stage<8?'<g class="fb" transform="translate(0 '+R+')"><circle class="bg" r="10"/>'+focusIcon(c.focus)+'</g>':'')
+   +'<text class="stg" y="'+(R+27)+'">'+STAGES[c.stage].n+'</text>'
+   +(c.sch?'<circle class="schdot sc-'+c.sch+'" cx="'+(R*.74)+'" cy="'+(R*.74)+'" r="6"/>':'')
+   +(c.id===S.head?'<path class="headmk" d="M0 -8 L7 0 L0 8 L-7 0Z" transform="translate('+(-R*.78)+' '+(-R*.78)+')"/>':'')
+   +'<circle class="hdot" cx="'+(R*.74)+'" cy="'+(-R*.74)+'" r="6.5" style="display:none"/>'
+   +'</g>';
+ });
+ $('#edges').innerHTML=e;$('#nodes').innerHTML=n;
+ VC.forEach(function(c){
+  var g=$('#nodes').querySelector('[data-id="'+c.id+'"]');
+  els[c.id]={g:g,prog:g.querySelector('.prog'),hind:g.querySelector('.hdot'),stg:g.querySelector('.stg')};
+  edgeEls[c.id]=$('#edges').querySelector('[data-e="'+c.id+'"]');
+ });
+ treeDirty=false;
+}
+function updateDyn(){
+ var je={},now=performance.now();
+ S.chars.forEach(function(c){if(c.job){var d=byId(c.job.to);if(!d)return;if(d.parent===c.id)je[d.id]=1;else if(c.parent===d.id)je[c.id]=1}});
+ S.chars.forEach(function(c){
+  var e=els[c.id];if(!e)return;
+  var rq=REQ[c.stage],pr=c.dead?0:(rq?Math.min(rq[0]?c.s/rq[0]:1,rq[1]?c.v/rq[1]:1):1);
+  e.prog.setAttribute('stroke-dashoffset',(CIRC*(1-pr)).toFixed(1));
+  e.hind.style.display=c.hind?'':'none';
+  e.g.classList.toggle('sel',c.id===selId);
+  e.g.classList.toggle('away',!!c.away);
+  e.g.classList.toggle('flash',now<(flash[c.id]||0));
+  var tx=c.dead?(c.stage>=8?'ปรินิพพาน':'ละสังขาร'):c.away?'ออกธุดงค์':STAGES[c.stage].n;if(e.stg.textContent!==tx)e.stg.textContent=tx;
+  var ed=edgeEls[c.id];
+  if(ed){var tp=c.parent==null?null:byId(c.parent);ed.classList.toggle('teach',!!je[c.id]);ed.style.strokeWidth=je[c.id]?'':(2+(tp?relGet(c,tp):0)/25).toFixed(1)+'px'}
+ });
+}
+
+/* ---------- pan / zoom ---------- */
+var vp=$('#viewport'),world=$('#world');
+function applyView(){world.setAttribute('transform','translate('+view.x.toFixed(1)+' '+view.y.toFixed(1)+') scale('+view.k.toFixed(3)+')')}
+function zoomAt(cx,cy,nk){
+ var r=vp.getBoundingClientRect(),px=cx-r.left,py=cy-r.top;nk=clamp(nk,.3,2.4);
+ var wx=(px-view.x)/view.k,wy=(py-view.y)/view.k;view.k=nk;view.x=px-wx*nk;view.y=py-wy*nk;applyView();
+}
+function fit(){
+ var xs=[],ys=[];for(var id in L){xs.push(L[id].x);ys.push(L[id].y)}
+ var minx=Math.min.apply(null,xs),maxx=Math.max.apply(null,xs),maxy=Math.max.apply(null,ys);
+ var w=vp.clientWidth||360,h=vp.clientHeight||500,bw=maxx-minx+GX*1.1,bh=maxy+GY*.95;
+ view.k=clamp(Math.min(w/bw,h/bh),.3,1.15);
+ view.x=w/2-((minx+maxx)/2)*view.k;view.y=h*.5-(maxy/2)*view.k+10;applyView();
+}
+var tw=null;
+function centerOn(id){
+ var p=L[id];if(!p)return;var w=vp.clientWidth,h=vp.clientHeight;
+ var tx=w/2-p.x*view.k,ty=h*.22-p.y*view.k,sx=view.x,sy=view.y,t0=performance.now();
+ cancelAnimationFrame(tw);
+ (function f(now){var u=clamp((now-t0)/220,0,1);u=1-Math.pow(1-u,3);view.x=sx+(tx-sx)*u;view.y=sy+(ty-sy)*u;applyView();if(u<1)tw=requestAnimationFrame(f)})(t0);
+}
+var ptrs={},nP=0,drag=null,pinch=null,moved=0,downT=0;
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+vp.addEventListener('pointerdown',function(e){
+ if(e.target.closest('.zoomctl,.ticker-wrap button'))return;
+ try{vp.setPointerCapture(e.pointerId)}catch(_){}
+ if(!ptrs[e.pointerId])nP++;ptrs[e.pointerId]={x:e.clientX,y:e.clientY};cancelAnimationFrame(tw);
+ if(nP===1){drag={sx:e.clientX,sy:e.clientY,vx:view.x,vy:view.y};moved=0;downT=performance.now()}
+ else if(nP===2){var a=Object.keys(ptrs).map(function(k){return ptrs[k]});pinch={d:dist(a[0],a[1]),k:view.k,cx:(a[0].x+a[1].x)/2,cy:(a[0].y+a[1].y)/2,vx:view.x,vy:view.y};moved=99;touched=true}
+});
+vp.addEventListener('pointermove',function(e){
+ if(!ptrs[e.pointerId])return;ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+ if(nP===2&&pinch){
+  var a=Object.keys(ptrs).map(function(k){return ptrs[k]}),r=vp.getBoundingClientRect(),nk=clamp(pinch.k*dist(a[0],a[1])/pinch.d,.3,2.4);
+  var wx=(pinch.cx-r.left-pinch.vx)/pinch.k,wy=(pinch.cy-r.top-pinch.vy)/pinch.k,cx=(a[0].x+a[1].x)/2,cy=(a[0].y+a[1].y)/2;
+  view.k=nk;view.x=cx-r.left-wx*nk;view.y=cy-r.top-wy*nk;applyView();
+ }else if(drag&&nP===1){
+  var dx=e.clientX-drag.sx,dy=e.clientY-drag.sy;moved=Math.max(moved,Math.hypot(dx,dy));
+  if(moved>6){touched=true;view.x=drag.vx+dx;view.y=drag.vy+dy;applyView()}
+ }
+});
+function endPtr(e){
+ if(!ptrs[e.pointerId])return;
+ var wasTap=nP===1&&moved<8&&performance.now()-downT<600&&e.type==='pointerup';
+ delete ptrs[e.pointerId];nP--;pinch=null;
+ if(nP===1){var k=Object.keys(ptrs)[0];drag={sx:ptrs[k].x,sy:ptrs[k].y,vx:view.x,vy:view.y};moved=99}else drag=null;
+ if(wasTap){
+  var el=document.elementFromPoint(e.clientX,e.clientY),nd=el&&el.closest&&el.closest('.node');
+  if(nd)select(+nd.dataset.id);else deselect();
+ }
+}
+vp.addEventListener('pointerup',endPtr);vp.addEventListener('pointercancel',endPtr);
+vp.addEventListener('wheel',function(e){e.preventDefault();touched=true;zoomAt(e.clientX,e.clientY,view.k*(e.deltaY<0?1.12:.89))},{passive:false});
+$('#tree').addEventListener('keydown',function(e){
+ if(e.key==='Enter'||e.key===' '){var nd=e.target.closest&&e.target.closest('.node');if(nd){e.preventDefault();select(+nd.dataset.id)}}
+});
+function zc(f){var r=vp.getBoundingClientRect();touched=true;zoomAt(r.left+r.width/2,r.top+r.height/2,view.k*f)}
+$('#zin').onclick=function(){zc(1.25)};$('#zout').onclick=function(){zc(.8)};$('#zfit').onclick=function(){touched=false;fit()};
+
+/* ---------- sheet ---------- */
+var sheet=$('#sheet');
+function selC(){return selId==null?null:byId(selId)}
+function select(id){selId=id;sheet.hidden=false;lastSig='';renderSheet();updateDyn();centerOn(id)}
+function deselect(){selId=null;sheet.hidden=true;updateDyn()}
+function sigOf(c){
+ var tc=teacherOf(c);
+ return [c.id,c.stage,c.hind?c.hind.k:'',c.focus,c.tech.length,c.job?c.job.tech:'',tc&&tc.job?1:0,tc?tc.tech.length:0,kidsOf(c).length,S.faith>=recruitCost()?1:0,S.cands.map(function(x){return x.name}).join(','),c.away?1:0,c.dead?1:0,(S.herb>=3?1:0)+''+(S.herb>=1?1:0)+(c.pills||0),c.sch||'',S.faith>=250?1:0,livingCount()>=memberCap()?1:0,Object.keys(S.founded).length,S.head===c.id?1:0,sources(c).map(function(x){return x.id+':'+(x.job?1:0)+x.tech.length}).join(','),sibs(c).map(function(x){return (S.cd[rk(c.id,x.id)]||0)>S.t?1:0}).join('')].join('|');
+}
+function barRow(label,id,cls){return '<div class="prow"><span>'+label+'</span><div class="bar '+cls+'"><i id="b'+id+'"></i></div><em id="t'+id+'"></em></div>'}
+function sheetHTML(c){
+ var tc=teacherOf(c),kids=kidsOf(c),rq=REQ[c.stage],st=STAGES[c.stage];
+ var role=c.parent==null?'พระอาจารย์ผู้ก่อตั้งสาย':'ศิษย์รุ่นที่ '+((L[c.id]||{d:1}).d);
+ var h='<div class="sh"><div class="sh-head"><svg class="av '+tier(c)+'" viewBox="0 0 100 100" width="64" height="64" aria-hidden="true">'+avatar(c)+'</svg><div class="sh-id"><h2>'+esc(nm(c))+'</h2><p>'+role+' · อายุ <b id="age">'+Math.floor(age(c))+'</b> ปี'+(c.dead?' (ละสังขารแล้ว)':' ('+lifeOf(c)+' · อายุขัยราว '+Math.floor(c.life/5)*5+'-'+(Math.floor(c.life/5)*5+5)+' ปี)')+(tc?' · ครู '+esc(nm(tc)):'')+'</p></div><button class="x" data-act="close" aria-label="ปิด">×</button></div>';
+ if(c.dead){
+  h+='<div class="warn" style="border-color:var(--ink-soft)"><b style="color:var(--ink-soft)">'+(c.stage>=8?'ปรินิพพาน':'ละสังขาร')+'</b><span>เมื่อปีที่ '+(Math.floor(c.dead.t)+1)+' อายุ '+c.dead.age+' ปี · ถึงขั้น'+st.n+'</span></div>';
+  h+='<div class="sec"><span class="lab">วิชาที่ถ่ายทอดไว้</span><div class="chips">'+c.tech.map(function(id){return '<span class="chip '+T(id).k+'">'+T(id).n+'</span>'}).join('')+'</div></div>';
+  var dk=S.chars.filter(function(x){return x.parent===c.id});
+  if(dk.length)h+='<div class="sec"><span class="lab">ศิษย์</span><div class="kidlist">'+dk.map(function(k){return '<button data-act="goto" data-id="'+k.id+'">'+esc(nm(k))+(k.dead?' (ละสังขาร)':'')+'</button>'}).join('')+'</div></div>';
+  if(c.parent!=null)h+='<div class="kidlist"><button data-act="goto" data-id="'+c.parent+'">ไปที่ครู</button></div>';
+  return h+'</div>';
+ }
+ h+='<div class="sec"><div><span class="stg-n">'+st.n+'</span>'+(st.f?' <span class="muted">ละสังโยชน์ '+st.f+'/10 ข้อ</span>':'')+'</div><p class="muted">'+st.d+'</p>'+(c.id===S.head?'<span class="tag">หัวหน้าสาย · ทั้งสายฝึกเร็วขึ้น '+(1*c.stage).toFixed(1)+'%</span>':'');
+ if(rq){h+=barRow('สมถะ','s','')+barRow('วิปัสสนา','v','v')+'<p class="muted">ขั้นถัดไป '+STAGES[c.stage+1].n+' ต้องเต็มทั้งสองแถบ</p>'}
+ else h+='<p class="muted">สิ้นกิจในการปฏิบัติเพื่อตนแล้ว ยังช่วยสอนศิษย์และเพิ่มศรัทธาให้สายธรรม</p>';
+ h+='</div>';
+ if(c.away)h+='<div class="warn" style="border-color:var(--ink-soft)"><b style="color:var(--ink-soft)">ออกธุดงค์</b><span>กลับในปี '+(Math.floor(c.away.until)+1)+' ระหว่างนี้ไม่ฝึกและไม่สอน</span></div>';
+ if(age(c)>=c.life-6)h+='<div class="warn"><b>ใกล้ปลายอายุขัย</b><span>ควรถ่ายทอดวิชาและรับศิษย์ไว้สืบสาย</span></div>';
+ if(c.hind){var k=c.hind.k,fix=TECH.filter(function(t){return t.anti===k})[0];
+  h+='<div class="warn"><b>'+H[k].n+'</b><span>'+H[k].d+' ฝึกช้าลง 60%'+(fix?' · วิชาแก้: '+fix.n:'')+'</span></div>'}
+ h+='<div class="sec"><span class="lab">อินทรีย์ ๕</span>'+FAC.map(function(f){return '<div class="prow"><span>'+f[1]+'</span><div class="bar f"><i style="width:'+c.fac[f[0]]*10+'%"></i></div><em>'+c.fac[f[0]]+'/10</em></div>'}).join('')+'</div>';
+ if(c.stage<8)h+='<div class="sec"><span class="lab">เน้นการฝึก</span><div class="seg" role="group">'
+  +[['a','อัตโนมัติ'],['s','เน้นสมถะ'],['v','เน้นวิปัสสนา']].map(function(o){return '<button data-act="focus" data-v="'+o[0]+'" aria-pressed="'+(c.focus===o[0])+'" style="flex:1">'+o[1]+'</button>'}).join('')+'</div></div>';
+ h+='<div class="sec"><span class="lab">วิชาที่รู้ · '+CARITA[c.carita].n+'</span><p class="muted">'+CARITA[c.carita].d+' · วิชาที่ตรงจริตให้ผลเพิ่ม 50%</p><div class="chips">'+c.tech.map(function(id){var t=T(id);var ft=t.fit&&t.fit.indexOf(c.carita)>=0;return '<span class="chip '+t.k+'" title="'+esc(t.d)+(ft?' · ตรงจริต':'')+'">'+t.n+(ft?' ✦':'')+'</span>'}).join('')+'</div></div>';
+ if(c.job){var d=byId(c.job.to);h+='<div class="warn" style="border-color:var(--ok)"><b style="color:var(--ok)">กำลังถ่ายทอด</b><span>“'+T(c.job.tech).n+'” ให้'+(d?esc(nm(d)):'')+' · ฝึกเองช้าลง 25%</span></div>'}
+var sb=sibs(c);
+ if(tc||sb.length){
+  h+='<div class="sec"><span class="lab">ความสัมพันธ์</span>';
+  if(tc)h+='<div class="prow"><span>กับครู</span><div class="bar f"><i id="br"></i></div><em id="tr"></em></div><div class="kidlist"><button data-act="goto" data-id="'+tc.id+'">ไปที่ครู: '+esc(nm(tc))+'</button></div>';
+  sb.forEach(function(x){
+   var cd=(S.cd[rk(c.id,x.id)]||0)>S.t;
+   h+='<div class="row"><div class="grow"><b>'+esc(nm(x))+'</b><span class="muted">พี่น้องร่วมสาย · ความสนิท <span data-rel="'+x.id+'">'+Math.round(relGet(c,x))+'</span></span></div><button class="btn" data-act="talk" data-id="'+x.id+'"'+(cd||x.away||c.away?' disabled':'')+'>'+(cd?'พักก่อน':'สนทนาธรรม')+'</button></div>';
+  });
+  h+='</div>';
+ }
+ var any=false;
+ h+='<div class="sec"><span class="lab">เรียนวิชาจากผู้อื่นในสาย</span>';
+ sources(c).forEach(function(s){
+  var rl=tc&&s.id===tc.id?'ครู':(s.parent===c.id?'ศิษย์':'พี่น้อง');
+  TECH.filter(function(t){return learnable(c,t,s)}).forEach(function(t){
+   any=true;var fixes=c.hind&&t.anti===c.hind.k;
+   h+='<div class="row"><div class="grow"><b>'+t.n+'</b><span class="muted">'+KIND[t.k]+' +'+Math.round(t.b*100)+'% · จาก'+rl+' '+esc(nm(s))+(t.anti?' · แก้'+H[t.anti].n:'')+'</span>'+(fixes?'<br><span class="tag">แก้นิวรณ์ที่กำลังเป็นอยู่</span>':'')+(t.fit&&t.fit.indexOf(c.carita)>=0?'<br><span class="tag">ตรงจริต ผลเพิ่ม 50%</span>':'')+'</div><button class="btn pri" data-act="teach" data-t="'+t.id+'" data-s="'+s.id+'"'+(s.job||c.away?' disabled':'')+'>'+(s.job?'ไม่ว่าง':'เรียน 1 ปี')+'</button></div>';
+  });
+ });
+ if(!any)h+='<p class="muted">ยังไม่มีวิชาใหม่ที่เรียนได้ ครู ศิษย์ และพี่น้องร่วมสายสอนกันได้ แม้ศิษย์ที่ก้าวหน้ากว่าก็สอนครูได้</p>';
+ h+='</div>';
+ if(kids.length)h+='<div class="sec"><span class="lab">ศิษย์</span><div class="kidlist">'+kids.map(function(k){return '<button data-act="goto" data-id="'+k.id+'">'+esc(nm(k))+'</button>'}).join('')+'</div></div>';
+ if(!c.dead){
+  h+='<div class="sec"><span class="lab">สำนัก</span>';
+  if(c.sch)h+='<p class="muted"><b style="color:var(--ink)">'+SCHOOLS[c.sch].n+'</b> · '+SCHOOLS[c.sch].d+'</p>';
+  if(c.stage>=4){
+   var fr=Object.keys(SCHOOLS).filter(function(k){return !S.founded[k]});
+   if(fr.length)h+='<p class="muted">'+(c.sch?'แยกตั้งสำนักใหม่ได้ ':'ตั้งสำนักได้ ')+'ศิษย์ในสายที่สังกัดสำนักเดียวกับท่านจะย้ายตาม ใช้ศรัทธา 250</p>'+fr.map(function(k){return '<div class="row"><div class="grow"><b>'+SCHOOLS[k].n+'</b><span class="muted">'+SCHOOLS[k].d+'</span></div><button class="btn pri" data-act="found" data-k="'+k+'"'+(S.faith<250?' disabled':'')+'>ตั้งสำนัก</button></div>'}).join('');
+   else h+='<p class="muted">ตั้งครบทั้ง 3 สำนักแล้ว</p>';
+  }else if(!c.sch)h+='<p class="muted">ต้องถึงจตุตถฌานจึงตั้งสำนักได้</p>';
+  h+='</div>';
+  h+='<div class="sec"><span class="lab">โอสถ · สมุนไพร '+Math.floor(S.herb)+'</span><div class="row"><div class="grow"><b>ยาบำรุงธาตุ</b><span class="muted">ยืดอายุขัย 5 ปี ใช้สมุนไพร 3 (ใช้แล้ว '+(c.pills||0)+'/3)</span></div><button class="btn" data-act="pill" data-k="tonic"'+(S.herb<3||(c.pills||0)>=3?' disabled':'')+'>ฉันยา</button></div><div class="row"><div class="grow"><b>น้ำปานะสมุนไพร</b><span class="muted">ระงับนิวรณ์ที่เป็นอยู่ และกันได้ 2 ปี ใช้สมุนไพร 1</span></div><button class="btn" data-act="pill" data-k="calm"'+(S.herb<1||!c.hind?' disabled':'')+'>ฉัน</button></div></div>';
+  if(c.stage>=1)h+='<div class="sec"><span class="lab">ออกธุดงค์ผจญภัย</span>'+Object.keys(TREKS).map(function(k){var t=TREKS[k];return '<div class="row"><div class="grow"><b>'+t.n+'</b><span class="muted">'+t.d+' · '+t.yrs+' ปี</span></div><button class="btn" data-act="trek" data-k="'+k+'"'+(c.job||c.away?' disabled':'')+'>ออกเดินทาง</button></div>'}).join('')+'</div>';
+ }
+ if(c.stage<1)h+='<p class="muted">ต้องเข้าถึงปฐมฌานก่อน จึงจะรับศิษย์ได้</p>';
+ else{
+  var cap=capOf(c),cost=recruitCost();
+  h+='<div class="sec"><span class="lab">รับศิษย์ '+kids.length+'/'+cap+'</span>';
+  if(kids.length>=cap)h+='<p class="muted">ศิษย์เต็มแล้ว ฝึกต่อเพื่อรับได้มากขึ้น</p>';
+  else if(livingCount()>=memberCap())h+='<p class="muted">กุฏิเต็ม ('+livingCount()+'/'+memberCap()+') ปรับปรุงกุฏิในแท็บ วัด เพื่อรับสมาชิกเพิ่ม</p>';
+  else S.cands.forEach(function(x,i){
+   h+='<div class="row"><div class="grow"><b>'+(x.g==='f'?'แม่ชี':'พระ')+esc(x.name)+'</b><span class="muted">อายุ '+x.age+' ปี · '+CARITA[x.carita].n+'</span></div><button class="btn pri" data-act="recruit" data-i="'+i+'"'+(S.faith<cost?' disabled':'')+'>รับ · ศรัทธา '+cost+'</button><div class="cgrid">'+FAC.map(function(f){return '<div><small>'+f[1]+'</small><b>'+x.fac[f[0]]+'</b></div>'}).join('')+'</div></div>';
+  });
+  h+='</div>';
+ }
+ return h+'</div>';
+}
+function renderSheet(){
+ var c=selC();if(!c){sheet.hidden=true;return}
+ var st=sheet.scrollTop;sheet.innerHTML=sheetHTML(c);sheet.scrollTop=st;lastSig=sigOf(c);liveSheet(true);
+}
+function setBar(id,r,txt){var b=$('#b'+id),t=$('#t'+id);if(b)b.style.width=Math.round(clamp(r,0,1)*100)+'%';if(t)t.textContent=txt}
+function liveSheet(force){
+ var c=selC();if(!c||sheet.hidden)return;
+ if(!force&&sigOf(c)!==lastSig){renderSheet();return}
+ var rq=REQ[c.stage];
+ if(rq){
+  setBar('s',rq[0]?c.s/rq[0]:1,Math.floor(c.s)+' / '+rq[0]);
+  setBar('v',rq[1]?c.v/rq[1]:1,rq[1]?Math.floor(c.v)+' / '+rq[1]:'ไม่ต้อง');
+ }
+ var a=$('#age');if(a)a.textContent=Math.floor(age(c));
+ var tcc=teacherOf(c);if(tcc)setBar('r',relGet(c,tcc)/100,Math.round(relGet(c,tcc))+' / 100');
+ Array.prototype.forEach.call(sheet.querySelectorAll('[data-rel]'),function(el){var o=byId(+el.dataset.rel);if(o)el.textContent=Math.round(relGet(c,o))});
+}
+sheet.addEventListener('click',function(e){
+ var b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+ var c=selC(),a=b.dataset.act;if(!c)return;
+ if(a==='close')deselect();
+ else if(a==='focus'){c.focus=b.dataset.v;treeDirty=true;lastSig=''}
+ else if(a==='teach')startTeach(c,b.dataset.t,+b.dataset.s);
+ else if(a==='talk'){var o=byId(+b.dataset.id),kk=rk(c.id,o.id);if((S.cd[kk]||0)>S.t||o.away||c.away)return;S.cd[kk]=S.t+1;relAdd(c,o,8);addV(c,3);addV(o,3);logm(nm(c)+' สนทนาธรรมกับ'+nm(o));lastSig=''}
+ else if(a==='recruit')recruit(c,+b.dataset.i);
+ else if(a==='goto')select(+b.dataset.id);
+ else if(a==='found')foundSchool(c,b.dataset.k);
+ else if(a==='pill'){usePill(c,b.dataset.k);lastSig=''}
+ else if(a==='trek')startTrek(c,b.dataset.k);
+});
+
+/* ---------- panel ---------- */
+var panel=$('#panel'),tab='log',resetArm=false,evSig='';
+function yrs(t){return 'ปี '+(Math.floor(t)+1)}
+function renderPanel(){
+ var b=$('#pBody'),h='';
+ if(tab==='ev'){
+  h=S.events.length?S.events.map(evCard).join(''):'<p class="muted">ยังไม่มีเรื่องที่ต้องตัดสินใจ เหตุการณ์จะเกิดขึ้นเองตามความสัมพันธ์ในสาย</p>';
+ }else if(tab==='log'){
+  h=S.log.length?S.log.map(function(l){return '<div class="lg"><time>'+yrs(l.t)+'</time><span>'+esc(l.m)+'</span></div>'}).join(''):'<p class="muted">ยังไม่มีเหตุการณ์ เริ่มจากแตะพระอาจารย์ในผัง แล้วรับศิษย์และถ่ายทอดวิชา</p>';
+ }else if(tab==='tech'){
+  h='<p class="muted">เรียนวิชาได้เมื่อผู้สอน (ครู ศิษย์ หรือพี่น้อง) รู้ และผู้เรียนอยู่ในขั้นก่อนหน้าวิชานั้นไม่เกินหนึ่งขั้น วิชาตั้งแต่ขั้นทุติยฌานขึ้นไป ผู้ปฏิบัติจะเห็นแจ้งได้เองเมื่อถึงขั้น</p>'
+   +TECH.map(function(t){return '<div class="card"><h3>'+t.n+'</h3><p>'+KIND[t.k]+' +'+Math.round(t.b*100)+'% · เรียนได้เมื่อถึง'+(t.req===0?'ขั้นเริ่มฝึก':STAGES[t.req].n)+' (หรือก่อนหนึ่งขั้นเมื่อมีครูสอน)</p><p>'+t.d+(t.anti?' · แก้'+H[t.anti].n:'')+(t.fit?' · เหมาะกับ'+t.fit.map(function(k){return CARITA[k].n}).join(', '):'')+(t.sch?' · วิชาลับของ'+SCHOOLS[t.sch].n:'')+'</p></div>'}).join('');
+ }else if(tab==='up'){
+  h='<p class="muted">ใช้ศรัทธาปรับปรุงวัด ให้ทั้งสายฝึกได้ดีขึ้น ศรัทธาตอนนี้ <b id="upF">'+Math.floor(S.faith)+'</b> · สมุนไพร '+Math.floor(S.herb)+'</p>'+UPS.map(function(u){var l=S.up[u.k],cost=u.cost(l);return '<div class="card"><h3>'+u.n+' · ระดับ '+l+'/'+u.max+'</h3><p>'+u.d+'</p><div class="chips" style="margin-top:8px"><button class="btn pri" data-up="'+u.k+'"'+(l>=u.max||S.faith<cost?' disabled':'')+'>'+(l>=u.max?'ครบแล้ว':'ปรับปรุง · ศรัทธา '+cost)+'</button></div></div>'}).join('')+festCard();
+ }else if(tab==='goal'){
+  h='<div class="card"><h3>สรุปสายธรรม</h3><p>ผ่านไป '+Math.floor(S.t)+' ปี · สมาชิกทั้งหมด '+S.chars.length+' องค์ · พระอรหันต์ '+S.arahants+' องค์ · ถึงรุ่นที่ '+(maxDepth()+1)+' · สำนักที่ก่อตั้ง '+Object.keys(S.founded).length+'/3</p></div>'+GOALS.map(function(g){var d=S.goals[g.id]!=null;return '<div class="card"><h3>'+(d?'✓ ':'')+g.n+'</h3><p>'+(d?'สำเร็จเมื่อปีที่ '+(Math.floor(S.goals[g.id])+1):g.p())+'</p></div>'}).join('');
+ }else if(tab==='stage'){
+  h='<p class="muted">ในเกม ฌานเป็นขั้นฝึกสมถะก่อนเข้าสู่วิปัสสนาญาณ เพื่อให้เล่นเป็นลำดับ ในความจริงผู้เจริญวิปัสสนาล้วนก็บรรลุได้เช่นกัน</p>'
+   +STAGES.map(function(s,i){var r=REQ[i-1];return '<div class="card"><h3>'+s.n+'</h3><p>'+s.d+'</p>'+(i>0?'<p>ต้องฝึก สมถะ '+r[0]+' · วิปัสสนา '+r[1]+'</p>':'')+(s.f?'<p>ละสังโยชน์ '+s.f+'/10 ข้อ</p>':'')+'</div>'}).join('');
+ }else{
+  h='<div class="card"><h3>บันทึกเกม</h3><p>บันทึกอัตโนมัติด้วย IndexedDB ในเบราว์เซอร์นี้ และฝึกต่อให้ตอนปิดแอป (ครึ่งอัตรา สูงสุด 60 ปีในเกม) ถ้าล้างข้อมูลเว็บความคืบหน้าจะหาย ควรส่งออกรหัสเซฟเก็บไว้</p></div>'
+   +'<div class="card"><h3>เวอร์ชัน 1.0</h3><p>ครบทุกระบบตามแผน ได้แก่ ผังสาย การถ่ายทอดวิชา ความสัมพันธ์ เหตุการณ์ อายุขัยและการสืบทอดสาย สำนักและวิชาลับ โอสถ ธุดงค์ การบันทึก และเป้าหมายระยะยาว</p></div>'
+   +'<div class="card"><h3>สำรองและกู้เซฟ</h3><p>ส่งออกเป็นรหัสข้อความ เก็บไว้หรือย้ายไปเครื่องอื่นได้</p><textarea id="saveBox" rows="3" style="width:100%;margin-top:6px;font:16px monospace;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px"></textarea><div class="chips" style="margin-top:6px"><button class="btn" id="expBtn">ส่งออกรหัสเซฟ</button><button class="btn" id="impBtn">นำเข้า</button></div><p id="saveMsg"></p></div>'+'<button class="btn" id="atBtn" style="align-self:flex-start">สอนวิชาอัตโนมัติ: '+(S.auto?'เปิด':'ปิด')+'</button>'+'<button class="btn" id="hdBtn" style="align-self:flex-start">ผู้ละสังขารในผัง: '+(S.hideDead?'ซ่อนสายที่ไม่มีผู้สืบ':'แสดงทั้งหมด')+'</button>'+'<button class="btn" id="resetBtn" style="align-self:flex-start">'+(resetArm?'แตะอีกครั้งเพื่อเริ่มใหม่ทั้งหมด':'เริ่มเกมใหม่')+'</button>';
+ }
+ b.innerHTML=h;
+ var eb=$('#expBtn');if(eb)eb.onclick=function(){
+  var t=btoa(unescape(encodeURIComponent(JSON.stringify(S)))),bx=$('#saveBox'),m=$('#saveMsg');bx.value=t;bx.select();
+  try{navigator.clipboard.writeText(t).then(function(){m.textContent='คัดลอกรหัสเซฟแล้ว'},function(){m.textContent='เลือกข้อความด้านบนแล้วคัดลอกเอง'})}catch(e){m.textContent='เลือกข้อความด้านบนแล้วคัดลอกเอง'}
+ };
+ var ib=$('#impBtn');if(ib)ib.onclick=function(){
+  var m=$('#saveMsg');
+  try{
+   var o=JSON.parse(decodeURIComponent(escape(atob($('#saveBox').value.trim()))));
+   if(adopt(o)){selId=null;sheet.hidden=true;treeDirty=true;touched=false;lastSig='';syncUI();save();m.textContent='นำเข้าสำเร็จ'}else m.textContent='รหัสเซฟไม่ถูกต้อง';
+  }catch(e){m.textContent='รหัสเซฟไม่ถูกต้อง'}
+ };
+ var ab=$('#atBtn');if(ab)ab.onclick=function(){S.auto=!S.auto;renderPanel()};
+ var hb=$('#hdBtn');if(hb)hb.onclick=function(){S.hideDead=!S.hideDead;treeDirty=true;renderPanel()};
+ var rb=$('#resetBtn');if(rb)rb.onclick=function(){
+  if(!resetArm){resetArm=true;renderPanel();return}
+  resetArm=false;newGame();selId=null;sheet.hidden=true;treeDirty=true;touched=false;panel.hidden=true;syncUI();save();
+ };
+ Array.prototype.forEach.call(document.querySelectorAll('#tabs button'),function(x){x.setAttribute('aria-pressed',String(x.dataset.tab===tab))});
+}
+function openPanel(t){tab=t||tab;resetArm=false;panel.hidden=false;renderPanel()}
+$('#menuBtn').onclick=function(){openPanel(S.events.length?'ev':'log')};
+$('#ticker').onclick=function(){openPanel(S.events.length?'ev':'log')};
+$('#pBody').addEventListener('click',function(e){var u=e.target.closest('[data-up]');if(u&&!u.disabled){buyUp(u.dataset.up);renderPanel();return}var fz=e.target.closest('[data-fest]');if(fz&&!fz.disabled){holdFest();renderPanel();return}var b=e.target.closest('[data-ev]');if(b&&!b.disabled){evResolve(+b.dataset.ev,b.dataset.o);renderPanel()}});
+$('#pClose').onclick=function(){panel.hidden=true};
+$('#tabs').onclick=function(e){var b=e.target.closest('button');if(b){tab=b.dataset.tab;resetArm=false;renderPanel()}};
+
+/* ---------- banner ---------- */
+function showEnd(){
+ var b=$('#banner');
+ b.innerHTML='<div class="bx"><h2 id="bnTitle">สายธรรมสิ้นสุดลง</h2><p>ไม่เหลือผู้สืบทอดแล้ว สายนี้มีพระอรหันต์ทั้งหมด '+S.arahants+' องค์</p><button class="btn pri" id="bnOk">เริ่มสายใหม่</button></div>';
+ b.hidden=false;
+ $('#bnOk').onclick=function(){b.hidden=true;newGame();selId=null;sheet.hidden=true;treeDirty=true;touched=false;syncUI();save()};
+}
+function showBanner(c){
+ var b=$('#banner');
+ b.innerHTML='<div class="bx"><svg class="av sx" viewBox="0 0 100 100" width="96" height="96" aria-hidden="true">'+avatar(c)+'</svg><h2 id="bnTitle">พระอรหันต์องค์แรกแห่งสายธรรม</h2><p>'+esc(nm(c))+' บรรลุอรหันต์ในปีที่ '+(Math.floor(S.t)+1)+'<br>สิ้นสังโยชน์ ๑๐ สิ้นอาสวะ</p><button class="btn pri" id="bnOk">ปฏิบัติต่อ</button></div>';
+ b.hidden=false;$('#bnOk').onclick=function(){b.hidden=true};$('#bnOk').focus();
+}
+
+/* ---------- goals ---------- */
+function depthOf(c){var d=0;while(c&&c.parent!=null){c=byId(c.parent);d++}return d}
+function maxDepth(){var m=0;S.chars.forEach(function(c){m=Math.max(m,depthOf(c))});return m}
+var GOALS=[
+ {id:'a1',n:'พระอรหันต์องค์แรก',f:function(){return S.arahants>=1},p:function(){return 'พระอรหันต์ '+S.arahants+' / 1'}},
+ {id:'a3',n:'มีพระอรหันต์ 5 องค์',f:function(){return S.arahants>=5},p:function(){return 'พระอรหันต์ '+Math.min(S.arahants,5)+' / 5'}},
+ {id:'g4',n:'สายสืบถึงรุ่นที่ 5',f:function(){return maxDepth()>=4},p:function(){return 'ถึงรุ่นที่ '+(maxDepth()+1)+' / 5'}},
+ {id:'sc',n:'ก่อตั้งครบ 3 สำนัก',f:function(){return Object.keys(S.founded).length>=3},p:function(){return 'ตั้งแล้ว '+Object.keys(S.founded).length+' / 3'}},
+ {id:'hd',n:'สืบทอดหัวหน้าสายครบ 3 ท่าน',f:function(){return S.stats.heads>=3},p:function(){return 'หัวหน้าสาย '+Math.min(S.stats.heads,3)+' / 3'}},
+ {id:'tr',n:'ออกธุดงค์ครบ 5 ครั้ง',f:function(){return S.stats.treks>=5},p:function(){return 'ธุดงค์ '+Math.min(S.stats.treks,5)+' / 5'}},
+ {id:'yr',n:'สายธรรมยืนยาว 250 ปี',f:function(){return S.t>=250},p:function(){return 'ผ่านไป '+Math.floor(S.t)+' / 250 ปี'}}
+];
+function checkGoals(){
+ var all=true;
+ GOALS.forEach(function(g){
+  if(S.goals[g.id]==null){if(g.f()){S.goals[g.id]=S.t;logm('เป้าหมายสำเร็จ: '+g.n)}else all=false}
+ });
+ if(all&&!S.finished){S.finished=1;showFinish()}
+}
+function showFinish(){
+ var b=$('#banner');
+ b.innerHTML='<div class="bx"><h2 id="bnTitle">สายธรรมสมบูรณ์</h2><p>ทำเป้าหมายครบทุกข้อแล้ว ผ่านไป '+(Math.floor(S.t)+1)+' ปี มีพระอรหันต์ '+S.arahants+' องค์ เล่นต่อได้ตามสบาย</p><button class="btn pri" id="bnOk">ปฏิบัติต่อ</button></div>';
+ b.hidden=false;$('#bnOk').onclick=function(){b.hidden=true};
+}
+function showAway(y,ds,df){
+ var b=$('#banner');
+ b.innerHTML='<div class="bx"><h2 id="bnTitle">ระหว่างที่ท่านไม่อยู่</h2><p>ผ่านไปราว '+y+' ปีในเกม สายฝึกก้าวหน้ารวม '+ds+' ขั้น ศรัทธาเพิ่ม '+df+' ผู้ที่ถึงปลายอายุขัยรอท่านกลับมา</p><button class="btn pri" id="bnOk">ตกลง</button></div>';
+ b.hidden=false;$('#bnOk').onclick=function(){b.hidden=true};
+}
+function catchUp(){
+ if(!S.savedAt)return;
+ var el=Math.min((Date.now()-S.savedAt)/1000,8*3600);
+ if(el<30)return;
+ var yrs=Math.min(60,el*.5/YEAR),st0=0,f0=S.faith;
+ S.chars.forEach(function(c){st0+=c.stage});
+ offline=true;
+ for(var left=yrs;left>0;left-=.25)step(Math.min(.25,left));
+ offline=false;
+ var st1=0;S.chars.forEach(function(c){st1+=c.stage});
+ showAway(Math.round(yrs),st1-st0,Math.floor(S.faith-f0));
+}
+
+/* ---------- header ---------- */
+Array.prototype.forEach.call(document.querySelectorAll('#speed button'),function(b){b.onclick=function(){S.speed=+b.dataset.sp;syncUI()}});
+function syncUI(){
+ Array.prototype.forEach.call(document.querySelectorAll('#speed button'),function(b){b.setAttribute('aria-pressed',String(+b.dataset.sp===S.speed))});
+ setTicker(S.log.length?S.log[0].m:'แตะพระอาจารย์ในผัง · เป้าหมาย: ให้ศิษย์องค์แรกบรรลุอรหันต์');
+}
+var cache={};
+function setT(id,v){if(cache[id]!==v){cache[id]=v;$(id).textContent=v}}
+function hud(){
+ setT('#yr','ปีที่ '+(Math.floor(S.t)+1));
+ setT('#stF',String(Math.floor(S.faith)));
+ setT('#stI','+'+income().toFixed(1)+'/ปี');
+ var lv=S.chars.filter(function(c){return !c.dead}).length,dd=S.chars.length-lv;setT('#stN',lv+'/'+memberCap()+' องค์'+(dd?' · ละสังขาร '+dd:''));
+ setT('#stA',String(S.arahants));
+ setT('#stH',String(Math.floor(S.herb)));
+ var en=S.events.length;setT('#menuBtn','ตำรา'+(en?' ('+en+')':''));
+ var es=S.events.map(function(e){return e.id}).join(',')+(S.faith>=10?'f':'');
+ if(!panel.hidden&&tab==='ev'&&es!==evSig){renderPanel()}evSig=es;
+ if(!panel.hidden&&tab==='up'){var uf=$('#upF');if(uf)uf.textContent=Math.floor(S.faith);Array.prototype.forEach.call(document.querySelectorAll('#pBody [data-up]'),function(b){var u=UPS.filter(function(x){return x.k===b.dataset.up})[0],l=S.up[u.k];b.disabled=l>=u.max||S.faith<u.cost(l)});var fb=document.querySelector('#pBody [data-fest]');if(fb)fb.disabled=S.faith<festCost()}
+}
+
+/* ---------- loop ---------- */
+function tick(){
+ var now=performance.now(),dr=Math.min((now-last)/1000,2);last=now;
+ if(S.speed>0)step(dr*S.speed/YEAR);
+ if(treeDirty){renderTree();if(!touched)fit()}
+ updateDyn();hud();liveSheet(false);
+ if(now-lastGoal>1000){lastGoal=now;checkGoals()}
+ if(now-saveAt>4000){saveAt=now;save()}
+}
+var booted=false;
+function go(o){
+ if(booted)return;booted=true;
+ if(!adopt(o))newGame();
+ catchUp();last=performance.now();
+ renderTree();syncUI();hud();updateDyn();
+ requestAnimationFrame(function(){fit()});
+ setInterval(tick,100);
+}
+idbGet(function(a){var b=lsGet(),best=(a&&b)?((a.savedAt||0)>=(b.savedAt||0)?a:b):(a||b);go(best)});
+setTimeout(function(){go(lsGet())},1500);
+document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
+window.addEventListener('pagehide',save);
+window.addEventListener('resize',function(){if(!touched)fit()});
+})();
+</script>
+
+</body></html>
