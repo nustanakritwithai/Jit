@@ -1,5 +1,5 @@
 <!doctype html><html lang="th"><head><meta charset=utf8><meta name="theme-color" content="#315E4A"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>สายธรรม · เกมสืบทอดสายธรรม</title>
+<title>สายธรรม V1.2 · เกมสืบทอดสายธรรม</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pridi:wght@500;600&family=Sarabun:wght@400;500;600;700&display=swap">
 <style>
@@ -358,6 +358,227 @@ button:active:not(:disabled){transform:translateY(1px)}
 .study-jit-action .ui-icon{width:15px;height:15px}
 @media(max-width:420px){.dock-actions{gap:5px;padding:6px}.dock-actions .dock-study{font-size:12px;padding:0 6px;gap:4px}.dock-actions .dock-study .study-open-icon{display:none}}
 @media(max-width:380px){.dock-actions #goEvents>.ui-icon{display:none}.dock-actions .dock-study{font-size:11px}.study-jit-card{grid-template-columns:42px minmax(0,1fr);gap:9px;padding:11px}.study-jit-icon{width:40px;height:40px}.study-jit-icon .ui-icon{width:22px;height:22px}}
+
+/* ==================== SAI DHAMMA • INNER SCREENS V1.2 ==================== */
+:root{--v12-forest:#234D41;--v12-moss:#406D53;--v12-cream:#FFFBEE;--v12-gold:#E8BC73;--v12-depth:0 10px 28px rgba(27,43,27,.08)}
+#panel{background:var(--paper);color:var(--ink);overflow:hidden;min-height:0;--inner-stroke:color-mix(in srgb,var(--line) 70%,transparent)}
+#panel .ph{position:relative;z-index:2;display:flex;align-items:center;gap:13px;min-height:85px;padding-block:12px;background:linear-gradient(122deg,#244E40,#35694F 70%,#526E4E);border-bottom:0;color:#FDF8E9;isolation:isolate;overflow:hidden;flex-shrink:0}
+#panel .ph:before{content:"";position:absolute;right:-28px;top:-120px;width:230px;height:230px;border:1px solid rgba(255,255,255,.11);border-radius:50%;z-index:-1;box-shadow:0 0 0 28px rgba(255,255,255,.027),0 0 0 62px rgba(255,255,255,.02)}
+#panel .ph-mark{display:grid;place-items:center;width:51px;height:51px;flex:none;border:1px solid rgba(255,244,210,.22);border-radius:17px;background:rgba(255,247,214,.12);color:#FFE1A1}
+#panel .ph-mark .ui-icon{width:29px;height:29px;stroke-width:1.65}
+#panel .ph-copy{min-width:0;display:flex;flex-direction:column;gap:2px;flex:1}
+#panel .ph-overline{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.79}
+#panel .ph h2{font:600 clamp(21px,2.6vw,26px)/1.18 var(--font-display);margin:0;color:#FFFFFF}
+#panel .ph p{font-size:12px;color:#F2EFD9;opacity:.85;margin:0;line-height:1.3}
+#panel .ph-year{display:inline-flex;padding:7px 10px;border:1px solid rgba(255,255,255,.19);background:rgba(255,255,255,.1);border-radius:999px;color:#FCEDC9;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0}
+#panel #pClose{display:inline-flex;align-items:center;gap:7px;min-height:42px;flex-shrink:0;padding:0 12px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);color:#fff;font-weight:700}
+#panel #pClose .ui-icon{width:17px;height:17px}
+#panel .tabs{background:var(--surface);border-bottom:1px solid var(--line);padding-top:7px;padding-bottom:7px;flex-shrink:0;overscroll-behavior-x:contain;scrollbar-width:thin}
+#panel .tabs .seg{display:flex;gap:6px;width:max-content;min-width:100%;border:0;background:transparent;overflow:visible}
+#panel .tabs .seg button{display:flex;justify-content:center;align-items:center;gap:8px;min-height:51px;border:1px solid transparent;padding:8px 14px;border-radius:13px;background:transparent;color:var(--ink-soft);font-size:13px;font-weight:700;flex-shrink:0;white-space:nowrap}
+#panel .tabs .seg button .ui-icon{width:19px;height:19px;stroke-width:1.85}
+#panel .tabs .seg button+button{border-left:1px solid transparent}
+#panel .tabs .seg button[aria-pressed="true"]{background:color-mix(in srgb,var(--teal) 13%,var(--surface));color:var(--teal);border-color:color-mix(in srgb,var(--teal) 25%,var(--surface));box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--teal) 48%,transparent)}
+#panel .body{display:block;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-top:22px;padding-bottom:max(42px,env(safe-area-inset-bottom,0px));scrollbar-gutter:stable}
+#panel .v12-container{display:flex;flex-direction:column;gap:18px;max-width:1120px;width:100%;margin:0 auto;animation:v12-appear .2s ease-out}
+@keyframes v12-appear{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.v12-banner{position:relative;display:flex;gap:18px;min-height:156px;justify-content:space-between;align-items:center;padding:22px 25px;border-radius:24px;background:linear-gradient(122deg,#214839 0%,#386D50 72%,#668B62 130%);color:#FFFDF2;overflow:hidden;isolation:isolate;box-shadow:0 14px 33px rgba(21,66,40,.15)}
+.v12-banner:before{content:"";position:absolute;right:-10px;top:-90px;width:260px;height:260px;border:1px solid rgba(255,255,255,.1);box-shadow:0 0 0 25px rgba(255,255,255,.025),0 0 0 55px rgba(255,255,255,.02);border-radius:50%;z-index:-1}
+.v12-banner .banner-copy{min-width:0;max-width:710px}
+.v12-overline{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:10px;font-weight:800;color:#E6D3A1;margin-bottom:7px}
+.v12-banner h3{font:600 clamp(21px,2.7vw,29px)/1.23 var(--font-display);margin:0 0 7px;color:#FFFFFF}
+.v12-banner p{font-size:13px;max-width:640px;line-height:1.65;margin:0;color:#E5F0DF}
+.v12-banner-art{display:grid;place-items:center;position:relative;width:118px;height:118px;flex:none;border-radius:36px;color:#FBE0A1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.19);transform:rotate(-7deg)}
+.v12-banner-art .ui-icon{width:71px;height:71px;stroke-width:1.2;transform:rotate(7deg)}
+.v12-banner-art:after{content:"✦";position:absolute;right:8px;top:4px;font-size:24px;opacity:.6}
+.v12-mini-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.v12-mini-stat{padding:13px 15px;background:var(--surface);border:1px solid var(--inner-stroke,var(--line));border-radius:17px;display:flex;gap:10px;align-items:center;min-width:0}
+.v12-mini-stat .ui-icon{color:var(--teal);width:23px;height:23px}
+.v12-mini-stat div{min-width:0}.v12-mini-stat small{display:block;font-size:11px;color:var(--ink-soft);font-weight:700}.v12-mini-stat strong{display:block;font-size:18px;line-height:1.25;font-weight:800;word-break:break-word;font-variant-numeric:tabular-nums}
+.v12-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:5px 0 -6px}
+.v12-section-title h3{display:flex;align-items:center;gap:9px;font:600 19px/1.3 var(--font-display);margin:0;color:var(--ink)}
+.v12-section-title h3 .ui-icon{color:var(--teal);width:21px;height:21px}
+.v12-section-title small{color:var(--ink-soft);font-size:12px}
+.v12-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.v12-card{display:flex;flex-direction:column;gap:9px;position:relative;background:var(--surface);border:1px solid var(--inner-stroke,var(--line));border-radius:19px;padding:18px;box-shadow:var(--v12-depth);min-width:0;overflow:hidden}
+.v12-card h3,.v12-card h4{margin:0;color:var(--ink);font:600 17px/1.25 var(--font-display)}
+.v12-card p{font-size:13px;color:var(--ink-soft);margin:0;line-height:1.58}
+.v12-soft-label{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:700;max-width:100%;background:color-mix(in srgb,var(--teal) 10%,var(--surface));color:var(--teal);width:fit-content}
+.v12-soft-label .ui-icon{width:14px;height:14px}
+.v12-soft-label.gold{background:color-mix(in srgb,var(--gold) 14%,var(--surface));color:var(--gold)}
+.v12-soft-label.danger{background:color-mix(in srgb,var(--bad) 10%,var(--surface));color:var(--bad)}
+.v12-card-head{display:flex;gap:12px;align-items:center;min-width:0}
+.v12-illustration{flex:none;display:grid;place-items:center;width:65px;height:65px;border-radius:20px;color:var(--teal);background:linear-gradient(150deg,color-mix(in srgb,var(--teal) 17%,var(--surface)),color-mix(in srgb,var(--teal) 6%,var(--surface)));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--teal) 12%,transparent)}
+.v12-illustration .ui-icon{height:34px;width:34px;stroke-width:1.5}
+.v12-illustration.gold{color:var(--gold);background:linear-gradient(145deg,color-mix(in srgb,var(--gold) 19%,var(--surface)),var(--surface))}
+.v12-illustration.purple{color:#9C759E;background:linear-gradient(145deg,rgba(160,120,170,.15),var(--surface))}
+.v12-illustration.orange{color:var(--accent);background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 18%,var(--surface)),var(--surface))}
+.v12-illustration.green{color:var(--ok);background:linear-gradient(145deg,color-mix(in srgb,var(--ok) 18%,var(--surface)),var(--surface))}
+.v12-meter-head{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;color:var(--ink-soft);font-weight:700}
+.v12-meter{height:9px;border-radius:999px;overflow:hidden;background:color-mix(in srgb,var(--line) 34%,var(--surface));border:1px solid color-mix(in srgb,var(--line) 40%,transparent)}
+.v12-meter>span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),color-mix(in srgb,var(--teal) 66%,#B2CC9A));border-radius:inherit;max-width:100%;min-width:0;transition:width .2s}
+.v12-meter.gold>span{background:linear-gradient(90deg,#BA872D,#E8C470)}
+.v12-price{font-size:12px;line-height:1.4;font-weight:700;color:var(--ink-soft)}
+.v12-card .btn,.v12-action,.v12-control{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:12px;font-weight:700;padding:9px 12px;cursor:pointer}
+.v12-card .btn .ui-icon,.v12-action .ui-icon,.v12-control .ui-icon{width:18px;height:18px}
+.v12-card .btn.pri,.v12-action.pri{color:#FFFFFF;background:linear-gradient(125deg,#A7641C,#D2933F);border-color:transparent;box-shadow:0 4px 9px rgba(145,83,23,.13)}
+.v12-card .btn:disabled,.v12-action:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.v12-upgrade{min-height:260px}.v12-upgrade .v12-card-head{margin-bottom:4px}.v12-upgrade .v12-card-head>div{min-width:0}.v12-upgrade .v12-meter{margin:4px 0}
+.v12-upgrade .btn{margin-top:auto;width:100%;font-size:13px;line-height:1.3;white-space:normal}
+.v12-boost{border:1px dashed color-mix(in srgb,var(--gold) 45%,var(--line));background:linear-gradient(125deg,color-mix(in srgb,var(--gold) 10%,var(--surface)),var(--surface))}
+.v12-filters{display:flex;gap:7px;flex-wrap:wrap}
+.v12-filter{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;color:var(--ink-soft);min-height:40px;padding:8px 13px;font-size:12px;font-weight:700;cursor:pointer}
+.v12-filter .ui-icon{width:15px;height:15px}
+.v12-filter[aria-pressed="true"]{color:var(--teal);background:color-mix(in srgb,var(--teal) 11%,var(--surface));border-color:color-mix(in srgb,var(--teal) 44%,var(--line))}
+.v12-note{display:flex;align-items:flex-start;gap:10px;border:1px solid color-mix(in srgb,var(--teal) 24%,var(--line));padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--teal) 6%,var(--surface));color:var(--ink-soft);font-size:13px;line-height:1.65}
+.v12-note .ui-icon{width:19px;height:19px;color:var(--teal);flex:none;margin-top:1px}
+.v12-event-card{border-left:5px solid var(--teal);padding:17px;gap:12px}
+.v12-event-card.e-succ{border-left-color:var(--gold)}.v12-event-card.e-dsp{border-left-color:var(--bad)}.v12-event-card.e-dis{border-left-color:var(--accent)}
+.v12-event-card .event-top{display:flex;gap:12px;align-items:center}
+.v12-event-card .event-icon{display:grid;place-items:center;flex:none;height:53px;width:53px;border-radius:17px;color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,var(--surface))}
+.v12-event-card .event-icon .ui-icon{width:27px;height:27px}
+.v12-event-card .event-top h3{font-size:16px;line-height:1.45}
+.v12-event-card .event-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.v12-event-card .event-actions .btn{flex:1 1 190px;white-space:normal;font-size:12px;min-height:48px;line-height:1.4}
+.v12-event-card .event-actions .btn:first-child{background:linear-gradient(120deg,#2D6B58,#47866D);border-color:transparent;color:white}
+.v12-event-card .event-actions .btn:disabled{background:var(--surface-2);color:var(--ink-soft)}
+.v12-event-card .event-timer{display:flex;align-items:center;gap:7px;width:fit-content;padding:6px 9px;background:color-mix(in srgb,var(--accent) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 20%,var(--line));border-radius:9px;font-size:12px;color:var(--ink-soft)}
+.v12-event-card .event-timer .ui-icon{width:16px;height:16px;color:var(--accent)}
+.v12-empty{padding:34px 20px;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;background:var(--surface);border:1px dashed var(--line);border-radius:20px;color:var(--ink-soft)}
+.v12-empty .empty-visual{display:grid;place-items:center;width:80px;height:80px;background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);border-radius:25px;margin-bottom:6px}
+.v12-empty .empty-visual .ui-icon{height:41px;width:41px}
+.v12-empty h3{font:600 19px var(--font-display);color:var(--ink);margin:0}.v12-empty p{max-width:430px;margin:0;font-size:13px;line-height:1.7}
+.v12-log{display:flex;flex-direction:column;gap:0;padding:5px 4px}
+.v12-log-line{display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;position:relative;padding:0 0 16px}
+.v12-log-line:before{position:absolute;content:"";left:16px;top:36px;bottom:0;width:2px;background:color-mix(in srgb,var(--teal) 17%,var(--line))}
+.v12-log-line:last-child:before{display:none}
+.v12-log-pin{z-index:1;display:grid;place-items:center;width:34px;height:34px;border-radius:11px;color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 18%,var(--surface))}
+.v12-log-pin .ui-icon{width:18px;height:18px}
+.v12-log-line.milestone .v12-log-pin{color:var(--gold);background:color-mix(in srgb,var(--gold) 14%,var(--surface))}
+.v12-log-content{padding:10px 13px;border:1px solid var(--inner-stroke,var(--line));border-radius:14px;background:var(--surface);min-width:0}
+.v12-log-content time{font-size:11px;font-weight:800;color:var(--teal)}
+.v12-log-content p{margin:3px 0 0;color:var(--ink);font-size:13px;line-height:1.6}
+.v12-tech{min-height:190px}.v12-tech .v12-card-head{align-items:start}.v12-tech h3{font-size:18px}
+.v12-tech-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}.v12-tech .v12-soft-label{font-size:10px}
+.v12-roadmap{display:flex;flex-direction:column;gap:0;padding:5px 2px}
+.v12-roadstep{display:grid;grid-template-columns:61px minmax(0,1fr);gap:14px;position:relative;min-height:123px}
+.v12-roadstep:not(:last-child):before{content:"";position:absolute;top:55px;left:30px;bottom:-3px;width:2px;background:color-mix(in srgb,var(--teal) 25%,var(--line))}
+.v12-road-coin{width:60px;height:60px;display:grid;place-items:center;position:relative;z-index:1;border-radius:20px;background:var(--surface);border:2px solid var(--line);color:var(--ink-soft);box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.v12-road-coin .ui-icon{width:30px;height:30px}
+.v12-roadstep.passed .v12-road-coin{color:var(--teal);border-color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,var(--surface))}
+.v12-roadstep.current .v12-road-coin{color:var(--gold);border-color:var(--gold);background:color-mix(in srgb,var(--gold) 14%,var(--surface))}
+.v12-roadstep .v12-card{padding:14px 16px;margin-bottom:13px;min-height:100px}
+.v12-roadstep .v12-card .stage-rank{font-size:11px;color:var(--ink-soft);font-weight:800;letter-spacing:.05em}
+.v12-roadstep .v12-card h3{font-size:17px}
+.v12-roadstep .v12-card p{line-height:1.6}
+.v12-roadstep .v12-card .v12-soft-label{margin-top:2px}
+.v12-progress-hero{display:flex;gap:19px;align-items:center;justify-content:space-between;padding:18px 22px;border-radius:20px;background:linear-gradient(115deg,#285644,#47714F);color:#fff;box-shadow:0 10px 28px rgba(21,62,32,.15)}
+.v12-progress-hero h3{margin:0 0 3px;font:600 20px var(--font-display)}
+.v12-progress-hero p{font-size:13px;color:#F0F0D8;margin:0;line-height:1.5}
+.v12-ring{--pct:0;position:relative;display:grid;place-items:center;flex:none;width:93px;height:93px;border-radius:50%;background:conic-gradient(#F3CB75 calc(var(--pct)*1%),rgba(255,255,255,.16) 0)}
+.v12-ring:before{content:"";position:absolute;inset:11px;background:#305C48;border-radius:50%}
+.v12-ring strong{z-index:1;font-size:23px;color:#FFE6AD;font-weight:800;font-variant-numeric:tabular-nums}
+.v12-goal .v12-card-head{align-items:flex-start}.v12-goal .v12-illustration{width:53px;height:53px;border-radius:17px}.v12-goal .v12-illustration .ui-icon{width:26px;height:26px}
+.v12-goal .v12-meter-head{margin-top:auto}.v12-goal.done{border-color:color-mix(in srgb,var(--ok) 40%,var(--line));background:linear-gradient(140deg,color-mix(in srgb,var(--ok) 7%,var(--surface)),var(--surface))}
+.v12-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.v12-settings-grid .v12-card{gap:12px}.v12-settings-grid .v12-card h3{display:flex;gap:9px;align-items:center}.v12-settings-grid .v12-card h3 .ui-icon{height:20px;width:20px;color:var(--teal)}
+.v12-settings-grid .v12-card.wide{grid-column:1/-1}
+.v12-option{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px;padding:10px 11px;background:color-mix(in srgb,var(--paper) 74%,var(--surface));border:1px solid var(--inner-stroke,var(--line));border-radius:13px}
+.v12-option .option-text{display:flex;flex-direction:column;gap:3px;min-width:0}.v12-option strong{font-size:13px}.v12-option small{font-size:11px;color:var(--ink-soft);line-height:1.4}
+.v12-option .btn{flex:none;background:var(--surface)}
+.v12-option .btn[data-active="true"]{background:color-mix(in srgb,var(--teal) 17%,var(--surface));color:var(--teal);border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
+.v12-save-box{font-size:12px!important;line-height:1.35;background:var(--paper)!important;color:var(--ink)!important;border-radius:12px!important;padding:12px!important;min-height:95px;max-width:100%;resize:vertical}
+.v12-save-actions{display:flex;gap:8px;flex-wrap:wrap}.v12-save-actions .btn{flex:1 1 170px}
+.v12-danger{border-color:color-mix(in srgb,var(--bad) 40%,var(--line));background:linear-gradient(125deg,color-mix(in srgb,var(--bad) 7%,var(--surface)),var(--surface))}
+.v12-danger button{color:var(--bad)!important;border-color:color-mix(in srgb,var(--bad) 38%,var(--line))!important;min-height:45px}
+.v12-danger button.armed{background:var(--bad)!important;color:#fff!important}
+.v12-save-msg{min-height:16px;color:var(--ok)!important;font-weight:700}
+.v12-main-action{min-height:51px;border-radius:13px;align-self:flex-start;display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:14px;padding:10px 16px}
+.v12-main-action .ui-icon{height:18px;width:18px}
+/* Character details: a nested screen with the same illustrated design vocabulary. */
+#sheet{border-top:0;box-shadow:0 -18px 64px rgba(21,43,27,.26);background:var(--paper);scrollbar-width:thin}
+#sheet .sh-head{position:relative;border:0;border-radius:20px;padding:14px!important;gap:13px;background:linear-gradient(120deg,#275642,#3D6C51);color:#FDF8E9;min-height:113px;box-shadow:0 9px 24px rgba(29,60,39,.13)}
+#sheet .sh-head .av{border-color:#F3D58D;background:#3E3523;box-shadow:0 5px 15px rgba(0,0,0,.21)}
+#sheet .sh-id h2{font-size:20px;color:#fff}
+#sheet .sh-id p{color:#ECEDDC;font-size:12px;line-height:1.53}
+#sheet .sh-head .x{align-self:start;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.27)}
+#sheet .char-brief span{border-radius:12px;background:var(--surface);border:1px solid var(--line);font-weight:800}
+#sheet .sec{border-radius:17px;box-shadow:var(--v12-depth);padding:15px;gap:11px}
+#sheet .sec .lab{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+#sheet .sec .lab .ui-icon{color:var(--teal);width:19px;height:19px}
+#sheet .sec .row{background:var(--paper);border-radius:13px}
+#sheet .sec:has(> .stg-n),#sheet #sec-focus{border-color:color-mix(in srgb,var(--teal) 30%,var(--line))}
+#sheet .action-shortcuts button{border-radius:13px;min-height:49px;font-size:12px;box-shadow:0 3px 10px rgba(37,69,44,.05)}
+#sheet .cgrid>div{background:color-mix(in srgb,var(--teal) 6%,var(--surface));padding:6px 0;border-radius:9px}
+#sheet button[data-act="recruit"],#sheet button[data-act="teach"]{background:linear-gradient(120deg,#2E6E55,#47866B);border-color:transparent;color:white}
+#sheet button[data-act="recruit"]:disabled,#sheet button[data-act="teach"]:disabled{background:var(--surface-2);color:var(--ink-soft)}
+#sheet .prow{grid-template-columns:76px minmax(0,1fr) 79px}
+#sheet .bar{border-radius:999px;height:11px}
+#sheet .bar>i{background:linear-gradient(90deg,var(--teal),#82B6A0)}
+#sheet .bar.v>i{background:linear-gradient(90deg,#B88135,#E5BB6F)}
+#sheet .chip{border-radius:999px;padding:6px 10px}
+#sheet .sec .seg button[aria-pressed="true"]{background:var(--teal);color:#fff}
+#sheet .warn{border-radius:14px}
+#banner .bx{border-radius:23px;box-shadow:0 25px 65px rgba(0,0,0,.25);padding:24px 18px}
+@media (min-width:900px){
+ #panel{display:grid;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+ #panel .ph{grid-column:1/-1;grid-row:1;padding-left:24px;padding-right:24px}
+ #panel .tabs{grid-column:1;grid-row:2;padding:20px 12px;border-bottom:0;border-right:1px solid var(--line);overflow-y:auto;background:color-mix(in srgb,var(--surface) 80%,var(--paper))}
+ #panel .tabs .seg{display:flex;flex-direction:column;width:100%;gap:7px;min-width:0}
+ #panel .tabs .seg button{justify-content:flex-start;width:100%;min-height:51px;padding:10px 14px;font-size:14px;gap:13px}
+ #panel .tabs .seg button[aria-pressed="true"]{box-shadow:inset 4px 0 0 var(--teal)}
+ #panel .body{grid-column:2;grid-row:2;padding:26px clamp(24px,3.1vw,50px) 45px}
+}
+@media (max-width:899px){
+ #panel .ph{min-height:75px}
+ #panel .tabs{overflow-x:auto}
+ #panel .body{padding-top:17px}
+}
+@media (max-width:650px){
+ #panel .ph{min-height:74px;gap:9px;padding-top:10px;padding-bottom:10px}
+ #panel .ph-mark{width:42px;height:42px;border-radius:13px}
+ #panel .ph-mark .ui-icon{width:24px;height:24px}
+ #panel .ph h2{font-size:19px}
+ #panel .ph p{display:none}
+ #panel .ph-overline{font-size:8px;letter-spacing:.1em}
+ #panel .ph-year{display:none}
+ #panel #pClose{font-size:12px;min-height:40px;padding:0 10px}
+ #panel #pClose span{display:none}
+ #panel .tabs{padding-top:7px;padding-bottom:7px;overflow:visible}
+ #panel .tabs .seg{display:grid;width:100%;min-width:0;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ #panel .tabs .seg button{display:flex;flex-direction:column;min-width:0;min-height:57px;padding:6px 2px;gap:2px;white-space:normal;font-size:10px;line-height:1.3;border-radius:10px}
+ #panel .tabs .seg button .ui-icon{width:21px;height:21px;stroke-width:1.9}
+ #panel .body{padding:14px max(12px,env(safe-area-inset-left,0px)) max(25px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-right,0px))}
+ #panel .v12-container{gap:14px}
+ .v12-banner{padding:19px 16px;min-height:131px;border-radius:18px;gap:7px}
+ .v12-banner h3{font-size:20px}
+ .v12-banner p{font-size:12px}
+ .v12-banner-art{width:65px;height:65px;border-radius:22px}
+ .v12-banner-art .ui-icon{width:40px;height:40px}
+ .v12-mini-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .v12-mini-stat{padding:10px;gap:7px;border-radius:13px}
+ .v12-mini-stat strong{font-size:17px}.v12-mini-stat .ui-icon{width:20px;height:20px}
+ .v12-card-grid,.v12-settings-grid{grid-template-columns:1fr;gap:10px}
+ .v12-card{padding:15px;border-radius:16px;gap:9px}
+ .v12-section-title h3{font-size:17px}
+ .v12-upgrade{min-height:0}
+ .v12-illustration{width:57px;height:57px;border-radius:18px}.v12-illustration .ui-icon{width:29px;height:29px}
+ .v12-progress-hero{padding:17px;gap:9px;border-radius:17px}
+ .v12-progress-hero h3{font-size:17px}.v12-ring{width:77px;height:77px}.v12-ring:before{inset:10px}.v12-ring strong{font-size:18px}
+ .v12-roadstep{grid-template-columns:45px minmax(0,1fr);gap:10px;min-height:105px}
+ .v12-road-coin{height:45px;width:45px;border-radius:14px}.v12-road-coin .ui-icon{height:24px;width:24px}
+ .v12-roadstep:not(:last-child):before{left:22px;top:45px}
+ .v12-roadstep .v12-card{padding:13px;margin-bottom:9px}
+ #sheet .sh-head{gap:9px;padding:11px!important;min-height:105px}
+ #sheet .sh-head .av{width:61px;height:61px}
+ #sheet .sh-id h2{font-size:17px}
+ #sheet .sh-id p{font-size:11px}
+ #sheet .sh-head .x{width:37px;height:37px}
+ #sheet .sec{padding:13px}
+}
+@media (max-width:350px){#panel .tabs .seg{gap:3px}#panel .tabs .seg button{font-size:9px;min-height:54px}#panel .ph-mark{display:none}#panel .ph h2{font-size:18px}.v12-banner-art{width:50px;height:50px;border-radius:16px}.v12-banner-art .ui-icon{width:32px;height:32px}.v12-banner h3{font-size:18px}.v12-mini-stat strong{font-size:15px}.v12-event-card .event-actions .btn{flex-basis:100%}}
+@media (prefers-reduced-motion:reduce){.v12-container{animation:none!important}.v12-meter>span{transition:none}}
+
 </style>
 
 
@@ -391,6 +612,11 @@ button:active:not(:disabled){transform:translateY(1px)}
   <symbol id="ic-save" viewBox="0 0 24 24"><path d="M4 3h13l3 3v15H4V3ZM8 3v6h8V3M8 21v-8h8v8"/></symbol>
   <symbol id="ic-restore" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.5 6.3M3 4v7h7M12 7v5l4 2"/></symbol>
   <symbol id="ic-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 3v7h7"/><path d="M12 8v4l3 2"/></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10H3V11Z"/><path d="M9 21v-7h6v7M3 11h18"/></symbol>
+  <symbol id="ic-history" viewBox="0 0 24 24"><path d="M3 4v6h6M3.6 10A9 9 0 1 1 5 17"/><path d="M12 7v5l4 2"/></symbol>
+  <symbol id="ic-mountain" viewBox="0 0 24 24"><path d="m2 20 7.2-12L14 15l2.5-4L22 20H2Z"/><path d="m7.1 11 2.1 1.5 2.1-1.5"/></symbol>
+  <symbol id="ic-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v4c0 1.7 2.7 3 6 3M15 7v4c0 1-1.4 2-3 2.5M3 11v4c0 2 2.3 3 6 3M15 14c3.3 0 6 1.3 6 3s-2.7 3-6 3-6-1.3-6-3 2.7-3 6-3Z"/></symbol>
+  <symbol id="ic-scroll" viewBox="0 0 24 24"><path d="M6 3h12v15a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1"/><path d="M6 3v15a3 3 0 0 1-3 3M9 8h6M9 12h6"/></symbol>
 </svg>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -455,8 +681,13 @@ button:active:not(:disabled){transform:translateY(1px)}
   </main>
   <section id="sheet" hidden aria-live="off"></section>
   <section id="panel" hidden>
-    <div class="ph band"><h2>ตำรา</h2><button class="btn" id="pClose">ปิด</button></div>
-    <div class="tabs band"><div class="seg" id="tabs" role="group"><button data-tab="how" aria-pressed="true">เริ่มเล่น</button><button data-tab="log">บันทึก</button><button data-tab="ev">เหตุการณ์</button><button data-tab="up">วัด</button><button data-tab="tech">วิชา</button><button data-tab="stage">ขั้นภูมิ</button><button data-tab="goal">เป้าหมาย</button><button data-tab="set">ตั้งค่า</button></div></div>
+    <div class="ph band">
+      <span class="ph-mark" id="pIcon"><svg class="ui-icon"><use href="#ic-book"></use></svg></span>
+      <div class="ph-copy"><span class="ph-overline">SAI DHAMMA · COMPENDIUM</span><h2 id="pTitle">เริ่มเล่น</h2><p id="pDesc">เรียนรู้ทีละขั้น</p></div>
+      <span class="ph-year" id="pYear">ปีที่ 1</span>
+      <button type="button" class="btn" id="pClose" aria-label="ปิดเมนู กลับไปที่ผัง"><svg class="ui-icon" aria-hidden="true"><use href="#ic-close"></use></svg><span>กลับสู่ผัง</span></button>
+    </div>
+    <div class="tabs band"><div class="seg" id="tabs" role="group"><button data-tab="how" aria-pressed="true"><svg class="ui-icon" aria-hidden="true"><use href="#ic-help"></use></svg><span>เริ่มเล่น</span></button><button data-tab="log"><svg class="ui-icon" aria-hidden="true"><use href="#ic-history"></use></svg><span>บันทึก</span></button><button data-tab="ev"><svg class="ui-icon" aria-hidden="true"><use href="#ic-message"></use></svg><span>เหตุการณ์</span></button><button data-tab="up"><svg class="ui-icon" aria-hidden="true"><use href="#ic-temple"></use></svg><span>วัด</span></button><button data-tab="tech"><svg class="ui-icon" aria-hidden="true"><use href="#ic-book"></use></svg><span>วิชา</span></button><button data-tab="stage"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lotus"></use></svg><span>ขั้นภูมิ</span></button><button data-tab="goal"><svg class="ui-icon" aria-hidden="true"><use href="#ic-target"></use></svg><span>เป้าหมาย</span></button><button data-tab="set"><svg class="ui-icon" aria-hidden="true"><use href="#ic-settings"></use></svg><span>ตั้งค่า</span></button></div></div>
     <div class="body band" id="pBody"></div>
   </section>
   <div id="banner" hidden role="dialog" aria-modal="true" aria-labelledby="bnTitle"></div>
@@ -808,7 +1039,10 @@ function evCard(e){
  else if(e.type==='dis')o=[['guide','ให้ครูแนะนำใกล้ชิด · ศรัทธา 10',S.faith<10],['let','ให้ตัดสินใจเอง',false]];
  else if(e.type==='dsp')o=[['talk','ให้สนทนาธรรมกัน',false],['quiet','ปล่อยไว้',false]];
  else o=[['take','รับไว้ใช้ในสาย · ศรัทธา +30',false],['share','แบ่งให้ชุมชน · ศรัทธา +8 และเพิ่มศรัทธาให้ศิษย์ 1 องค์',false]];
- return '<div class="card"><h3>'+esc(evTitle(e))+'</h3><p>เหลือเวลา '+left+' ปี ถ้าไม่ตัดสินใจจะเกิดผลเอง</p><div class="chips" style="margin-top:8px">'+o.map(function(x){return '<button class="btn" data-ev="'+e.id+'" data-o="'+x[0]+'"'+(x[2]?' disabled':'')+'>'+x[1]+'</button>'}).join('')+'</div></div>';
+ var icons={succ:'lotus',dis:'heart',dsp:'message',don:'coins'};
+ return '<article class="v12-card v12-event-card e-'+e.type+'"><div class="event-top"><span class="event-icon">'+icon(icons[e.type]||'message')+'</span><h3>'+esc(evTitle(e))+'</h3></div>'
+  +'<span class="event-timer">'+icon('hourglass')+'เหลือ '+left+' ปีในเกม ก่อนตัดสินใจอัตโนมัติ</span>'
+  +'<div class="event-actions">'+o.map(function(x){return '<button type="button" class="btn" data-ev="'+e.id+'" data-o="'+x[0]+'"'+(x[2]?' disabled':'')+'>'+esc(x[1])+'</button>'}).join('')+'</div></article>';
 }
 
 /* ---------- actions ---------- */
@@ -887,8 +1121,11 @@ function holdFest(){
 }
 function festCard(){
  var left=Math.max(0,S.fest.until-S.t);
- return '<div class="card"><h3>งานบุญใหญ่ · จัดแล้ว '+S.fest.n+' ครั้ง</h3><p>ทั้งสายฝึกเร็วขึ้น 25% เป็นเวลา 10 ปี จัดซ้อนเพื่อต่อเวลาได้'+(left>0?' · เหลืออีก '+Math.ceil(left)+' ปี':'')+'</p><div class="chips" style="margin-top:8px"><button class="btn pri" data-fest="1"'+(S.faith<festCost()?' disabled':'')+'>จัดงานบุญ · ศรัทธา '+festCost()+'</button></div></div>';
+ return '<article class="v12-card v12-boost"><div class="v12-card-head"><span class="v12-illustration gold">'+icon('sunrise')+'</span><div><span class="v12-soft-label gold">กิจกรรมพิเศษ · จัดแล้ว '+S.fest.n+' ครั้ง</span><h3>งานบุญใหญ่</h3></div></div>'
+  +'<p>ทั้งสายฝึกเร็วขึ้น 25% เป็นเวลา 10 ปีในเกม จัดซ้อนเพื่อต่อเวลาได้'+(left>0?' · เหลือ '+Math.ceil(left)+' ปี':'')+'</p>'
+  +'<button type="button" class="btn pri" data-fest="1"'+(S.faith<festCost()?' disabled':'')+'>'+icon('sunrise')+'จัดงานบุญ · ศรัทธา '+festCost()+'</button></article>';
 }
+
 function buyUp(k){
  var u=UPS.filter(function(x){return x.k===k})[0],l=S.up[k],c=u.cost(l);
  if(l>=u.max||S.faith<c)return;
@@ -1178,45 +1415,155 @@ sheet.addEventListener('click',function(e){
 /* ---------- panel ---------- */
 var panel=$('#panel'),tab='how',resetArm=false,evSig='';
 function yrs(t){return 'ปี '+(Math.floor(t)+1)}
+/* ===== Inner menu builders: presentation only; simulation state/logic unchanged ===== */
+var menuMeta={
+ how:['เริ่มเล่น','เรียนรู้ทีละขั้น','help'],log:['บันทึกสายธรรม','เรื่องราวที่เกิดขึ้น','book'],
+ ev:['เหตุการณ์','ตัดสินใจระหว่างการเดินทาง','message'],up:['พัฒนาวัด','สร้างสถานที่เกื้อกูลการฝึก','temple'],
+ tech:['คลังวิชา','วิธีการฝึกและการถ่ายทอด','teach'],stage:['แผนที่ขั้นภูมิ','เส้นทางจำลองของการฝึก','lotus'],
+ goal:['เป้าหมายสายธรรม','ความสำเร็จตลอดหลายรุ่น','target'],set:['ตั้งค่าและบันทึก','ดูแลข้อมูลการเล่นของคุณ','settings']
+};
+var techFilter='all',logFilter='all';
+function v12Hero(label,heading,desc,picto){
+ return '<div class="v12-banner"><div class="banner-copy"><span class="v12-overline">'+label+'</span><h3>'+heading+'</h3><p>'+desc+'</p></div><span class="v12-banner-art">'+icon(picto)+'</span></div>';
+}
+function v12Stat(picto,label,value){
+ return '<div class="v12-mini-stat">'+icon(picto)+'<div><small>'+label+'</small><strong>'+value+'</strong></div></div>';
+}
+function v12Head(picto,title,help){
+ return '<div class="v12-section-title"><h3>'+icon(picto)+title+'</h3>'+(help?'<small>'+help+'</small>':'')+'</div>';
+}
+function v12Empty(picto,title,desc){
+ return '<div class="v12-empty"><span class="empty-visual">'+icon(picto)+'</span><h3>'+title+'</h3><p>'+desc+'</p></div>';
+}
+function v12Meter(ratio,gold){
+ return '<div class="v12-meter'+(gold?' gold':'')+'"><span style="width:'+Math.max(0,Math.min(100,Math.round(ratio*100)))+'%"></span></div>';
+}
+function v12Filter(kind,value,name,picto,count,active){
+ return '<button type="button" class="v12-filter" data-'+kind+'-filter="'+value+'" aria-pressed="'+(active===value)+'">'+(picto?icon(picto):'')+esc(name)+(count==null?'':' · '+count)+'</button>';
+}
+function v12LogKind(msg){
+ if(/บรรลุ|เป้าหมายสำเร็จ|เข้าถึง|ก่อตั้ง|ครบ/.test(msg))return 'milestone';
+ if(/ศิษย์|วิชา|ถ่ายทอด|สนทนาธรรม|ครู|สืบทอด/.test(msg))return 'lineage';
+ return 'general';
+}
+function v12GoalProgress(id){
+ var n=0,d=1;
+ if(id==='a1'){n=S.arahants;d=1}
+ else if(id==='a3'){n=S.arahants;d=5}
+ else if(id==='g4'){n=maxDepth()+1;d=5}
+ else if(id==='sc'){n=Object.keys(S.founded).length;d=3}
+ else if(id==='hd'){n=S.stats.heads;d=3}
+ else if(id==='tr'){n=S.stats.treks;d=5}
+ else if(id==='yr'){n=S.t;d=250}
+ return Math.min(1,Math.max(0,n/d));
+}
 function renderPanel(){
- var b=$('#pBody'),h='';
-  if(tab==='how'){
-   h='<div class="intro-card"><div class="intro-symbol">'+icon('lotus')+'</div><div><span class="eyebrow">คู่มือฉบับเริ่มเล่น</span><h3>เริ่มจากหนึ่งอาจารย์ สู่สายธรรมหลายรุ่น</h3><p>บริหารการฝึก รับศิษย์ และส่งต่อวิชาก่อนที่ผู้สอนจะละสังขาร</p></div></div>'
-    +'<div class="how-steps">'
-    +'<div class="how-step"><span class="step-n">01</span><span class="step-ico">'+icon('users')+'</span><div><h3>เลือกพระอาจารย์</h3><p>แตะรูปในผัง หรือกด “จัดการสายธรรม” เพื่อดูค่าสถานะและการฝึก</p></div></div>'
-    +'<div class="how-step"><span class="step-n">02</span><span class="step-ico">'+icon('add-user')+'</span><div><h3>รับศิษย์และสอนวิชา</h3><p>เปิดข้อมูลตัวละคร เลื่อนลงไปยัง “รับศิษย์” และ “เรียนวิชาจากผู้อื่นในสาย”</p></div></div>'
-    +'<div class="how-step"><span class="step-n">03</span><span class="step-ico">'+icon('temple')+'</span><div><h3>พัฒนาวัดและสืบทอด</h3><p>สะสมศรัทธา ปรับปรุงสถานที่ และวางแผนถ่ายทอดก่อนเปลี่ยนรุ่น</p></div></div>'
-    +'</div><div class="how-legend"><b>อ่านสัญลักษณ์บนผัง</b><div><span><i class="legend-ring meditation"></i>ฌาน</span><span><i class="legend-ring noble"></i>อริยบุคคล</span><span><i class="legend-ring awakened"></i>อรหันต์</span></div><p>ลากเพื่อเลื่อนผัง · กางสองนิ้วเพื่อซูม · ปุ่ม ×1/×3/×10 ใช้ปรับความเร็วเวลา</p></div>'
-    +'<div class="study-jit-card"><div class="study-jit-icon">'+icon('book')+'</div><div class="study-jit-copy"><h3>เรียนรู้วิถีจิตกับ JIT</h3><p>เปิดห้องทดลองเพื่อศึกษาภวังค์ การรับอารมณ์ ชวนะ และเจตสิก ตามกรณีศึกษา ไม่ใช่การตรวจจิตจริงของตัวละครหรือผู้เล่น</p><a id="studyVithiCardLink" class="study-jit-action" data-jit-study href="../#simulation" target="_blank" rel="noopener noreferrer" aria-label="เปิดห้องทดลองวิถีจิต JIT ในแท็บใหม่">เปิดห้องทดลองวิถีจิต '+icon('arrow')+'</a></div></div>'
-    +'<button class="btn pri how-start" id="startFromHelp">แตะเพื่อเริ่มจัดการสายธรรม '+icon('arrow')+'</button>';
-  }else if(tab==='ev'){
-   h=S.events.length?S.events.map(evCard).join(''):'<p class="muted">ยังไม่มีเรื่องที่ต้องตัดสินใจ เหตุการณ์จะเกิดขึ้นเองตามความสัมพันธ์ในสาย</p>';
+ var b=$('#pBody'),h='',meta=menuMeta[tab]||menuMeta.how;
+ $('#pTitle').textContent=meta[0];$('#pDesc').textContent=meta[1];$('#pYear').textContent=yrs(S.t);
+ $('#pIcon').innerHTML=icon(meta[2]);
+ h='<div class="v12-container" data-current-tab="'+tab+'">';
+ if(tab==='how'){
+  h+=v12Hero('THE BEGINNING · คู่มือเริ่มเล่น','จากครูหนึ่งองค์ สู่สายธรรมหลายรุ่น','แตะเลือกพระอาจารย์ รับศิษย์ สอนวิชา และดูเรื่องราวที่ค่อย ๆ เติบโตผ่านเวลา','lotus');
+  h+='<div class="v12-mini-stats">'+v12Stat('users','สมาชิกขณะนี้',livingCount()+' องค์')+v12Stat('sunrise','เวลาผ่านไป',Math.floor(S.t)+' ปี')+v12Stat('book','วิชาในเกม',TECH.length+' วิชา')+v12Stat('target','เป้าหมาย',GOALS.length+' รายการ')+'</div>';
+  h+=v12Head('compass','เริ่มต้นง่าย ๆ ด้วย 3 ขั้นตอน');
+  h+='<div class="how-steps">'
+   +'<div class="how-step"><span class="step-n">01</span><span class="step-ico">'+icon('users')+'</span><div><h3>เลือกตัวละครในผัง</h3><p>แตะรูปพระอาจารย์หรือปุ่ม “จัดการสายธรรม” เพื่อดูการฝึก ค่าสถานะ และคำสั่งของตัวละคร</p></div></div>'
+   +'<div class="how-step"><span class="step-n">02</span><span class="step-ico">'+icon('add-user')+'</span><div><h3>รับศิษย์และเรียนวิชา</h3><p>กดปุ่มลัดในหน้าตัวละคร เลือกรับศิษย์และส่งต่อวิชาระหว่างครู ศิษย์ หรือพี่น้องร่วมสาย</p></div></div>'
+   +'<div class="how-step"><span class="step-n">03</span><span class="step-ico">'+icon('temple')+'</span><div><h3>สร้างวัดและสืบทอด</h3><p>ใช้ศรัทธาปรับปรุงกุฏิ ศาลาปฏิบัติธรรม และวางแผนให้มีผู้สืบทอดคำสอนหลายรุ่น</p></div></div></div>';
+  h+='<div class="how-legend"><b>วงแหวนสีของตัวละคร</b><div><span><i class="legend-ring meditation"></i>ฌาน</span><span><i class="legend-ring noble"></i>อริยบุคคล</span><span><i class="legend-ring awakened"></i>อรหันต์</span></div><p>ลากแผนผังเพื่อดูรุ่นอื่น · กางสองนิ้วเพื่อซูม · กด ×1 / ×3 / ×10 เพื่อปรับความเร็ว</p></div>';
+  h+='<div class="study-jit-card"><div class="study-jit-icon">'+icon('book')+'</div><div class="study-jit-copy"><h3>เรียนรู้วิถีจิตกับ JIT</h3><p>เปิดห้องทดลองเพื่อศึกษาภวังค์ การรับอารมณ์ ชวนะ และเจตสิก ตามกรณีศึกษา ไม่ใช่การตรวจจิตจริงของตัวละครหรือผู้เล่น</p><a id="studyVithiCardLink" class="study-jit-action" data-jit-study href="../#simulation" target="_blank" rel="noopener noreferrer" aria-label="เปิดห้องทดลองวิถีจิต JIT ในแท็บใหม่">เปิดห้องทดลองวิถีจิต '+icon('arrow')+'</a></div></div>';
+  h+='<button class="btn pri v12-main-action" id="startFromHelp">'+icon('play')+' ไปจัดการสายธรรม '+icon('arrow')+'</button>';
+ }else if(tab==='ev'){
+  h+=v12Hero('DECISIONS · เหตุการณ์ระหว่างทาง',S.events.length?'มีเรื่องรอให้ตัดสินใจ '+S.events.length+' รายการ':'สงบดี ไม่มีเหตุการณ์เร่งด่วน','เหตุการณ์เกิดจากความสัมพันธ์และเวลาที่ผ่านไป เลือกว่าจะตอบสนองอย่างไร หรือปล่อยให้เกมจัดการเอง','message');
+  h+='<div class="v12-mini-stats">'+v12Stat('message','เรื่องที่รอตัดสินใจ',S.events.length)+v12Stat('lotus','ศรัทธาที่ใช้ได้',Math.floor(S.faith))+v12Stat('hourglass','ปีปัจจุบัน',Math.floor(S.t)+1)+v12Stat('users','สมาชิก',livingCount()+' องค์')+'</div>';
+  h+=v12Head('message','เหตุการณ์ที่กำลังเกิดขึ้น');
+  h+=S.events.length?'<div class="v12-card-grid">'+S.events.map(evCard).join('')+'</div>':v12Empty('sunrise','ขณะนี้ทุกอย่างสงบ','เมื่อเวลาผ่านไป จะมีเรื่องราวใหม่เข้ามาให้เลือกตัดสินใจ ลองกลับไปดูการฝึกหรือปรับปรุงวัดได้');
+  h+='<div class="v12-note">'+icon('help')+'เวลาที่แสดงเป็น “ปีในเกม” ไม่ใช่เวลาจริง หากไม่เลือกคำตอบ เกมจะตัดสินใจตามกฎของเหตุการณ์นั้น</div>';
  }else if(tab==='log'){
-  h=S.log.length?S.log.map(function(l){return '<div class="lg"><time>'+yrs(l.t)+'</time><span>'+esc(l.m)+'</span></div>'}).join(''):'<p class="muted">ยังไม่มีเหตุการณ์ เริ่มจากแตะพระอาจารย์ในผัง แล้วรับศิษย์และถ่ายทอดวิชา</p>';
- }else if(tab==='tech'){
-  h='<p class="muted">เรียนวิชาได้เมื่อผู้สอน (ครู ศิษย์ หรือพี่น้อง) รู้ และผู้เรียนอยู่ในขั้นก่อนหน้าวิชานั้นไม่เกินหนึ่งขั้น วิชาตั้งแต่ขั้นทุติยฌานขึ้นไป ผู้ปฏิบัติจะเห็นแจ้งได้เองเมื่อถึงขั้น</p>'
-   +TECH.map(function(t){return '<div class="card"><h3>'+t.n+'</h3><p>'+KIND[t.k]+' +'+Math.round(t.b*100)+'% · เรียนได้เมื่อถึง'+(t.req===0?'ขั้นเริ่มฝึก':STAGES[t.req].n)+' (หรือก่อนหนึ่งขั้นเมื่อมีครูสอน)</p><p>'+t.d+(t.anti?' · แก้'+H[t.anti].n:'')+(t.fit?' · เหมาะกับ'+t.fit.map(function(k){return CARITA[k].n}).join(', '):'')+(t.sch?' · วิชาลับของ'+SCHOOLS[t.sch].n:'')+'</p></div>'}).join('');
+  h+=v12Hero('CHRONICLE · บันทึกการเดินทาง','ทุกการตัดสินใจมีเรื่องราว','ติดตามการเรียนวิชา รับศิษย์ ออกธุดงค์ และเหตุการณ์สำคัญของสายธรรมตั้งแต่เริ่มเล่น','book');
+  var logs=S.log.filter(function(x){var k=v12LogKind(x.m);return logFilter==='all'||k===logFilter});
+  h+='<div class="v12-filters" role="group" aria-label="กรองบันทึก">'
+   +v12Filter('log','all','ทั้งหมด','book',S.log.length,logFilter)
+   +v12Filter('log','milestone','ความก้าวหน้า','spark',null,logFilter)
+   +v12Filter('log','lineage','ศิษย์และวิชา','users',null,logFilter)
+   +v12Filter('log','general','เรื่องทั่วไป','message',null,logFilter)+'</div>';
+  h+=v12Head('hourglass','ลำดับเหตุการณ์','รายการล่าสุดอยู่ด้านบน');
+  h+=logs.length?'<div class="v12-log">'+logs.map(function(l){var k=v12LogKind(l.m);return '<div class="v12-log-line '+k+'"><span class="v12-log-pin">'+icon(k==='milestone'?'spark':k==='lineage'?'teach':'message')+'</span><div class="v12-log-content"><time>'+yrs(l.t)+'</time><p>'+esc(l.m)+'</p></div></div>'}).join('')+'</div>':v12Empty('book','ยังไม่มีบันทึกในหมวดนี้','ลองปรับตัวกรอง หรือกลับไปเริ่มจัดการตัวละครเพื่อให้เกิดเรื่องราวใหม่');
  }else if(tab==='up'){
-  h='<p class="muted">ใช้ศรัทธาปรับปรุงวัด ให้ทั้งสายฝึกได้ดีขึ้น ศรัทธาตอนนี้ <b id="upF">'+Math.floor(S.faith)+'</b> · สมุนไพร '+Math.floor(S.herb)+'</p>'+UPS.map(function(u){var l=S.up[u.k],cost=u.cost(l);return '<div class="card"><h3>'+u.n+' · ระดับ '+l+'/'+u.max+'</h3><p>'+u.d+'</p><div class="chips" style="margin-top:8px"><button class="btn pri" data-up="'+u.k+'"'+(l>=u.max||S.faith<cost?' disabled':'')+'>'+(l>=u.max?'ครบแล้ว':'ปรับปรุง · ศรัทธา '+cost)+'</button></div></div>'}).join('')+festCard();
- }else if(tab==='goal'){
-  h='<div class="card"><h3>สรุปสายธรรม</h3><p>ผ่านไป '+Math.floor(S.t)+' ปี · สมาชิกทั้งหมด '+S.chars.length+' องค์ · พระอรหันต์ '+S.arahants+' องค์ · ถึงรุ่นที่ '+(maxDepth()+1)+' · สำนักที่ก่อตั้ง '+Object.keys(S.founded).length+'/3</p></div>'+GOALS.map(function(g){var d=S.goals[g.id]!=null;return '<div class="card"><h3>'+(d?'✓ ':'')+g.n+'</h3><p>'+(d?'สำเร็จเมื่อปีที่ '+(Math.floor(S.goals[g.id])+1):g.p())+'</p></div>'}).join('');
+  h+=v12Hero('MONASTERY · บริหารทรัพยากร','ร่วมสร้างวัดที่เกื้อกูลการปฏิบัติ','นำศรัทธาที่ได้รับไปพัฒนาสถานที่ เพื่อเพิ่มความสามารถในการฝึก การรับศิษย์ และการดูแลสมาชิก','temple');
+  h+='<div class="v12-mini-stats">'+v12Stat('lotus','ศรัทธาปัจจุบัน','<span id="upF">'+Math.floor(S.faith)+'</span>')+v12Stat('leaf','สมุนไพร',Math.floor(S.herb))+v12Stat('sunrise','ศรัทธาต่อปี','+'+income().toFixed(1))+v12Stat('users','ความจุวัด',livingCount()+'/'+memberCap())+'</div>';
+  h+=v12Head('temple','สถานที่ที่พัฒนาได้','เลือกตามทรัพยากร');
+  var siteIcon={kuti:'home',sala:'lotus',garden:'leaf',library:'book',infirm:'heart'},siteTone={kuti:'green',sala:'orange',garden:'green',library:'gold',infirm:'purple'};
+  h+='<div class="v12-card-grid">'+UPS.map(function(u){var l=S.up[u.k],cost=u.cost(l),full=l>=u.max,enough=S.faith>=cost;
+   return '<article class="v12-card v12-upgrade"><div class="v12-card-head"><span class="v12-illustration '+siteTone[u.k]+'">'+icon(siteIcon[u.k])+'</span><div><span class="v12-soft-label">อาคาร · ระดับ '+l+'/'+u.max+'</span><h3>'+u.n+'</h3></div></div>'
+    +'<p>'+u.d+'</p><div class="v12-meter-head"><span>ความคืบหน้าการพัฒนา</span><strong>'+Math.round(l/u.max*100)+'%</strong></div>'+v12Meter(l/u.max,false)
+    +'<span class="v12-price">'+(full?'พัฒนาครบทุกระดับแล้ว':'ใช้ศรัทธา '+cost+' หน่วย'+(enough?' · พร้อมพัฒนา':' · ยังไม่เพียงพอ'))+'</span>'
+    +'<button type="button" class="btn pri" data-up="'+u.k+'"'+(full||!enough?' disabled':'')+'>'+icon(full?'check':'temple')+(full?'พัฒนาครบแล้ว':'ปรับปรุงระดับถัดไป')+'</button></article>'}).join('')+'</div>';
+  h+=festCard();
+ }else if(tab==='tech'){
+  h+=v12Hero('LIBRARY · คลังวิชาภาวนา','เรียนรู้วิชาที่ถ่ายทอดกันได้','เปิดดูประเภท แนวฝึก และเงื่อนไขของวิชาทั้งหมด หากต้องการเรียนจริงในเกม ให้เปิดหน้าตัวละครแล้วเลือกผู้สอน','teach');
+  h+='<div class="v12-mini-stats">'+v12Stat('book','วิชาทั้งหมด',TECH.length)+v12Stat('lotus','สมถะ',TECH.filter(function(t){return t.k==='s'}).length)+v12Stat('spark','วิปัสสนา',TECH.filter(function(t){return t.k==='v'}).length)+v12Stat('heart','แบบผสม',TECH.filter(function(t){return t.k==='b'}).length)+'</div>';
+  h+='<div class="v12-filters" role="group" aria-label="เลือกประเภทวิชา">'
+   +v12Filter('tech','all','ทุกวิชา','book',TECH.length,techFilter)
+   +v12Filter('tech','s','สมถะ','lotus',null,techFilter)
+   +v12Filter('tech','v','วิปัสสนา','spark',null,techFilter)
+   +v12Filter('tech','b','แบบผสม','heart',null,techFilter)+'</div>';
+  var skills=TECH.filter(function(t){return techFilter==='all'||t.k===techFilter});
+  h+=v12Head('book','รายการวิชา','แสดง '+skills.length+' วิชา');
+  h+='<div class="v12-card-grid">'+skills.map(function(t){var ico=t.k==='s'?'lotus':t.k==='v'?'spark':'heart',tone=t.k==='v'?'gold':t.k==='b'?'purple':'green';
+   return '<article class="v12-card v12-tech"><div class="v12-card-head"><span class="v12-illustration '+tone+'">'+icon(ico)+'</span><div><span class="v12-soft-label">'+KIND[t.k]+'</span><h3>'+t.n+'</h3></div></div><p>'+t.d+'</p>'
+    +'<div class="v12-tech-tags"><span class="v12-soft-label gold">'+icon('spark')+'ผลเสริม '+Math.round(t.b*100)+'%</span><span class="v12-soft-label">'+icon('hourglass')+(t.req===0?'เริ่มเรียนได้':STAGES[t.req].n)+'</span>'
+    +(t.anti?'<span class="v12-soft-label">ช่วยต้าน'+H[t.anti].n+'</span>':'')
+    +(t.sch?'<span class="v12-soft-label gold">วิชา'+SCHOOLS[t.sch].n+'</span>':'')+'</div>'
+    +(t.fit?'<p>เหมาะกับ '+t.fit.map(function(k){return CARITA[k].n}).join(' · ')+'</p>':'')+'</article>'}).join('')+'</div>';
+  h+='<div class="v12-note">'+icon('help')+'การมีชื่อวิชาในตำราไม่ได้แปลว่าตัวละครรู้วิชานั้น การเรียนหรือถ่ายทอดต้องทำในหน้าตัวละครตามเงื่อนไขที่เกมกำหนด</div>';
+  h+='<button class="btn pri v12-main-action" id="toTeacher">'+icon('users')+' ไปดูผู้สอนในสาย '+icon('arrow')+'</button>';
  }else if(tab==='stage'){
-  h='<p class="muted">ในเกม ฌานเป็นขั้นฝึกสมถะก่อนเข้าสู่วิปัสสนาญาณ เพื่อให้เล่นเป็นลำดับ ในความจริงผู้เจริญวิปัสสนาล้วนก็บรรลุได้เช่นกัน</p>'
-   +STAGES.map(function(s,i){var r=REQ[i-1];return '<div class="card"><h3>'+s.n+'</h3><p>'+s.d+'</p>'+(i>0?'<p>ต้องฝึก สมถะ '+r[0]+' · วิปัสสนา '+r[1]+'</p>':'')+(s.f?'<p>ละสังโยชน์ '+s.f+'/10 ข้อ</p>':'')+'</div>'}).join('');
- }else{
-  h='<div class="card"><h3>บันทึกเกม</h3><p>บันทึกอัตโนมัติด้วย IndexedDB ในเบราว์เซอร์นี้ และฝึกต่อให้ตอนปิดแอป (ครึ่งอัตรา สูงสุด 60 ปีในเกม) ถ้าล้างข้อมูลเว็บความคืบหน้าจะหาย ควรส่งออกรหัสเซฟเก็บไว้</p></div>'
-   +'<div class="card"><h3>เวอร์ชัน 1.1 · ภาพและการใช้งาน</h3><p>เพิ่มไอคอน ภูมิทัศน์วัด แถบคำสั่งด่วน คู่มือเริ่มเล่น และทางลัดจัดการตัวละคร โดยยังคงระบบเกมและเซฟเดิม ทั้งการถ่ายทอดวิชา ความสัมพันธ์ เหตุการณ์ การสืบทอดสาย และเป้าหมายระยะยาว</p></div>'
-   +'<div class="card"><h3>สำรองและกู้เซฟ</h3><p>ส่งออกเป็นรหัสข้อความ เก็บไว้หรือย้ายไปเครื่องอื่นได้</p><textarea id="saveBox" rows="3" style="width:100%;margin-top:6px;font:16px monospace;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px"></textarea><div class="chips" style="margin-top:6px"><button class="btn" id="expBtn">ส่งออกรหัสเซฟ</button><button class="btn" id="impBtn">นำเข้า</button></div><p id="saveMsg"></p></div>'+'<button class="btn" id="atBtn" style="align-self:flex-start">สอนวิชาอัตโนมัติ: '+(S.auto?'เปิด':'ปิด')+'</button>'+'<button class="btn" id="hdBtn" style="align-self:flex-start">ผู้ละสังขารในผัง: '+(S.hideDead?'ซ่อนสายที่ไม่มีผู้สืบ':'แสดงทั้งหมด')+'</button>'+'<button class="btn" id="resetBtn" style="align-self:flex-start">'+(resetArm?'แตะอีกครั้งเพื่อเริ่มใหม่ทั้งหมด':'เริ่มเกมใหม่')+'</button>';
+  var highest=0;S.chars.forEach(function(c){if(!c.dead)highest=Math.max(highest,c.stage)});
+  h+=v12Hero('PATH · ขั้นภูมิในเกม','สำรวจเส้นทางแห่งการฝึก','ขั้นภูมิเหล่านี้จัดเป็นลำดับเพื่อการเล่นเกมเท่านั้น แสดงข้อมูลคำอธิบายและเงื่อนไขที่ใช้ในระบบจำลอง','lotus');
+  h+='<div class="v12-mini-stats">'+v12Stat('spark','ขั้นสูงสุดของผู้ยังอยู่',STAGES[highest].n)+v12Stat('lotus','ขั้นในเกม',STAGES.length)+v12Stat('awake','พระอรหันต์ในเกม',S.arahants)+v12Stat('users','ผู้ยังอยู่',livingCount()+' องค์')+'</div>';
+  h+='<div class="v12-note">'+icon('help')+'ลำดับขั้นเป็นกติกาจำลองของเกม ไม่ใช่การวัดหรือรับรองการบรรลุธรรมจริง และผู้เจริญวิปัสสนาล้วนก็สามารถบรรลุได้โดยไม่ต้องผ่านรูปฌานครบตามลำดับนี้</div>';
+  h+=v12Head('compass','ลำดับขั้นภูมิ','สูงสุดของผู้ยังอยู่: '+STAGES[highest].n);
+  h+='<div class="v12-roadmap">'+STAGES.map(function(s,i){var r=REQ[i-1],state=i===highest?'current':i<highest?'passed':'next';
+   return '<div class="v12-roadstep '+state+'"><span class="v12-road-coin">'+icon(i>=5?'awake':i===0?'users':'lotus')+'</span>'
+    +'<article class="v12-card"><div class="v12-meter-head"><span class="stage-rank">ระดับ '+String(i+1).padStart(2,'0')+' / '+STAGES.length+'</span>'
+    +(i===highest?'<span class="v12-soft-label gold">สูงสุดขณะนี้</span>':i<highest?'<span class="v12-soft-label">'+icon('check')+'มีผู้ผ่านระดับนี้</span>':'')+'</div><h3>'+s.n+'</h3><p>'+s.d+'</p>'
+    +(r?'<div class="v12-tech-tags"><span class="v12-soft-label">สมถะ '+r[0]+'</span><span class="v12-soft-label gold">วิปัสสนา '+r[1]+'</span></div>':'')
+    +(s.f?'<span class="v12-soft-label gold">สังโยชน์ที่ละในเกม '+s.f+'/10</span>':'')+'</article></div>'}).join('')+'</div>';
+ }else if(tab==='goal'){
+  var done=GOALS.filter(function(g){return S.goals[g.id]!=null}).length,pc=Math.round(done/GOALS.length*100);
+  h+=v12Hero('LEGACY · ภารกิจระยะยาว','ส่งต่อธรรมะจากรุ่นสู่รุ่น','เติบโตจากการฝึกของสมาชิก การตั้งสำนัก และการดูแลสายอาจารย์ให้ยืนยาว','target');
+  h+='<div class="v12-progress-hero"><div><span class="v12-overline">OVERALL PROGRESS</span><h3>เส้นทางที่ทำสำเร็จแล้ว</h3><p>ทำได้ '+done+' จาก '+GOALS.length+' เป้าหมาย · ปีที่ '+(Math.floor(S.t)+1)+'</p></div><span class="v12-ring" style="--pct:'+pc+'"><strong>'+pc+'%</strong></span></div>';
+  h+='<div class="v12-mini-stats">'+v12Stat('users','สมาชิกทั้งหมด',S.chars.length)+v12Stat('awake','อรหันต์ในเกม',S.arahants)+v12Stat('temple','สำนักที่ก่อตั้ง',Object.keys(S.founded).length+'/3')+v12Stat('hourglass','รุ่นสายธรรม',maxDepth()+1)+'</div>';
+  h+=v12Head('target','เป้าหมายทั้งหมด','สำเร็จแล้ว '+done+' รายการ');
+  var goalIcons={a1:'awake',a3:'spark',g4:'users',sc:'temple',hd:'lotus',tr:'walk',yr:'hourglass'};
+  h+='<div class="v12-card-grid">'+GOALS.map(function(g){var finished=S.goals[g.id]!=null,r=v12GoalProgress(g.id);
+   return '<article class="v12-card v12-goal'+(finished?' done':'')+'"><div class="v12-card-head"><span class="v12-illustration '+(finished?'green':'gold')+'">'+icon(goalIcons[g.id])+'</span>'
+    +'<div><span class="v12-soft-label'+(finished?'':' gold')+'">'+icon(finished?'check':'target')+(finished?'สำเร็จแล้ว':'กำลังดำเนินการ')+'</span><h3>'+g.n+'</h3></div></div>'
+    +'<p>'+(finished?'สำเร็จเมื่อปีที่ '+(Math.floor(S.goals[g.id])+1):esc(g.p()))+'</p><div class="v12-meter-head"><span>ความก้าวหน้าในเกม</span><strong>'+Math.round(r*100)+'%</strong></div>'+v12Meter(r,finished)+'</article>'}).join('')+'</div>';
+  h+='<div class="v12-note">'+icon('help')+'เป้าหมายและขั้นภูมิเป็นผลในโลกจำลอง ไม่ใช่หลักฐานหรือการรับรองสภาวธรรมของผู้เล่นในชีวิตจริง</div>';
+ }else if(tab==='set'){
+  h+=v12Hero('PREFERENCES · ตั้งค่าและความปลอดภัย','ดูแลโลกสายธรรมของคุณ','เกมบันทึกอัตโนมัติในเบราว์เซอร์ปัจจุบัน สำรองรหัสเซฟไว้ก่อนล้างข้อมูลหรือเปลี่ยนโทรศัพท์','settings');
+  h+='<div class="v12-settings-grid">';
+  h+='<section class="v12-card"><h3>'+icon('settings')+' การแสดงผลและระบบช่วยเล่น</h3><div class="v12-option"><div class="option-text"><strong>สอนวิชาอัตโนมัติ</strong><small>ให้ผู้สอนช่วยถ่ายทอดวิชาแก่สมาชิกที่เรียนได้</small></div><button type="button" class="btn" id="atBtn" data-active="'+S.auto+'" aria-pressed="'+S.auto+'">'+(S.auto?'เปิดอยู่':'ปิดอยู่')+'</button></div>'
+   +'<div class="v12-option"><div class="option-text"><strong>แสดงผู้ละสังขารในผัง</strong><small>ซ่อนกิ่งสายที่ไม่มีสมาชิกยังอยู่ได้</small></div><button type="button" class="btn" id="hdBtn" data-active="'+!S.hideDead+'" aria-pressed="'+!S.hideDead+'">'+(S.hideDead?'ซ่อนอยู่':'แสดงทั้งหมด')+'</button></div>'
+   +'<div class="v12-note">'+icon('help')+'ระบบจะจดจำการตั้งค่าพร้อมเซฟเกมโดยอัตโนมัติ</div></section>';
+  h+='<section class="v12-card"><h3>'+icon('save')+' ระบบบันทึกความคืบหน้า</h3><span class="v12-illustration green">'+icon('save')+'</span><p>ข้อมูลถูกเก็บใน IndexedDB และ localStorage ของเบราว์เซอร์นี้ เกมคำนวณความก้าวหน้าระหว่างที่ปิดหน้าไว้ที่ครึ่งอัตรา สูงสุด 60 ปีในเกม</p><span class="v12-soft-label">'+icon('check')+' บันทึกอัตโนมัติเป็นระยะ</span><p>หากล้างข้อมูลเว็บไซต์ เปลี่ยนเบราว์เซอร์ หรือเปลี่ยนเครื่อง ความคืบหน้าอาจไม่ตามไปด้วย</p></section>';
+  h+='<section class="v12-card wide"><h3>'+icon('save')+' ส่งออกและนำเข้าเซฟเกม</h3><p>กด “ส่งออกรหัสเซฟ” เพื่อคัดลอกข้อมูล หรือวางรหัสที่เคยเก็บไว้แล้วกด “นำเข้า”</p>'
+   +'<label class="lab" for="saveBox">รหัสเซฟของคุณ</label><textarea id="saveBox" class="v12-save-box" rows="4" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="รหัสเซฟจะแสดงที่นี่ หรือวางรหัสเดิมเพื่อนำเข้า"></textarea>'
+   +'<div class="v12-save-actions"><button type="button" class="btn pri" id="expBtn">'+icon('save')+' ส่งออกรหัสเซฟ</button><button type="button" class="btn" id="impBtn">'+icon('restore')+' นำเข้ารหัสเซฟ</button></div><p id="saveMsg" class="v12-save-msg" role="status" aria-live="polite"></p></section>';
+  h+='<section class="v12-card wide v12-danger"><h3>'+icon('reset')+' เริ่มเกมใหม่</h3><p>การเริ่มใหม่จะลบความคืบหน้าของสายธรรมปัจจุบันในเบราว์เซอร์นี้ ควรส่งออกรหัสเซฟเก็บไว้ก่อน</p><button type="button" class="btn'+(resetArm?' armed':'')+'" id="resetBtn">'+icon('reset')+(resetArm?'ยืนยันเริ่มเกมใหม่ทั้งหมด':'เริ่มเกมใหม่ (ต้องยืนยันอีกครั้ง)')+'</button></section>';
+  h+='</div>';
+  h+='<div class="v12-note">'+icon('book')+'เวอร์ชัน 1.2 เพิ่มหน้าตาเมนูใหม่ คลังวิชาที่กรองได้ เส้นทางขั้นภูมิ และภาพความคืบหน้า โดยยังใช้ระบบจำลองและรหัสเซฟเดิม</div>';
  }
- b.innerHTML=h;
+ b.innerHTML=h+'</div>';
  var eb=$('#expBtn');if(eb)eb.onclick=function(){
   var t=btoa(unescape(encodeURIComponent(JSON.stringify(S)))),bx=$('#saveBox'),m=$('#saveMsg');bx.value=t;bx.select();
-  try{navigator.clipboard.writeText(t).then(function(){m.textContent='คัดลอกรหัสเซฟแล้ว'},function(){m.textContent='เลือกข้อความด้านบนแล้วคัดลอกเอง'})}catch(e){m.textContent='เลือกข้อความด้านบนแล้วคัดลอกเอง'}
+  try{navigator.clipboard.writeText(t).then(function(){m.textContent='คัดลอกรหัสเซฟแล้ว'},function(){m.textContent='สร้างรหัสเซฟแล้ว กดเลือกข้อความเพื่อคัดลอก'})}catch(e){m.textContent='สร้างรหัสเซฟแล้ว กดเลือกข้อความเพื่อคัดลอก'}
  };
  var ib=$('#impBtn');if(ib)ib.onclick=function(){
   var m=$('#saveMsg');
-  try{
-   var o=JSON.parse(decodeURIComponent(escape(atob($('#saveBox').value.trim()))));
+  try{var o=JSON.parse(decodeURIComponent(escape(atob($('#saveBox').value.trim()))));
    if(adopt(o)){selId=null;sheet.hidden=true;treeDirty=true;touched=false;lastSig='';syncUI();save();m.textContent='นำเข้าสำเร็จ'}else m.textContent='รหัสเซฟไม่ถูกต้อง';
   }catch(e){m.textContent='รหัสเซฟไม่ถูกต้อง'}
  };
@@ -1226,12 +1573,14 @@ function renderPanel(){
   if(!resetArm){resetArm=true;renderPanel();return}
   resetArm=false;newGame();selId=null;sheet.hidden=true;treeDirty=true;touched=false;panel.hidden=true;syncUI();save();
  };
-  decorateUI(panel);
-  var sh=$('#startFromHelp');if(sh)sh.onclick=function(){panel.hidden=true;openHead()};
-  Array.prototype.forEach.call(document.querySelectorAll('#tabs button'),function(x){x.setAttribute('aria-pressed',String(x.dataset.tab===tab))});
+ decorateUI(panel);
+ var sh=$('#startFromHelp');if(sh)sh.onclick=function(){panel.hidden=true;openHead()};
+ var teach=$('#toTeacher');if(teach)teach.onclick=function(){panel.hidden=true;openHead()};
+ Array.prototype.forEach.call(document.querySelectorAll('#tabs button'),function(x){x.setAttribute('aria-pressed',String(x.dataset.tab===tab))});
 }
-function openPanel(t){tab=t||tab;resetArm=false;panel.hidden=false;renderPanel()}
-$('#menuBtn').onclick=function(){openPanel(S.events.length?'ev':'log')};
+
+function openPanel(t){tab=t||tab;resetArm=false;panel.hidden=false;renderPanel();$('#pBody').scrollTop=0}
+$('#menuBtn').onclick=function(){openPanel(S.events.length?'ev':'how')};
 $('#ticker').onclick=function(){openPanel(S.events.length?'ev':'log')};
 function openHead(){var c=S.head!=null?byId(S.head):null;if(!c||c.dead)c=S.chars.filter(function(x){return !x.dead})[0];if(c){panel.hidden=true;select(c.id)}else openPanel('goal')}
 $('#goHead').onclick=openHead;
@@ -1240,9 +1589,12 @@ $('#goEvents').onclick=function(){openPanel(S.events.length?'ev':'how')};
 // No player state, game score, or attainment is sent to JIT.
 document.addEventListener('click',function(e){var a=e.target.closest('a[data-jit-study]');if(a)save()});
 $('#helpBtn').onclick=function(){openPanel('how')};
-$('#pBody').addEventListener('click',function(e){var u=e.target.closest('[data-up]');if(u&&!u.disabled){buyUp(u.dataset.up);renderPanel();return}var fz=e.target.closest('[data-fest]');if(fz&&!fz.disabled){holdFest();renderPanel();return}var b=e.target.closest('[data-ev]');if(b&&!b.disabled){evResolve(+b.dataset.ev,b.dataset.o);renderPanel()}});
+$('#pBody').addEventListener('click',function(e){
+ var lf=e.target.closest('[data-log-filter]');if(lf){logFilter=lf.dataset.logFilter;var y=$('#pBody').scrollTop;renderPanel();$('#pBody').scrollTop=y;return}
+ var tf=e.target.closest('[data-tech-filter]');if(tf){techFilter=tf.dataset.techFilter;var y2=$('#pBody').scrollTop;renderPanel();$('#pBody').scrollTop=y2;return}
+ var u=e.target.closest('[data-up]');if(u&&!u.disabled){buyUp(u.dataset.up);renderPanel();return}var fz=e.target.closest('[data-fest]');if(fz&&!fz.disabled){holdFest();renderPanel();return}var b=e.target.closest('[data-ev]');if(b&&!b.disabled){evResolve(+b.dataset.ev,b.dataset.o);renderPanel()}});
 $('#pClose').onclick=function(){panel.hidden=true};
-$('#tabs').onclick=function(e){var b=e.target.closest('button');if(b){tab=b.dataset.tab;resetArm=false;renderPanel()}};
+$('#tabs').onclick=function(e){var b=e.target.closest('button');if(b){tab=b.dataset.tab;resetArm=false;renderPanel();$('#pBody').scrollTop=0}};
 
 /* ---------- banner ---------- */
 function showEnd(){
